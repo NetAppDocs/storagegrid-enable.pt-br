@@ -1,0 +1,70 @@
+---
+permalink: technical-reports/monitor/advanced-monitor-storagegrid.html 
+sidebar: sidebar 
+keywords: monitor, storagegrid 
+summary: Saiba como monitorar o StorageGRID usando a API de métricas. 
+---
+= Monitoramento avançado em StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:experimental: 
+:icons: font
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Saiba como acessar e exportar métricas para ajudar a solucionar problemas.
+
+
+
+== Visualize a API de métricas por meio de uma consulta Prometheus
+
+Prometheus é um software de código aberto para coletar métricas. Para acessar o Prometheus incorporado do StorageGRID através do GMI, vá para menu:suporte[métricas].
+
+image:monitor/monitor-metrics-page.png["monitore-métricas-página"]
+
+Como alternativa, você pode navegar diretamente para o link.
+
+image:monitor/monitor-prometheus-interface.png["interface monitor-prometheus"]
+
+Com essa visualização, você pode acessar a interface Prometheus. A partir daí, você pode pesquisar as métricas disponíveis e até mesmo experimentar com consultas.
+
+Para fazer uma consulta de URL Prometheus, siga estas etapas:
+
+.Passos
+. Comece a digitar na caixa de texto da consulta. À medida que você digita, as métricas são listadas. Para nossos propósitos, apenas métricas que começam com StorageGRID e Node são importantes.
+. Para ver o número de sessões HTTP para cada nó, digite `storagegrid_http` e `storagegrid_http_sessions_incoming_currently_established` selecione . Clique em Executar e exiba as informações em um formato de gráfico ou console.
++
+image:monitor/monitor-http-sessions.png["monitore sessões-http"]
+
+
+
+
+NOTE: As consultas e gráficos que você cria através deste URL não persistem. Consultas complexas consomem recursos no nó de administração. A NetApp recomenda que você use essa visualização para explorar as métricas disponíveis.
+
+
+NOTE: Não é recomendado fazer uma interface direta com nossa instância Prometheus porque isso requer a abertura de portas adicionais. Acessar métricas por meio de nossa API é o método recomendado e seguro.
+
+
+
+== Exportar métricas por meio da API
+
+Você também pode acessar os mesmos dados por meio da API de gerenciamento do StorageGRID.
+
+Para exportar métricas por meio da API, siga estas etapas:
+
+. No GMI, selecione menu:Ajuda[Documentação da API].
+. Role para baixo até Metrics e SELECIONE GET /grid/metric-query.
++
+image:monitor/monitor-metrics-query.png["consulta de métricas de monitor"]
+
++
+A resposta inclui as mesmas informações que você pode obter através de uma consulta de URL Prometheus. Você pode ver novamente o número de sessões HTTP que estão atualmente estabelecidas em cada nó de armazenamento. Você também pode baixar a resposta em formato JSON para legibilidade. A figura a seguir mostra exemplos de respostas de consulta do Prometheus.
+
++
+image:monitor/monitor-sample-prometheus-query-responses.png["monitore-sample-prometheus-query-respostas"]
+
+
+
+
+NOTE: A vantagem de usar a API é que ela permite que você execute consultas autenticadas

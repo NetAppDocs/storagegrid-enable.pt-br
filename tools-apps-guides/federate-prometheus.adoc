@@ -1,0 +1,388 @@
+---
+permalink: tools-apps-guides/federate-prometheus.html 
+sidebar: sidebar 
+keywords: prometheus, on-premises, grafana, metrics 
+summary: Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID 11,6 com serviços externos do Prometheus e Grafana. 
+---
+= Use Prometheus e Grafana para estender a retenção de métricas
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID 11,6 com serviços externos do Prometheus e Grafana.
+
+
+
+== Introdução
+
+O StorageGRID armazena métricas usando Prometheus e fornece visualizações dessas métricas por meio de dashboards Grafana integrados. As métricas Prometheus podem ser acessadas com segurança a partir do StorageGRID configurando certificados de acesso de cliente e habilitando o acesso prometheus para o cliente especificado. Hoje, a retenção desses dados métricos é limitada pela capacidade de storage do nó de administração. Para obter uma duração mais longa e uma capacidade de criar visualizações personalizadas dessas métricas, implantaremos um novo servidor Prometheus e Grafana, configuraremos nosso novo servidor para raspar as métricas da instância StorageGRIDs e construir um painel com as métricas que são importantes para nós. Você pode obter mais informações sobre as métricas do Prometheus coletadas no https://docs.netapp.com/us-en/storagegrid-116/monitor/commonly-used-prometheus-metrics.html["Documentação do StorageGRID"^].
+
+
+
+== Federado Prometheus
+
+
+
+=== Detalhes do laboratório
+
+Para os propósitos deste exemplo, eu vou usar todas as máquinas virtuais para nós StorageGRID 11,6 e um servidor Debian 11. A interface de gerenciamento do StorageGRID é configurada com um certificado de CA publicamente confiável. Este exemplo não passará pela instalação e configuração do sistema StorageGRID ou instalação do Debian linux. Você pode usar qualquer versão do Linux que desejar que seja suportada por Prometheus e Grafana. Tanto o Prometheus quanto o Grafana podem instalar como contentores docker, compilar a partir de fontes ou binários pré-compilados. Neste exemplo eu estarei instalando ambos binários Prometheus e Grafana diretamente no mesmo servidor Debian. Faça o download e siga as instruções básicas de instalação https://prometheus.io[] de e https://grafana.com/grafana/[], respetivamente.
+
+
+
+=== Configurar o StorageGRID para acesso ao cliente Prometheus
+
+Para obter acesso às métricas do prometheus armazenadas pelo StorageGRIDs, você deve gerar ou carregar um certificado de cliente com chave privada e habilitar a permissão para o cliente. A interface de gerenciamento do StorageGRID deve ter um certificado SSL. Esse certificado deve ser confiável pelo servidor prometheus por uma CA confiável ou manualmente confiável se ele for autoassinado. Para ler mais, visite o https://docs.netapp.com/us-en/storagegrid-116/admin/configuring-administrator-client-certificates.html["Documentação do StorageGRID"].
+
+. Na interface de gerenciamento do StorageGRID, selecione "CONFIGURAÇÃO" no lado inferior esquerdo e, na segunda coluna em "Segurança", clique em certificados.
+. Na página certificados, selecione a guia "Cliente" e clique no botão "Adicionar".
+. Forneça um nome para o cliente que será concedido acesso e use este certificado. Clique na caixa em "permissões", na frente de "permitir Prometheus" e clique no botão continuar.
++
+image:prometheus/cert_name.png["nome do certificado"]
+
+. Se você tiver um certificado assinado pela CA, você pode selecionar o botão de opção "carregar certificado", mas, no nosso caso, vamos permitir que o StorageGRID gere o certificado do cliente selecionando o botão de opção "gerar certificado". Os campos obrigatórios serão exibidos para serem preenchidos. Insira o FQDN para o servidor cliente, o IP do servidor, o assunto e dias válidos. Em seguida, clique no botão "gerar".
++
+image:prometheus/cert_detail.png["detalhe do certificado"]
+
+
+
+[NOTE]
+====
+ Be mindful of the certificate days valid entry as you will need to renew this certificate in both StorageGRID and the Prometheus server before it expires to maintain uninterrupted collection.
+====
+. Baixe o arquivo pem de certificado e o arquivo pem de chave privada.
++
+image:prometheus/cert_download.png["transferência do certificado"]
+
+
+
+[NOTE]
+====
+ This is the only time you can download the private key, so make sure you do not skip this step.
+====
+
+
+=== Prepare o servidor Linux para a instalação do Prometheus
+
+Antes de instalar o Prometheus, eu quero preparar meu ambiente com um usuário Prometheus, a estrutura de diretórios e configurar a capacidade para o local de armazenamento de métricas.
+
+. Crie o usuário Prometheus.
++
+[source, console]
+----
+sudo useradd -M -r -s /bin/false Prometheus
+----
+. Crie os diretórios para Prometheus, certificado de cliente e dados de métricas.
++
+[source, console]
+----
+sudo mkdir /etc/Prometheus /etc/Prometheus/cert /var/lib/Prometheus
+----
+. Formatei o disco que estou usando para retenção de métricas com um sistema de arquivos ext4.
++
+[listing]
+----
+mkfs -t ext4 /dev/sdb
+----
+. Eu então montei o sistema de arquivos para o diretório de métricas do Prometheus.
++
+[listing]
+----
+sudo mount -t auto /dev/sdb /var/lib/prometheus/
+----
+. Obtenha o uuid do disco que você está usando para seus dados de métricas.
++
+[listing]
+----
+sudo ls -al /dev/disk/by-uuid/
+   lrwxrwxrwx 1 root root   9 Aug 18 17:02 9af2c5a3-bfc2-4ec1-85d9-ebab850bb4a1 -> ../../sdb
+----
+. Adicionando uma entrada em /etc/fstab/ fazendo com que a montagem persista em reinicializações usando o uuid de /dev/sdb.
++
+[listing]
+----
+/etc/fstab
+UUID=9af2c5a3-bfc2-4ec1-85d9-ebab850bb4a1 /var/lib/prometheus	ext4	defaults	0	0
+----
+
+
+
+
+=== Instale e configure Prometheus
+
+Agora que o servidor está pronto, posso iniciar a instalação do Prometheus e configurar o serviço.
+
+. Extraia o pacote de instalação do Prometheus
++
+[source, console]
+----
+tar xzf prometheus-2.38.0.linux-amd64.tar.gz
+----
+. Copie os binários para /usr/local/bin e altere a propriedade para o usuário prometheus criado anteriormente
++
+[source, console]
+----
+sudo cp prometheus-2.38.0.linux-amd64/{prometheus,promtool} /usr/local/bin
+sudo chown prometheus:prometheus /usr/local/bin/{prometheus,promtool}
+----
+. Copie os consoles e bibliotecas para /etc/prometheus
++
+[source, console]
+----
+sudo cp -r prometheus-2.38.0.linux-amd64/{consoles,console_libraries} /etc/prometheus/
+----
+. Copie o certificado do cliente e os arquivos pem de chave privada baixados anteriormente do StorageGRID para /etc/prometheus/certs
+. Crie o arquivo yaml de configuração prometheus
++
+[source, console]
+----
+sudo nano /etc/prometheus/prometheus.yml
+----
+. Insira a seguinte configuração. O nome do trabalho pode ser qualquer coisa que você desejar. Altere o "-targets: ['']" para o FQDN do nó admin e, se você alterou os nomes dos nomes dos arquivos de certificado e chave privada, atualize a seção tls_config para corresponder. Em seguida, salve o arquivo. Se sua interface de gerenciamento de grade estiver usando um certificado autoassinado, baixe o certificado e coloque-o com o certificado de cliente com um nome exclusivo, e na seção tls_config adicione CA_file: /Etc/prometheus/cert/UIcert.pem
++
+.. Neste exemplo, estou coletando todas as métricas que começam com alertmanager, cassandra, node e StorageGRID. Você pode ver mais informações sobre as métricas do Prometheus no https://docs.netapp.com/us-en/storagegrid-116/monitor/commonly-used-prometheus-metrics.html["Documentação do StorageGRID"^].
++
+[source, yaml]
+----
+# my global config
+global:
+  scrape_interval: 60s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+
+scrape_configs:
+  - job_name: 'StorageGRID'
+    honor_labels: true
+    scheme: https
+    metrics_path: /federate
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    tls_config:
+      cert_file: /etc/prometheus/cert/certificate.pem
+      key_file: /etc/prometheus/cert/private_key.pem
+    params:
+      match[]:
+        - '{__name__=~"alertmanager_.*|cassandra_.*|node_.*|storagegrid_.*"}'
+    static_configs:
+    - targets: ['sgdemo-rtp.netapp.com:9091']
+----
+
+
+
+
+[NOTE]
+====
+Se a interface de gerenciamento de grade estiver usando um certificado autoassinado, baixe o certificado e coloque-o com o certificado do cliente com um nome exclusivo. Na seção tls_config adicione o certificado acima do certificado do cliente e das linhas de chave privada
+
+....
+        ca_file: /etc/prometheus/cert/UIcert.pem
+....
+====
+. Altere a propriedade de todos os arquivos e diretórios em /etc/prometheus e /var/lib/prometheus para o usuário prometheus
++
+[source, console]
+----
+sudo chown -R prometheus:prometheus /etc/prometheus/
+sudo chown -R prometheus:prometheus /var/lib/prometheus/
+----
+. Crie um arquivo de serviço prometheus em /etc/systemd/system
++
+[source, console]
+----
+sudo nano /etc/systemd/system/prometheus.service
+----
+. Insira as linhas a seguir, observe o número--storage.tsdb.retension.time.1y que define a retenção dos dados métricos para 1 ano. Como alternativa, você pode usar 300GiB para basear a retenção nos limites de armazenamento. Este é o único local para definir a retenção de métricas.
++
+[source, console]
+----
+[Unit]
+Description=Prometheus Time Series Collection and Processing Server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/usr/local/bin/prometheus \
+        --config.file /etc/prometheus/prometheus.yml \
+        --storage.tsdb.path /var/lib/prometheus/ \
+        --storage.tsdb.retention.time=1y \
+        --web.console.templates=/etc/prometheus/consoles \
+        --web.console.libraries=/etc/prometheus/console_libraries
+
+[Install]
+WantedBy=multi-user.target
+----
+. Recarregue o serviço systemd para Registrar o novo serviço prometheus. Em seguida, inicie e ative o serviço prometheus.
++
+[source, console]
+----
+sudo systemctl daemon-reload
+sudo systemctl start prometheus
+sudo systemctl enable prometheus
+----
+. Verifique se o serviço está funcionando corretamente
++
+[source, console]
+----
+sudo systemctl status prometheus
+----
++
+[listing]
+----
+● prometheus.service - Prometheus Time Series Collection and Processing Server
+     Loaded: loaded (/etc/systemd/system/prometheus.service; enabled; vendor preset: enabled)
+     Active: active (running) since Mon 2022-08-22 15:14:24 EDT; 2s ago
+   Main PID: 6498 (prometheus)
+      Tasks: 13 (limit: 28818)
+     Memory: 107.7M
+        CPU: 1.143s
+     CGroup: /system.slice/prometheus.service
+             └─6498 /usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles --web.con>
+
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.510Z caller=head.go:544 level=info component=tsdb msg="Replaying WAL, this may take a while"
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.816Z caller=head.go:615 level=info component=tsdb msg="WAL segment loaded" segment=0 maxSegment=1
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.816Z caller=head.go:615 level=info component=tsdb msg="WAL segment loaded" segment=1 maxSegment=1
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.816Z caller=head.go:621 level=info component=tsdb msg="WAL replay completed" checkpoint_replay_duration=55.57µs wal_rep>
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.831Z caller=main.go:997 level=info fs_type=EXT4_SUPER_MAGIC
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.831Z caller=main.go:1000 level=info msg="TSDB started"
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.831Z caller=main.go:1181 level=info msg="Loading configuration file" filename=/etc/prometheus/prometheus.yml
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.832Z caller=main.go:1218 level=info msg="Completed loading of configuration file" filename=/etc/prometheus/prometheus.y>
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.832Z caller=main.go:961 level=info msg="Server is ready to receive web requests."
+Aug 22 15:14:24 aj-deb-prom01 prometheus[6498]: ts=2022-08-22T19:14:24.832Z caller=manager.go:941 level=info component="rule manager" msg="Starting rule manager..."
+----
+. Agora você deve ser capaz de navegar até a IU do seu servidor prometheus http://Prometheus-server:9090[] e ver a IU
++
+image:prometheus/prometheus_ui.png["Página de IU do prometheus"]
+
+. Em destinos "Status", você pode ver o status do endpoint do StorageGRID que configuramos em prometheus.yml
++
+image:prometheus/prometheus_targets.png["menu de estado prometheus"]
+
++
+image:prometheus/prometheus_target_status.png["página de alvos prometheus"]
+
+. Na página Gráfico, você pode executar uma consulta de teste e verificar se os dados estão sendo raspados com sucesso. Por exemplo, digite "StorageGRID_node_cpu_utilization_percentage" na barra de consulta e clique no botão Executar.
++
+image:prometheus/prometheus_execute.png["consulta prometheus executar"]
+
+
+
+
+
+== Instale e configure o Grafana
+
+Agora que o prometheus está instalado e funcionando, podemos passar para a instalação do Grafana e configurar um dashboard
+
+
+
+=== Instalação do Grafana
+
+. Instale a mais recente edição corporativa do Grafana
++
+[source, console]
+----
+sudo apt-get install -y apt-transport-https
+sudo apt-get install -y software-properties-common wget
+sudo wget -q -O /usr/share/keyrings/grafana.key https://packages.grafana.com/gpg.key
+----
+. Adicione este repositório para versões estáveis:
++
+[source, console]
+----
+echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://packages.grafana.com/enterprise/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+----
+. Depois de adicionar o repositório.
++
+[source, console]
+----
+sudo apt-get update
+sudo apt-get install grafana-enterprise
+----
+. Recarregue o serviço systemd para Registrar o novo serviço grafana. Em seguida, inicie e ative o serviço Grafana.
++
+[source, console]
+----
+sudo systemctl daemon-reload
+sudo systemctl start grafana-server
+sudo systemctl enable grafana-server.service
+----
+. O Grafana agora está instalado e em execução. Quando você abre um navegador para HTTP://Prometheus-server:3000 você será recebido com a página de login do Grafana.
+. As credenciais de login padrão são admin/admin, e você deve definir uma nova senha como ela solicita.
+
+
+
+
+=== Crie um painel Grafana para StorageGRID
+
+Com Grafana e Prometheus instalados e em execução, agora é hora de conetar os dois criando uma fonte de dados e construindo um painel
+
+. No painel esquerdo, expanda "Configuration" (Configuração) e selecione "Data Sources" (fontes de dados) e, em seguida, clique no botão "Add Data source" (Adicionar fonte de dados)
+. Prometheus será uma das principais fontes de dados para escolher. Se não estiver, use a barra de pesquisa para localizar "Prometheus"
+. Configure a fonte Prometheus inserindo o URL da instância prometheus e o intervalo de raspagem para corresponder ao intervalo Prometheus. Eu também desabilitei a seção de alerta, pois não configurei o gerenciador de alertas no prometheus.
++
+image:prometheus/grafana_prometheus_conf.png["configuração grafana prometheus"]
+
+. Com as configurações desejadas inseridas, role para baixo até a parte inferior e clique em "Salvar e testar"
+. Depois que o teste de configuração for bem-sucedido, clique no botão explorar.
++
+.. Na janela explorar você pode usar a mesma métrica que testamos Prometheus com "StorageGRID_node_cpu_utilization_percentage" e clicar no botão "Executar consulta"
++
+image:prometheus/grafana_source_explore.png["grafana prometheus métrica explore"]
+
+
+
+. Agora que temos a fonte de dados configurada, podemos criar um dashboard.
++
+.. No painel esquerdo, expanda "Dashboards" e selecione "novo painel"
+.. Selecione "Adicionar um novo painel"
+.. Configure o novo painel selecionando uma métrica, novamente vou usar "StorageGRID_node_cpu_utilization_percentage", digite um título para o painel, expanda "Opções" na parte inferior e para a legenda mudar para personalizado e digite "_instância" para definir os nomes dos nós" e no painel direito em "Opções padrão" defina "Unidade" para "Misc/percent(0-100)". Em seguida, clique em "aplicar" para salvar o painel no painel.
++
+image:prometheus/grafana_panel_conf.png["configure o painel grafana"]
+
+
+
+. Poderíamos continuar a construir nosso painel como esse para cada métrica que quisermos, mas felizmente o StorageGRID já tem painéis com painéis que podemos copiar em nossos painéis personalizados.
++
+.. No painel esquerdo da interface de gerenciamento do StorageGRID, selecione "suporte" e, na parte inferior da coluna "Ferramentas", clique em "métricas".
+.. Dentro das métricas, vou selecionar o link "Grid" na parte superior da coluna do meio.
++
+image:prometheus/storagegrid_metrics.png["Métricas do StorageGRID"]
+
+.. No painel Grid, permite selecionar o painel "Storage Used - Object Metadata" (armazenamento usado - metadados de objetos). Clique na pequena seta para baixo e no final do título do painel para soltar um menu. Neste menu, selecione "Inspecionar" e "Painel JSON".
++
+image:prometheus/storagegrid_dashboard_insp.png["Painel do StorageGRID"]
+
+.. Copie o código JSON e feche a janela.
++
+image:prometheus/storagegrid_panel_inspect.png["StorageGRID JSON"]
+
+.. No nosso novo painel, clique no ícone para adicionar um novo painel.
++
+image:prometheus/grafana_add_panel.png["painel de adição de grafana"]
+
+.. Aplique o novo painel sem fazer alterações
+.. Assim como no painel StorageGRID, inspecione o JSON. Remova todo o código JSON e substitua-o pelo código copiado do painel StorageGRID.
++
+image:prometheus/grafana_panel_inspect.png["painel de inspeção do grafana"]
+
+.. Edite o novo painel e, no lado direito, você verá uma mensagem de migração com um botão "migrar". Clique no botão e, em seguida, clique no botão "aplicar".
++
+image:prometheus/grafana_panel_edit_menu.png["menu do painel de edição grafana"]
+
++
+image:prometheus/grafana_panel_edit.png["painel de edição grafana"]
+
+
+
+. Depois de ter todos os painéis no lugar e configurado como quiser. Salve o painel clicando no ícone do disco no canto superior direito e dê um nome ao painel.
+
+
+
+
+=== Conclusão
+
+Agora temos um servidor Prometheus com capacidade de armazenamento e retenção de dados personalizáveis. Com isso, podemos continuar construindo nossos próprios painéis com as métricas mais relevantes para nossas operações. Você pode obter mais informações sobre as métricas do Prometheus coletadas no https://docs.netapp.com/us-en/storagegrid-116/monitor/commonly-used-prometheus-metrics.html["Documentação do StorageGRID"^].
+
+_Por Aron Klein_

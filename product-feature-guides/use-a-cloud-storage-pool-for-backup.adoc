@@ -1,0 +1,39 @@
+---
+permalink: product-feature-guides/use-a-cloud-storage-pool-for-backup.html 
+sidebar: sidebar 
+keywords: cloud storage pool, backup, ILM, CSP 
+summary: Você pode criar uma regra de ILM para mover objetos para um pool de armazenamento em nuvem para backup. 
+---
+= Use um Cloud Storage Pool para backup
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode criar uma regra ILM para mover objetos para um pool de armazenamento em nuvem para backup.
+
+.O que você vai precisar
+* O StorageGRID 11,6 foi configurado.
+* Você já configurou um contentor Azure externo.
+
+
+.Passos
+. No Gerenciador de Grade, navegue até *ILM* > *regras* > *criar*.
+. Introduza uma descrição.
+. Introduza um critério para acionar a regra.
+. Clique em *seguinte*.
+. Replique o objeto para nós de storage.
+. Adicione uma regra de colocação.
+. Replique o objeto para o Cloud Storage Pool
+. Clique em *seguinte*.
+. Clique em *Salvar*.
+
+
+.Resultado esperado
+Confirme se o diagrama de retenção mostra os objetos armazenados localmente no StorageGRID e em um pool de storage de nuvem para backup.
+
+Confirme que, quando a regra ILM é acionada, existe uma cópia no Cloud Storage Pool e você pode recuperar o objeto localmente sem fazer uma restauração de objeto.
+
+_Por Jonathan Wong_

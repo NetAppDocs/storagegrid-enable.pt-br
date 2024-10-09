@@ -1,0 +1,181 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/bare-metal/node-config-file-storagegrid.html 
+keywords: node config, storagegrid 
+summary: Entenda como preparar os arquivos de configuração do nó para o StorageGRID. 
+---
+= Prepare arquivos de configuração de nós para o StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Saiba como preparar os arquivos de configuração do nó para o StorageGRID.
+
+Em um nível alto, o processo de configuração do nó inclui as seguintes etapas:
+
+.Passos
+. Crie o `/etc/storagegrid/nodes` diretório em todos os hosts.
++
+[listing]
+----
+sudo [root@host1 ~]# mkdir -p /etc/storagegrid/nodes
+----
+. Crie os arquivos necessários por host físico para corresponder ao layout do tipo container/nó. Neste exemplo, criamos dois arquivos por host físico em cada máquina host.
++
+
+NOTE: O nome do arquivo define o nome do nó real para instalação. Por exemplo, `dc1-adm1.conf` torna-se um nó `dc1-adm1` chamado .
+
++
+-- Host1:
+`dc1-adm1.conf`
+`dc1-sn1.conf`
+
++
+-- Host2:
+`dc1-gw1.conf`
+`dc1-sn2.conf`
+
++
+-- Host3:
+`dc1-gw2.conf`
+`dc1-sn3.conf`
+
+
+
+
+
+== Preparando os arquivos de configuração do nó
+
+Os exemplos a seguir usam o `/dev/disk/by-path` formato. Você pode verificar os caminhos corretos executando os seguintes comandos:
+
+[listing]
+----
+[root@host1 ~]# lsblk
+NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sda 8:0 0 90G 0 disk
+├─sda1 8:1 0 1G 0 part /boot
+└─sda2 8:2 0 89G 0 part
+├─rhel-root 253:0 0 50G 0 lvm /
+├─rhel-swap 253:1 0 9G 0 lvm
+└─rhel-home 253:2 0 30G 0 lvm /home
+sdb 8:16 0 200G 0 disk /var/lib/docker
+sdc 8:32 0 90G 0 disk
+sdd 8:48 0 200G 0 disk
+sde 8:64 0 200G 0 disk
+sdf 8:80 0 4T 0 disk
+sdg 8:96 0 4T 0 disk
+sdh 8:112 0 4T 0 disk
+sdi 8:128 0 90G 0 disk
+sr0 11:0 1 1024M 0 rom
+----
+E estes comandos:
+
+[listing]
+----
+[root@host1 ~]# ls -l /dev/disk/by-path/
+total 0
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:02:01.0-ata-1.0 -> ../../sr0
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:0:0 -> ../../sda
+lrwxrwxrwx 1 root root 10 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:0:0-part1 -> ../../sda1
+lrwxrwxrwx 1 root root 10 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:0:0-part2 -> ../../sda2
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:1:0 -> ../../sdb
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:2:0 -> ../../sdc
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:3:0 -> ../../sdd
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:4:0 -> ../../sde
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:5:0 -> ../../sdf
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:6:0 -> ../../sdg
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:8:0 -> ../../sdh
+lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:9:0 -> ../../sdi
+----
+
+
+== Exemplo para nó Admin principal
+
+Exemplo de nome de arquivo:
+
+[listing]
+----
+/etc/storagegrid/nodes/dc1-adm1.conf
+----
+Exemplo de conteúdo do arquivo:
+
+
+NOTE: Os caminhos de disco podem seguir os exemplos abaixo ou usar `/dev/mapper/alias` nomes de estilo. Não use nomes de dispositivos de bloco, como por exemplo `/dev/sdb`, porque eles podem mudar na reinicialização e causar grandes danos à sua grade.
+
+[listing]
+----
+NODE_TYPE = VM_Admin_Node
+ADMIN_ROLE = Primary
+MAXIMUM_RAM = 24g
+BLOCK_DEVICE_VAR_LOCAL = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:2:0
+BLOCK_DEVICE_AUDIT_LOGS = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:3:0
+BLOCK_DEVICE_TABLES = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:4:0
+GRID_NETWORK_TARGET = ens192
+CLIENT_NETWORK_TARGET = ens224
+GRID_NETWORK_IP = 10.193.204.43
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.193.204.1
+CLIENT_NETWORK_CONFIG = STATIC
+CLIENT_NETWORK_IP = 10.193.205.43
+CLIENT_NETWORK_MASK = 255.255.255.0
+CLIENT_NETWORK_GATEWAY = 10.193.205.1
+----
+
+
+== Exemplo para um nó de storage
+
+Exemplo de nome de arquivo:
+
+[listing]
+----
+/etc/storagegrid/nodes/dc1-sn1.conf
+----
+Exemplo de conteúdo do arquivo:
+
+[listing]
+----
+NODE_TYPE = VM_Storage_Node
+MAXIMUM_RAM = 24g
+ADMIN_IP = 10.193.174.43
+BLOCK_DEVICE_VAR_LOCAL = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:9:0
+BLOCK_DEVICE_RANGEDB_00 = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:5:0
+BLOCK_DEVICE_RANGEDB_01 = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:6:0
+BLOCK_DEVICE_RANGEDB_02 = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:8:0
+GRID_NETWORK_TARGET = ens192
+CLIENT_NETWORK_TARGET = ens224
+GRID_NETWORK_IP = 10.193.204.44
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.193.204.1
+----
+
+
+== Exemplo para nó de gateway
+
+Exemplo de nome de arquivo:
+
+[listing]
+----
+/etc/storagegrid/nodes/dc1-gw1.conf
+----
+Exemplo de conteúdo do arquivo:
+
+[listing]
+----
+NODE_TYPE = VM_API_Gateway
+MAXIMUM_RAM = 24g
+ADMIN_IP = 10.193.204.43
+BLOCK_DEVICE_VAR_LOCAL = /dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:1:0
+GRID_NETWORK_TARGET = ens192
+CLIENT_NETWORK_TARGET = ens224
+GRID_NETWORK_IP = 10.193.204.47
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.193.204.1
+CLIENT_NETWORK_IP = 10.193.205.47
+CLIENT_NETWORK_MASK = 255.255.255.0
+CLIENT_NETWORK_GATEWAY = 10.193.205.1
+----

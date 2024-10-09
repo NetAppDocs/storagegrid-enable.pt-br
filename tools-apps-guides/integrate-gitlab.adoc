@@ -1,0 +1,44 @@
+---
+permalink: tools-apps-guides/integrate-gitlab.html 
+sidebar: sidebar 
+keywords: gitlab, on-premises, integration, storagegrid, object 
+summary: Este guia fornece informações sobre como configurar o StorageGRID com o GitLab. 
+---
+= NetApp StorageGRID com GitLab
+:allow-uri-read: 
+
+
+A NetApp testou o StorageGRID com o GitLab. Veja exemplo de configuração do GitLab abaixo.  https://docs.gitlab.com/ee/administration/object_storage.html["Guia de configuração de armazenamento de objetos GitLab"]Consulte para obter detalhes.
+
+
+
+== Exemplo de conexão de armazenamento de objetos
+
+Para instalações do pacote Linux, este é um exemplo `connection` da configuração na forma consolidada. Edite `/etc/gitlab/gitlab.rb` e adicione as seguintes linhas, substituindo os valores desejados:
+
+[source]
+----
+# Consolidated object storage configuration
+gitlab_rails['object_store']['enabled'] = true
+gitlab_rails['object_store']['proxy_download'] = true
+gitlab_rails['object_store']['connection'] = {
+  'provider' => 'AWS',
+  'region' => 'us-east-1',
+  'endpoint' => 'https://<storagegrid-s3-endpoint:port>',
+  'path_stype' => 'true',
+  'aws_access_key_id' => '<AWS_ACCESS_KEY_ID>',
+  'aws_secret_access_key' => '<AWS_SECRET_ACCESS_KEY>'
+}
+# OPTIONAL: The following lines are only needed if server side encryption is required
+gitlab_rails['object_store']['storage_options'] = {
+  'server_side_encryption' => 'AES256'
+}
+gitlab_rails['object_store']['objects']['artifacts']['bucket'] = 'gitlab-artifacts'
+gitlab_rails['object_store']['objects']['external_diffs']['bucket'] = 'gitlab-mr-diffs'
+gitlab_rails['object_store']['objects']['lfs']['bucket'] = 'gitlab-lfs'
+gitlab_rails['object_store']['objects']['uploads']['bucket'] = 'gitlab-uploads'
+gitlab_rails['object_store']['objects']['packages']['bucket'] = 'gitlab-packages'
+gitlab_rails['object_store']['objects']['dependency_proxy']['bucket'] = 'gitlab-dependency-proxy'
+gitlab_rails['object_store']['objects']['terraform_state']['bucket'] = 'gitlab-terraform-state'
+gitlab_rails['object_store']['objects']['pages']['bucket'] = 'gitlab-pages'
+----

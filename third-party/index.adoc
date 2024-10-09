@@ -1,0 +1,15 @@
+---
+permalink: third-party/index.html 
+sidebar: sidebar 
+keywords: third-party applications, storagegrid 
+summary: A NetApp, em colaboração com nossos parceiros, validou essas soluções para uso com a StorageGRID. Consulte as informações nesta seção para saber quais soluções foram validadas e obter instruções adicionais, se aplicável. 
+---
+= Soluções validadas de terceiros: Visão geral
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+A NetApp, em colaboração com nossos parceiros, validou essas soluções para uso com a StorageGRID. Consulte as informações nesta seção para saber quais soluções foram validadas e obter instruções adicionais, se aplicável.
+
+Junte-se à NetApp para acelerar a inovação do portfólio, expandir o reconhecimento do mercado e aumentar as vendas ao criar soluções NetApp testadas e da melhor categoria. https://www.netapp.com/partners/#become["Torne-se um parceiro de aliança hoje"^].

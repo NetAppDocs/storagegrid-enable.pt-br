@@ -1,0 +1,55 @@
+---
+permalink: product-feature-guides/create-cloud-storage-pool-aws-google-cloud.html 
+sidebar: sidebar 
+keywords: cloud storage pool, aws, S3, amazon web services, google cloud 
+summary: 'Você pode usar um pool de armazenamento em nuvem se quiser mover objetos do StorageGRID para um bucket externo do S3. O bucket externo pode pertencer ao Amazon S3 (AWS) ou ao Google Cloud.' 
+---
+= Crie o Cloud Storage Pool para AWS ou Google Cloud
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode usar um pool de armazenamento em nuvem se quiser mover objetos do StorageGRID para um bucket externo do S3. O bucket externo pode pertencer ao Amazon S3 (AWS) ou ao Google Cloud.
+
+.O que você vai precisar
+* O StorageGRID 11,6 foi configurado.
+* Você já configurou um bucket externo do S3 na AWS ou no Google Cloud.
+
+
+.Passos
+. No Gerenciador de Grade, navegue até *ILM* > *Storage Pools*.
+. Na seção Cloud Storage Pools da página, selecione *criar*.
++
+A janela pop-up Create Cloud Storage Pool (criar pool de armazenamento na nuvem) é exibida.
+
+. Introduza um nome de apresentação.
+. Selecione *Amazon S3* na lista suspensa tipo de provedor.
++
+Esse tipo de provedor funciona para AWS S3 ou Google Cloud.
+
+. Insira o URI para o bucket do S3 a ser usado para o pool de armazenamento em nuvem.
++
+Dois formatos são permitidos:
+
++
+`https://host:port`
+
++
+`http://host:port`
+
+. Introduza o nome do bucket S3.
++
+O nome especificado deve corresponder exatamente ao nome do bucket do S3; caso contrário, a criação do pool de armazenamento em nuvem falha. Você não pode alterar esse valor depois que o pool de armazenamento em nuvem for salvo.
+
+. Opcionalmente, insira o ID da chave de acesso e a chave de acesso secreta.
+. Selecione *não verificar certificado* na lista suspensa.
+. Clique em *Salvar*.
+
+
+.Resultado esperado
+Confirme se um pool de armazenamento em nuvem foi criado para o Amazon S3 ou o Google Cloud.
+
+_Por Jonathan Wong_

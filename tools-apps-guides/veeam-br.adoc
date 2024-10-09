@@ -1,0 +1,192 @@
+---
+permalink: tools-apps-guides/veeam-br.html 
+sidebar: sidebar 
+keywords: veeam,backup,veeam12,veeam11, 
+summary: Este guia concentra-se na configuração do NetApp StorageGRID e, em parte, no Veeam Backup and Replication. Este documento foi criado para administradores de storage e rede que estão familiarizados com os sistemas Linux e têm a tarefa de manter ou implementar um sistema NetApp StorageGRID em combinação com o Veeam Backup and Replication. 
+---
+= Práticas recomendadas do StorageGRID para implantação com o Veeam Backup and Replication
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este guia concentra-se na configuração do NetApp StorageGRID e, em parte, no Veeam Backup and Replication. Este documento foi criado para administradores de storage e rede que estão familiarizados com os sistemas Linux e têm a tarefa de manter ou implementar um sistema NetApp StorageGRID em combinação com o Veeam Backup and Replication.
+
+
+
+== Visão geral
+
+Os administradores de storage buscam gerenciar o crescimento de seus dados com soluções que atendam às metas de disponibilidade, recuperação rápida, escalabilidade para atender às suas necessidades e automatizar suas políticas de retenção de dados a longo prazo. Essas soluções também devem fornecer proteção contra perdas ou ataques mal-intencionados. Juntas, a Veeam e a NetApp fizeram uma parceria para criar uma solução de proteção de dados que combina o Veeam Backup & Recovery com o NetApp StorageGRID para storage de objetos no local.
+
+A Veeam e a NetApp StorageGRID fornecem uma solução fácil de usar que trabalham juntas para ajudar a atender às demandas do rápido crescimento de dados e do aumento das regulamentações em todo o mundo. O storage de objetos baseado em nuvem é conhecido por sua resiliência, capacidade de escala, eficiências operacionais e de custo que o tornam uma escolha natural como destino para seus backups. Este documento fornecerá orientações e recomendações para a configuração de sua solução Veeam Backup e do sistema StorageGRID.
+
+A carga de trabalho de objetos da Veeam cria um grande número de operações simultâneas DE PUT, DELETE e LIST DE objetos pequenos. A ativação da imutabilidade será adicionada ao número de solicitações ao armazenamento de objetos para definir versões de retenção e listagem. O processo de uma tarefa de backup inclui a gravação de objetos para a alteração diária, então depois que as novas gravações forem concluídas, a tarefa excluirá quaisquer objetos com base na política de retenção do backup. O agendamento de trabalhos de cópia de segurança quase sempre se sobrepõe. Essa sobreposição resultará em uma grande parte da janela de backup que consiste em 50/50 COLOCAR/EXCLUIR carga de trabalho no armazenamento de objetos. Fazer ajustes na Veeam ao número de operações simultâneas com a configuração de slot de tarefa, aumentar o tamanho do objeto aumentando o tamanho do bloco de tarefas de backup, reduzir o número de objetos nas solicitações de exclusão de vários objetos e escolher a janela de tempo máximo para as tarefas serem concluídas otimizará a solução para desempenho e custo.
+
+Certifique-se de ler a documentação do produto para https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Backup and Replication"^] e https://docs.netapp.com/us-en/storagegrid-117/["StorageGRID"^] antes de começar. A Veeam fornece calculadoras para entender o dimensionamento dos requisitos de infraestrutura e capacidade da Veeam que devem ser usados antes de dimensionar sua solução StorageGRID. Verifique sempre as configurações validadas do Veeam-NetApp no site do Programa Pronto para a Veeam para https://www.veeam.com/alliance-partner-technical-programs.html?alliancePartner=netapp1&page=1["Veeam Ready Object, Object imutabilidade e Repository"^].
+
+
+
+== Configuração da Veeam
+
+
+
+=== Versão recomendada
+
+É sempre recomendável manter-se atualizado e aplicar os hotfixes mais recentes para o seu sistema Veeam Backup & Replication 12 ou 12,1. Atualmente, recomendamos, no mínimo, a instalação do Veeam 12 patch P20230718.
+
+
+
+=== S3 Configuração do repositório
+
+Um repositório de backup com escalabilidade horizontal (SOBR) é a camada de capacidade do storage de objetos S3. A camada de capacidade é uma extensão do repositório principal que fornece períodos de retenção de dados mais longos e uma solução de storage de baixo custo. A Veeam oferece a capacidade de fornecer imutabilidade por meio da API S3 Object Lock. O Veeam 12 pode usar vários buckets em um repositório com escalabilidade horizontal. O StorageGRID não tem um limite para o número de objetos ou capacidade em um único bucket. O uso de vários buckets pode melhorar o desempenho ao fazer backup de conjuntos de dados muito grandes, onde os dados de backup podem chegar à escala de petabytes em objetos.
+
+A limitação de tarefas simultâneas pode ser necessária dependendo do dimensionamento de sua solução e requisitos específicos. As configurações padrão especificam um slot de tarefa do repositório para cada núcleo da CPU e para cada slot de tarefa um limite de slot de tarefa concorrente de 64. Por exemplo, se o servidor tiver 2 núcleos de CPU, um total de 128 threads simultâneos será usado para o armazenamento de objetos. Isso inclui o PUT, GET e Batch Delete. É recomendável selecionar um limite conservador para os slots de tarefa para começar e ajustar esse valor depois que os backups da Veeam atingirem um estado estável de novos backups e expirarem os dados de backup. Trabalhe com sua equipe de conta do NetApp para dimensionar o sistema StorageGRID de forma adequada para atender às janelas de tempo e desempenho desejados. Ajustar o número de slots de tarefa e o limite de tarefas por slot pode ser necessário para fornecer a solução ideal.
+
+
+
+=== Configuração do trabalho de cópia de segurança
+
+As tarefas de backup da Veeam podem ser configuradas com diferentes opções de tamanho de bloco que devem ser consideradas cuidadosamente. O tamanho padrão do bloco é 1MB e, com as eficiências de storage oferecidas pela Veeam, a deduplicação e a compactação criam tamanhos de objetos de aproximadamente 500KB TB para o backup completo inicial e objetos 100-200kB TB para as tarefas incrementais. Podemos aumentar bastante o desempenho e reduzir os requisitos do armazenamento de objetos escolhendo um tamanho maior de bloco de backup. Embora o tamanho de bloco maior faça grandes melhorias no desempenho de armazenamento de objetos, ele vem com o custo do requisito de capacidade de storage primário potencialmente maior devido à performance de eficiência de storage reduzida. Recomenda-se que as tarefas de backup sejam configuradas com um tamanho de bloco 4MB que cria aproximadamente 2MB objetos para os backups completos e tamanhos de objetos 700kB-1MB para incrementos. Os clientes podem até mesmo configurar tarefas de backup usando tamanho de bloco de 8 MB, que podem ser habilitadas com a ajuda do suporte da Veeam.
+
+A implementação de backups imutáveis faz uso do bloqueio de objetos S3 no armazenamento de objetos. A opção imutabilidade gera um número maior de solicitações para o armazenamento de objetos para listar e reter atualizações nos objetos.
+
+À medida que as retenções de cópia de segurança expiram, os trabalhos de cópia de segurança processarão a eliminação de objetos. A Veeam envia as solicitações de exclusão para o armazenamento de objetos em solicitações de exclusão multiobjetos de 1000 objetos por solicitação. Para soluções pequenas, isso pode precisar ser ajustado para reduzir o número de objetos por solicitação. A redução desse valor terá o benefício adicional de distribuir mais uniformemente as solicitações de exclusão entre os nós no sistema StorageGRID. Recomenda-se usar os valores na tabela abaixo como ponto de partida para configurar o limite de exclusão de vários objetos. Multiplique o valor na tabela pelo número de nós para o tipo de dispositivo escolhido para obter o valor para a configuração no Veeam. Se este valor for igual ou superior a 1000, não será necessário ajustar o valor predefinido. Se esse valor precisar ser ajustado, trabalhe com o suporte da Veeam para fazer a mudança.
+
+[cols="1,1"]
+|===
+| Modelo do aparelho | S3MultiObjectDeleteLimit PB por nó 
+
+
+| SG5712 | 34 
+
+
+| SG5760 | 75 
+
+
+| SG6060 | 200 
+|===
+[NOTE]
+====
+Trabalhe com sua equipe de conta do NetApp para obter a configuração recomendada com base em suas necessidades específicas. As recomendações de configurações da Veeam incluem:
+
+* Tamanho do bloco de trabalho de backup: 4MB
+* Limite de slot de tarefa SOBR 2-16
+* Limite de exclusão de objetos múltiplos: 34-1000
+
+
+====
+
+
+== Configuração do StorageGRID
+
+
+
+=== Versão recomendada
+
+O NetApp StorageGRID 11,7 ou 11,8 com o hotfix mais recente são as versões recomendadas para implantações da Veeam. É sempre recomendável manter-se atualizado e aplicar os hotfixes mais recentes para o seu sistema StorageGRID.
+
+
+
+=== Balanceador de carga e configuração de endpoint S3
+
+A Veeam exige que o endpoint seja conetado somente via HTTPS. Uma conexão não criptografada não é suportada pela Veeam. O certificado SSL pode ser um certificado auto-assinado, uma autoridade de certificação privada confiável ou uma autoridade de certificação pública confiável. Para garantir o acesso contínuo ao repositório S3, é recomendável usar pelo menos dois balanceadores de carga em uma configuração de HA. Os balanceadores de carga podem ser um serviço de balanceador de carga integrado fornecido pela StorageGRID localizado em cada nó de administrador e nó de gateway ou solução de terceiros, como F5, Kemp, HAproxy, Loadbalancer.org, etc. o uso de um balanceador de carga StorageGRID fornecerá a capacidade de definir classificadores de tráfego (regras de QoS) que podem priorizar a carga de trabalho da Veeam ou limitar a não impactar cargas de trabalho de alta prioridade no sistema StorageGRID.
+
+
+
+=== S3 balde
+
+O StorageGRID é um sistema seguro de storage de alocação a vários clientes. É recomendável criar um locatário dedicado para a carga de trabalho da Veeam. Uma cota de armazenamento pode ser atribuída opcionalmente. Como prática recomendada, habilite "usar origem de identidade própria". Proteja o usuário de gerenciamento de raiz do locatário com uma senha apropriada. O Veeam Backup 12 requer uma forte consistência para buckets do S3. O StorageGRID oferece várias opções de consistência configuradas no nível do bucket. Para implantações em vários locais, com a Veeam acessando os dados de vários locais, selecione "forte global". Se os backups e restaurações da Veeam acontecerem apenas em um único local, o nível de consistência deve ser definido como "local forte". Para obter mais informações sobre os níveis de consistência do balde, consulte o https://docs.netapp.com/us-en/storagegrid-117/s3/consistency-controls.html["documentação"]. Para usar o StorageGRID para backups da imutabilidade da Veeam, o bloqueio de objetos S3 deve ser ativado globalmente e configurado no bucket durante a criação do bucket.
+
+
+
+=== Gerenciamento de ciclo de vida
+
+O StorageGRID é compatível com replicação e codificação de apagamento para proteção no nível de objeto em nós e sites da StorageGRID. A codificação de apagamento requer pelo menos um tamanho de objeto 200kB. O tamanho padrão do bloco para Veeam de 1MB produz tamanhos de objetos que geralmente podem estar abaixo desse tamanho mínimo recomendado de 200kB MB após as eficiências de storage da Veeam. Para o desempenho da solução, não é recomendável usar um perfil de codificação de apagamento abrangendo vários sites, a menos que a conetividade entre os sites seja suficiente para não adicionar latência ou restringir a largura de banda do sistema StorageGRID. Em um sistema StorageGRID multi-site, a regra ILM pode ser configurada para armazenar uma única cópia em cada local. Para uma durabilidade máxima, uma regra poderia ser configurada para armazenar uma cópia codificada de apagamento em cada local. O uso de duas cópias locais para os servidores do Veeam Backup é a implementação mais recomendada para essa carga de trabalho.
+
+
+
+== Pontos-chave de implementação
+
+
+
+=== StorageGRID
+
+Certifique-se de que o bloqueio de objetos está ativado no sistema StorageGRID se a imutabilidade for necessária. Encontre a opção na IU de gerenciamento em Configuration/S3 Object Lock.
+
+image:veeam-bp/obj_lock_en.png["Ativação do bloqueio de objetos em toda a grelha"]
+
+Ao criar o bucket, selecione "Ativar bloqueio de objetos S3" se esse bucket for usado para backups de imutabilidade. Isso habilitará automaticamente o controle de versão do bucket. Deixe a retenção padrão desativada, pois a Veeam definirá a retenção de objetos explicitamente. Controle de versão e bloqueio de objetos S3 não devem ser selecionados se a Veeam não estiver criando backups imutáveis.
+
+image:veeam-bp/obj_lock_bucket.png["Ative o bloqueio de objetos no balde"]
+
+Quando o bucket for criado, vá para a página de detalhes do bucket criado. Selecione o nível de consistência.
+
+image:veeam-bp/bucket_consist_1.png["Opções de balde"]
+
+A Veeam requer uma forte consistência para buckets do S3. Então, para implantações em vários locais com a Veeam acessando os dados de vários locais, selecione "forte global". Se os backups e restaurações da Veeam acontecerem apenas em um único local, o nível de consistência deve ser definido como "local forte". Salve as alterações.
+
+image:veeam-bp/bucket_consist_2.png["Consistência do balde"]
+
+O StorageGRID fornece um serviço de balanceador de carga integrado em todos os nós de administração e de gateway dedicados. Uma das muitas vantagens de usar este balanceador de carga é a capacidade de configurar as políticas de classificação de tráfego (QoS). Embora eles sejam usados principalmente para limitar o impactos de aplicativos em outras cargas de trabalho de clientes ou priorizar uma carga de trabalho sobre outras, eles também fornecem um bônus de coleta de métricas adicionais para ajudar no monitoramento.
+
+No separador de configuração, selecione "classificação de tráfego" e crie uma nova política. Nomeie a regra e selecione o(s) intervalo(s) ou o locatário como o tipo. Introduza o(s) nome(s) do(s) bucket(s) ou inquilino(s). Se a QoS for necessária, defina um limite, mas para a maioria das implementações, queremos apenas adicionar os benefícios de monitoramento que isso proporciona, portanto, não defina um limite.
+
+image:veeam-bp/tc_policy.png["Criar política de TC"]
+
+
+
+=== Veeam
+
+Dependendo do modelo e da quantidade de dispositivos StorageGRID, pode ser necessário selecionar e configurar um limite para o número de operações simultâneas no bucket.
+
+image:veeam-bp/veeam_concur_limit.png["Limite de tarefas simultâneas da Veeam"]
+
+Siga a documentação da Veeam sobre a configuração da tarefa de backup no console da Veeam para iniciar o assistente. Depois de adicionar VMs, selecione o repositório SOBR.
+
+image:veeam-bp/veeam_1.png["Trabalho de cópia de segurança"]
+
+Clique em Configurações avançadas e altere as configurações de otimização de armazenamento para 4 MB ou mais. A compactação e a deduplicação devem ser habilitadas. Altere as configurações do convidado de acordo com seus requisitos e configure o agendamento do trabalho de backup.
+
+image:veeam-bp/veeam_blk_sz.png["Uma captura de tela de um computador Descrição gerada automaticamente,largura 320,altura 375"]
+
+
+
+== Monitorização do StorageGRID
+
+Para ter uma visão completa de como a Veeam e o StorageGRID estão funcionando juntos, você precisará esperar até que o tempo de retenção dos primeiros backups expire. Até esse ponto, a carga de trabalho da Veeam consiste principalmente em operações PUT e não ocorreram exclusões. Uma vez que os dados de backup expiram e as limpezas estão ocorrendo, você pode agora ver o uso consistente completo no armazenamento de objetos e ajustar as configurações no Veeam, se necessário.
+
+O StorageGRID fornece gráficos convenientes para monitorar o funcionamento do sistema localizado na página métricas do separador suporte. Os principais painéis a serem analisados serão a Visão geral do S3, ILM e a Política de classificação de tráfego, se uma política foi criada. No painel Visão geral do S3, você encontrará informações sobre as taxas de operação, latências e respostas de solicitações do S3.
+
+Olhando para as taxas do S3 e as solicitações ativas, você pode ver quanto da carga cada nó está lidando e o número total de solicitações por tipo. image:veeam-bp/s3_over_rates.png["S3 Visão geral de preços"]
+
+O gráfico de duração média mostra o tempo médio que cada nó está tomando para cada tipo de solicitação. Esta é a latência média da solicitação e pode ser um bom indicador de que ajustes adicionais podem ser necessários, ou há espaço para o sistema StorageGRID assumir mais carga.
+
+image:veeam-bp/s3_over_duration.png["S3 Visão geral duração"]
+
+No gráfico Total de solicitações concluídas, você pode ver as solicitações por tipo e códigos de resposta. Se você vir respostas diferentes de 200 (OK) para as respostas, isso pode indicar um problema como o sistema StorageGRID está recebendo fortemente carregado enviando respostas 503 (lento) e alguma sintonização adicional pode ser necessária, ou chegou a hora de expandir o sistema para a carga aumentada.
+
+image:veeam-bp/s3_over_requests.png["S3 Visão geral das solicitações"]
+
+No Painel ILM, você pode monitorar o desempenho de exclusão do seu sistema StorageGRID. O StorageGRID usa uma combinação de exclusões síncronas e assíncronas em cada nó para tentar otimizar o desempenho geral de todas as solicitações.
+
+image:veeam-bp/ilm_delete.png["O ILM exclui"]
+
+Com uma Política de classificação de tráfego, podemos visualizar métricas sobre a taxa de transferência de solicitação do balanceador de carga, taxas, duração, bem como os tamanhos de objeto que a Veeam está enviando e recebendo.
+
+image:veeam-bp/tc_1.png["Métricas da Política de classificação de tráfego"]
+
+image:veeam-bp/tc_2.png["Métricas da Política de classificação de tráfego"]
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* link:https://docs.netapp.com/us-en/storagegrid-118/["Documentação do produto NetApp StorageGRID 11,8"^]
+* link:https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Backup and Replication"^]
+
+
+_Por Oliver Haensel e Aron Klein_

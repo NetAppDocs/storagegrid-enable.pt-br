@@ -1,0 +1,94 @@
+---
+permalink: technical-reports/veritas/configure-storagegrid-enterprise-vault.html 
+sidebar: sidebar 
+keywords: storagegrid, enterprise vault, configure 
+summary: Saiba como implementar configurações básicas para o StorageGRID 11,5 e o Veritas Enterprise Vault 14,1. 
+---
+= Configure o StorageGRID e o veritas Enterprise Vault
+:hardbreaks:
+:allow-uri-read: 
+:experimental: 
+:icons: font
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Saiba como implementar configurações básicas para o StorageGRID 11,5 ou superior e o Veritas Enterprise Vault 14,1 ou superior.
+
+Este guia de configuração é baseado no StorageGRID 11,5 e no Enterprise Vault 14,1. Para armazenamento em modo WORM (uma gravação, muitas leituras) usando o bloqueio de objetos S3, o StorageGRID 11,6 e o Enterprise Vault 14.2.2 foram usados. Para obter informações mais detalhadas sobre essas diretrizes, consulte a https://docs.netapp.com/us-en/storagegrid-118/["Documentação do StorageGRID"^] página ou entre em Contato com um especialista da StorageGRID.
+
+
+
+== Pré-requisitos para configurar o StorageGRID e o veritas Enterprise Vault
+
+* Antes de configurar o StorageGRID com o veritas Enterprise Vault, verifique os seguintes pré-requisitos:
+
+
+
+NOTE: Para storage WORM (bloqueio de objetos), é necessário StorageGRID 11,6 ou superior.
+
+* o Veritas Enterprise Vault 14,1 ou posterior está instalado.
+
+
+
+NOTE: Para storage WORM (Object Lock), é necessário o Enterprise Vault versão 14.2.2 ou superior.
+
+* Foram criados grupos de armazenamento de cofre e uma loja de cofre. Para obter mais informações, consulte o veritas Enterprise Vault Administration Guide.
+* Um locatário, chave de acesso, chave secreta e bucket do StorageGRID foram criados.
+* Foi criado um ponto de extremidade do balanceador de carga StorageGRID (HTTP ou HTTPS).
+* Se estiver usando um certificado autoassinado, adicione o certificado de CA autoassinado do StorageGRID aos servidores de cofre empresarial. Para obter mais informações, consulte este https://www.veritas.com/support/en_US/article.100049744["artigo da base de dados de Conhecimento da veritas"^].
+* Atualize e aplique o arquivo de configuração mais recente do Enterprise Vault para habilitar soluções de armazenamento suportadas, como o NetApp StorageGRID. Para obter mais informações, consulte este https://www.veritas.com/content/support/en_US/article.100039174["artigo da base de dados de Conhecimento da veritas"^].
+
+
+
+
+== Configure o StorageGRID com o veritas Enterprise Vault
+
+Para configurar o StorageGRID com o veritas Enterprise Vault, execute as seguintes etapas:
+
+.Passos
+. Inicie o console Enterprise Vault Administration.
++
+image:veritas/veritas-enterprise-vault.png["media/veritas/veritas-enterprise-vault"]
+
+. Crie uma nova partição de armazenamento do Vault no armazenamento apropriado do Vault. Expanda a pasta grupos do Vault Store e, em seguida, o armazenamento apropriado do Vault. Clique com o botão direito em partição e selecione menu:Nova[partição].
++
+image:veritas/veritas-enterprise-vault-2.png["media/veritas/veritas-enterprise-vault-2"]
+
+. Siga o assistente de criação de novas partições. No menu suspenso tipo de armazenamento, selecione NetApp StorageGRID (S3). Clique em seguinte.
++
+image:veritas/veritas-new-partition.png["veritas/veritas-new-partition"]
+
+. Deixe a opção armazenar dados no modo WORM usando S3 Object Lock desmarcada. Clique em seguinte.
++
+image:veritas/veritas-new-partition-2.png["veritas/veritas-new-partition-2"]
+
+. Na página de configurações de conexão, forneça as seguintes informações:
++
+** ID da chave de acesso
+** Chave de acesso secreto
+** Nome do host de serviço: Certifique-se de incluir a porta de endpoint do balanceador de carga (LBE) configurada no StorageGRID (como https://<hostname>:<LBE_port>)
+** Nome do bucket: Nome do bucket de destino pré-criado. o veritas Enterprise Vault não cria o bucket.
+** Região do balde: `us-east-1` É o valor predefinido.
++
+image:veritas/veritas-new-partition-3.png["veritas/veritas-new-partition-3"]
+
+
+
+. Para verificar a conexão com o bucket do StorageGRID, clique em testar. Verifique se o teste de conexão foi bem-sucedido. Clique em OK e em Avançar.
++
+image:veritas/veritas-new-partition-4.png["veritas/veritas-new-partition-4"]
+
+. O StorageGRID não suporta o parâmetro de replicação S3. Para proteger seus objetos, o StorageGRID usa regras de gerenciamento do ciclo de vida das informações (ILM) para especificar esquemas de proteção de dados - várias cópias ou codificação de apagamento. Selecione a opção quando existirem ficheiros arquivados na opção armazenamento e clique em seguinte.
++
+image:veritas/veritas-new-partition-5.png["veritas/veritas-new-partition-5"]
+
+. Verifique as informações na página de resumo e clique em concluir.
++
+image:veritas/veritas-new-partition-6.png["veritas/veritas-new-partition-6"]
+
+. Depois que a nova partição de armazenamento do Vault tiver sido criada com sucesso, você pode arquivar, restaurar e pesquisar dados no Enterprise Vault com o StorageGRID como o armazenamento primário.
++
+image:veritas/veritas-new-partition-7.png["veritas/veritas-new-partition-7"]
+
+

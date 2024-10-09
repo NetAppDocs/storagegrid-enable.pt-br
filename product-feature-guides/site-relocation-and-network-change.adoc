@@ -1,0 +1,88 @@
+---
+permalink: product-feature-guides/site-relocation-and-network-change.html 
+sidebar: sidebar 
+keywords: relocation move network change 
+summary: Este guia descreve a preparação e o procedimento para a realocação do local do StorageGRID em uma grade de vários locais. 
+---
+= Procedimento de realocação do local da grade e mudança de rede em todo o local
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este guia descreve a preparação e o procedimento para a realocação do local do StorageGRID em uma grade de vários locais. Você deve ter uma compreensão completa deste procedimento e Planejar com antecedência para garantir um processo suave e minimizar a interrupção para os clientes.
+
+Se você precisar alterar a rede de Grade inteira, link:https://docs.netapp.com/us-en/storagegrid-118/maintain/changing-nodes-network-configuration.html["Altere endereços IP para todos os nós na grade"]consulte .
+
+
+
+== Considerações antes da realocação do local
+
+* A movimentação do local deve ser concluída e todos os nós on-line em até 15 dias para evitar a reconstrução do banco de dados Cassandra. link:https://docs.netapp.com/us-en/storagegrid-118/maintain/recovering-storage-node-that-has-been-down-more-than-15-days.html["Recupere o nó de storage abaixo mais de 15 dias"^]
+* Se qualquer regra de ILM na política ativa estiver usando comportamento de ingestão rigoroso, considere alterá-la para equilibrar ou se o cliente quiser continuar A COLOCAR objetos na grade durante a realocação do local.
+* Para dispositivos de storage com 60 unidades ou mais, nunca mova a gaveta com unidades de disco instaladas. Rotule cada unidade de disco e remova-as do compartimento de armazenamento antes de embalar/mover.
+* A VLAN da rede da grade do StorageGRID pode ser executada remotamente pela rede admin ou pela rede cliente. Ou então Planeje estar no local para realizar a mudança antes ou depois da realocação.
+* Verifique se o aplicativo do cliente está usando HEAD ou OBTER objeto de não existência antes DE COLOCAR. Em caso afirmativo, altere a consistência do bucket para strong-site para evitar o erro HTTP 500. Se não tiver certeza, verifique S3 visão geral gráficos Grafana *Gerenciador de Grade > suporte > métricas*, passe o Mouse sobre o gráfico 'Total Completed Request'. Se houver uma contagem muito alta de 404 Get Object ou 404 head object, provavelmente uma ou mais aplicações estão usando head ou get nonexistence object. A contagem é acumulativa, passe o Mouse sobre a linha do tempo diferente para ver a diferença.
++
+image:site-relocation/s3-completed-request.png["S3 Visão geral amostra de gráfico Grafana"]
+
+
+
+
+
+=== Procedimento para alterar o endereço IP da grade antes da realocação do local
+
+.Passos
+. Se a nova sub-rede da rede Grid for usada no novo local, link:https://docs.netapp.com/us-en/storagegrid-118/expand/updating-subnets-for-grid-network.htmll["Adicione a sub-rede à lista de sub-rede da rede Grid"^]
+. Faça login no nó de administração principal, use o Change-ip para fazer a alteração de IP de grade, deve *stage* a alteração antes de desligar o nó para realocação.
++
+.. Selecione 2 e, em seguida, 1 para a alteração de IP de Grade
++
+image:site-relocation/ip-change-1.png[""]
+
+.. selecione 5 para mostrar as alterações
++
+image:site-relocation/ip-change-2.png[""]
+
+.. selecione 10 para validar e aplicar a alteração.
++
+image:site-relocation/ip-change-3.png[""]
+
+.. Deve selecionar *stage* nesta etapa.
++
+image:site-relocation/ip-change-4.png[""]
+
+.. Se o nó de administrador principal estiver incluído na alteração acima, digite *'a' para reiniciar o nó de administrador principal manualmente*
++
+image:site-relocation/ip-change-5.png[""]
+
+.. Prima ENTER para regressar ao menu anterior e sair da interface Change-ip.
++
+image:site-relocation/ip-change-6.png[""]
+
+
+
+. No Grid Manager, baixe o novo pacote de recuperação. *Gerenciador de grade* > *Manutenção* > *Pacote de recuperação*
+. Se a alteração de VLAN for necessária no dispositivo StorageGRID, consulte a <<Alteração da VLAN do dispositivo>>seção .
+. Encerre todos os nós e/ou dispositivos no local, rotule/remova as unidades de disco, se necessário, desprenda, embale e mova.
+. Se você planeja alterar o ip da rede de administração e/ou a VLAN do cliente e o endereço ip, poderá realizar a alteração após a realocação.
+
+
+
+
+=== Alteração da VLAN do dispositivo
+
+O procedimento abaixo assume que você tem acesso remoto ao administrador ou à rede cliente do StorageGRID Appliance para executar a alteração remotamente.
+
+.Passos
+. Antes de desligar o aparelho, link:https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/placing-appliance-into-maintenance-mode.html["coloque o aparelho no modo de manutenção"].
+. Usando um navegador para acessar a GUI do instalador do StorageGRID Appliance usando https://<admin-or-client-network-ip>:8443[]o . Não é possível usar o Grid IP como o novo Grid IP já no lugar quando o aparelho for inicializado no modo de manutenção.
+. Altere a VLAN da rede Grid. Se você estiver acessando o dispositivo pela rede cliente, não poderá alterar a VLAN do cliente neste momento, poderá alterá-la após a movimentação.
+. ssh para o dispositivo e desligue o nó usando 'shutdoown -h now'
+. Depois que os dispositivos estiverem prontos em um novo site, acesse a GUI do instalador do StorageGRID Appliance usando https://<grid-network-ip>:8443[]o . Confirme se o armazenamento está em ótimo estado e conetividade de rede com outros nós de Grade usando ferramentas de ping/nmap na GUI.
+. Se pretende alterar o IP da rede do cliente, pode alterar a VLAN do cliente nesta fase. A rede do cliente não estará pronta até atualizar o ip da rede do cliente usando a ferramenta Change-ip na etapa posterior.
+. Sair do modo de manutenção. No Instalador de dispositivos StorageGRID, selecione *Avançado* > *Reiniciar controlador* e, em seguida, selecione *Reiniciar no StorageGRID*.
+. Depois que todos os nós estiverem ativos e Grid não mostrar nenhum problema de conetividade, use Change-ip para atualizar a rede de administração do dispositivo e a rede cliente, se necessário.
+

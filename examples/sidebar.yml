@@ -1,0 +1,10 @@
+---
+section: examples
+title: Procedimentos e exemplos de API
+entries:
+- title: Teste e demonstre a criptografia S3
+  url: "/examples/test-demonstrate-S3-encryption.html"
+- title: Teste e demonstre o bloqueio de objetos S3D.
+  url: "/examples/test-demonstrate-S3-object-lock.html"
+- title: Exemplos de balde e política de grupo
+  url: "/examples/bucket-policy-examples.html"

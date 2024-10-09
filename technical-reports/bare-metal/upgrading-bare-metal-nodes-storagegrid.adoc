@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/bare-metal/upgrading-bare-metal-nodes-storagegrid.html 
+keywords: bare-metal, upgrade, storagegrid 
+summary: Saiba mais sobre o processo de atualização para nós bare-metal no StorageGRID. 
+---
+= Atualizar nós bare-metal no StorageGRID
+:allow-uri-read: 
+
+
+[role="lead"]
+Saiba mais sobre o processo de atualização para nós bare-metal no StorageGRID.
+
+O processo de atualização para nós bare-metal é diferente do que para dispositivos ou nós VMware. Antes de executar uma atualização de um nó bare-metal, você deve primeiro atualizar os arquivos RPM em todos os hosts antes de executar a atualização através da GUI.
+
+[listing]
+----
+[root@host1 rpms]# rpm -Uvh StorageGRID-Webscale-Images-*.rpm
+[root@host1 rpms]# rpm -Uvh StorageGRID-Webscale-Service-*.rpm
+----
+Agora você pode prosseguir para a atualização de software através da GUI.

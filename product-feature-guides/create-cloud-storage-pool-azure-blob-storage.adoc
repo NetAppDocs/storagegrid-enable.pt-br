@@ -1,0 +1,52 @@
+---
+permalink: product-feature-guides/create-cloud-storage-pool-azure-blob-storage.html 
+sidebar: sidebar 
+keywords: cloud storage pool, azure, microsoft azure, azure blob storage 
+summary: Você pode usar um pool de storage de nuvem se quiser mover objetos do StorageGRID para um contêiner externo do Azure. 
+---
+= Criar Cloud Storage Pool para Azure Blob Storage
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode usar um pool de storage de nuvem se quiser mover objetos do StorageGRID para um contêiner externo do Azure.
+
+.O que você vai precisar
+* O StorageGRID 11,6 foi configurado.
+* Você já configurou um contentor Azure externo.
+
+
+.Passos
+. No Gerenciador de Grade, navegue até *ILM* > *Storage Pools*.
+. Na seção Cloud Storage Pools da página, selecione *criar*.
++
+A janela pop-up Create Cloud Storage Pool (criar pool de armazenamento na nuvem) é exibida.
+
+. Introduza um nome de apresentação.
+. Selecione *armazenamento Blob Azure* na lista suspensa tipo de provedor.
+. Insira o URI para o bucket do S3 a ser usado para o pool de armazenamento em nuvem.
++
+Dois formatos são permitidos:
+
++
+`https://host:port`
+
++
+`http://host:port`
+
+. Introduza o nome do contentor Azure.
++
+O nome que você especificar deve corresponder exatamente ao nome do contentor do Azure; caso contrário, a criação do pool de armazenamento em nuvem falha. Você não pode alterar esse valor depois que o pool de armazenamento em nuvem for salvo.
+
+. Opcionalmente, insira o nome da conta associada do Azure Container e a chave da conta para autenticação.
+. Selecione *não verificar certificado* na lista suspensa.
+. Clique em *Salvar*.
+
+
+.Resultado esperado
+Confirme se um Cloud Storage Pool foi criado para o Azure Blob Storage.
+
+_Por Jonathan Wong_

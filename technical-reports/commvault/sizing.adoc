@@ -1,0 +1,126 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/commvault/sizing.html 
+keywords: Backup, on-premises, commvault, storagegrid, object, S3, WORM 
+summary: Explore alguns casos de uso para configurações do StorageGRID implementadas pelos clientes e PELA TI DA NetApp. 
+---
+= Orientação de dimensionamento do StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Consulte os especialistas em proteção de dados da NetApp para obter um dimensionamento específico para o seu ambiente. Especialistas em proteção de dados da NetApp podem usar a ferramenta Calculadora de storage de CommVault Total Backup para estimar os requisitos da infraestrutura de backup. A ferramenta requer acesso ao CommVault Partner Portal. Inscreva-se para ter acesso, se necessário.
+
+
+
+== Entradas de dimensionamento do CommVault
+
+As tarefas a seguir podem ser usadas para realizar a descoberta para o dimensionamento da solução de proteção de dados:
+
+* Identifique as cargas de trabalho do sistema ou aplicativo/banco de dados e a capacidade de front-end correspondente (em terabytes [TB]) que precisarão ser protegidas.
+* Identifique a carga de trabalho de VM/arquivo e a capacidade front-end (TB) semelhante que precisará ser protegida.
+* Identificar requisitos de retenção de curto e longo prazo.
+* Identifique a taxa de alteração de % diária para os conjuntos de dados/workloads identificados.
+* Identificar o crescimento projetado dos dados nos próximos 12, 24 e 36 meses.
+* Defina o rto e o RPO para proteção/recuperação de dados de acordo com as necessidades dos negócios.
+
+
+Quando essas informações estiverem disponíveis, o dimensionamento da infraestrutura de backup pode ser feito, resultando em uma repartição das capacidades de storage necessárias.
+
+
+
+== Orientação de dimensionamento do StorageGRID
+
+Antes de executar o dimensionamento do NetApp StorageGRID, considere esses aspectos da sua carga de trabalho:
+
+* Capacidade utilizável
+* Modo WORM
+* Tamanho médio do objeto
+* Requisitos de desempenho
+* Política de ILM aplicada
+
+
+A quantidade de capacidade utilizável precisa acomodar o tamanho do workload de backup categorizado no StorageGRID e o cronograma de retenção.
+
+O modo WORM será ativado ou não? Com WORM ativado no CommVault, isso configurará o bloqueio de objetos no StorageGRID. Isso aumentará a capacidade de armazenamento de objetos necessária. A quantidade de capacidade necessária varia de acordo com a duração de retenção e o número de alterações de objeto em cada backup.
+
+O tamanho médio do objeto é um parâmetro de entrada que ajuda no dimensionamento para o desempenho em um ambiente StorageGRID. Os tamanhos médios de objetos usados para um workload do CommVault dependem do tipo de backup.
+
+A tabela a seguir lista tamanhos médios de objetos por tipo de backup e descreve o que o processo de restauração lê do armazenamento de objetos:
+
+[cols="1a,1a,1a"]
+|===
+| Tipo de cópia de segurança | Tamanho médio do objeto | Restaurar o comportamento 
+
+
+ a| 
+Faça uma cópia auxiliar no StorageGRID
+ a| 
+32 MB
+ a| 
+Leitura completa do objeto 32MBD.
+
+
+
+ a| 
+Direcionar o backup para o StorageGRID (deduplicação habilitada)
+ a| 
+8 MB
+ a| 
+1MB leitura aleatória
+
+
+
+ a| 
+Direcionar o backup para o StorageGRID (deduplicação desativada)
+ a| 
+32 MB
+ a| 
+Leitura completa do objeto 32MBD.
+
+|===
+Além disso, compreender os requisitos de performance para backups completos e incrementais ajuda a determinar o dimensionamento dos nós de storage da StorageGRID. Os métodos de proteção de dados da política de gerenciamento de ciclo de vida das informações do StorageGRID (ILM) determinam a capacidade necessária para armazenar backups da CommVault e afetar o dimensionamento da grade.
+
+A replicação StorageGRID ILM é um dos dois mecanismos usados pelo StorageGRID para armazenar dados de objetos. Quando o StorageGRID atribui objetos a uma regra de ILM que replica dados, o sistema cria cópias exatas dos dados dos objetos e armazena as cópias em nós de storage.
+
+A codificação de apagamento é o segundo método usado pelo StorageGRID para armazenar dados de objetos. Quando o StorageGRID atribui objetos a uma regra ILM que está configurada para criar cópias codificadas de apagamento, ele segmenta dados de objeto em fragmentos de dados. Em seguida, ele calcula fragmentos de paridade adicionais e armazena cada fragmento em um nó de storage diferente. Quando um objeto é acessado, ele é remontado usando os fragmentos armazenados. Se um fragmento de dados ou um fragmento de paridade ficar corrompido ou for perdido, o algoritmo de codificação de apagamento pode recriar esse fragmento usando um subconjunto dos dados restantes e fragmentos de paridade.
+
+Os dois mecanismos exigem quantidades diferentes de armazenamento, como estes exemplos demonstram:
+
+* Se você armazenar duas cópias replicadas, a sobrecarga de storage será duplicada.
+* Se você armazenar uma 2 cópia codificada de apagamento por mais de 1 vezes, a sobrecarga de storage aumenta em 1,5 vezes.
+
+
+Para a solução testada, foi usada uma implantação de StorageGRID de nível básico em um único local:
+
+* Nó de administrador: Máquina virtual VMware (VM)
+* Balanceador de carga: VM VMware
+* Nós de storage: 4x SG5712 TB com 4TB unidades
+* Nó de administrador principal e nó de gateway: VMs VMware com os requisitos mínimos de workload de produção
+
+
+[NOTE]
+====
+O StorageGRID também é compatível com balanceadores de carga de terceiros.
+
+====
+O StorageGRID normalmente é implantado em dois ou mais locais com políticas de proteção de dados que replicam dados para proteção contra falhas em nível de nó e local. Ao fazer backup dos dados no StorageGRID, os dados são protegidos por várias cópias ou por codificação de apagamento que separa e remonta os dados de forma confiável por meio de um algoritmo.
+
+Você pode usar a ferramenta de dimensionamento https://fusion.netapp.com["Fusion"] para dimensionar sua grade.
+
+
+
+== Dimensionamento
+
+Você pode expandir um sistema NetApp StorageGRID adicionando storage aos nós de storage, adicionando novos nós de grade a um local existente ou adicionando um novo local de data center. Você pode realizar expansões sem interromper a operação do seu sistema atual. O StorageGRID dimensiona a performance usando nós de performance mais alta para nós de storage ou o dispositivo físico que executa o balanceador de carga e os nós de administração ou simplesmente adicionando nós adicionais.
+
+[NOTE]
+====
+Para obter mais informações sobre como expandir o sistema StorageGRID, https://docs.netapp.com/us-en/storagegrid-118/landing-expand/index.html["Guia de expansão do StorageGRID 11,8"] consulte .
+
+====

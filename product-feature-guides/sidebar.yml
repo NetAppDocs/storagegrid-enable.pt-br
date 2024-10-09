@@ -1,0 +1,31 @@
+---
+section: product-feature-guides
+title: Guias de recursos do produto
+entries:
+- title: Crie o Cloud Storage Pool para AWS ou Google Cloud
+  url: "/product-feature-guides/create-cloud-storage-pool-aws-google-cloud.html"
+- title: Criar Cloud Storage Pool para storage Azure Blob
+  url: "/product-feature-guides/create-cloud-storage-pool-azure-blob-storage.html"
+- title: Use um Cloud Storage Pool para backup
+  url: "/product-feature-guides/use-a-cloud-storage-pool-for-backup.html"
+- title: Configurar o serviço de integração de pesquisa
+  url: "/product-feature-guides/storagegrid-search-integration-service.html"
+- title: Considerações e performance sobre o clone de nó
+  url: "/product-feature-guides/node-clone.html"
+- title: Como utilizar o remapeamento de portas
+  url: "/product-feature-guides/port-remap.html"
+- title: Como realocar um site e alterar a rede
+  url: "/product-feature-guides/site-relocation-and-network-change.html"
+- title: Migração de storage baseado em objetos do ONTAP S3 para o StorageGRID
+  pdf-filename: Migração de storage baseado em objetos do ONTAP S3 para o StorageGRID
+  entries:
+  - title: Migrar do ONTAP S3 para o StorageGRID
+    url: "/product-feature-guides/ontap-migrate/index.html"
+  - title: Preparando o ONTAP
+    url: "/product-feature-guides/ontap-migrate/preparing-ontap.html"
+  - title: Preparando o StorageGRID
+    url: "/product-feature-guides/ontap-migrate/preparing-sg.html"
+  - title: Preencha e replique o intervalo
+    url: "/product-feature-guides/ontap-migrate/populate-replicate.html"
+  - title: Migre usuários e chaves e depois faça a transição
+    url: "/product-feature-guides/ontap-migrate/migrate-cutover.html"

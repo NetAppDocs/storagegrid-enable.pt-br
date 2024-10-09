@@ -1,0 +1,144 @@
+---
+permalink: third-party/118-3rd-party-list.html 
+sidebar: sidebar 
+keywords: 11.7, third-party applications, storagegrid, ISV 
+summary: Soluções de terceiros validadas para StorageGRID 11,8 
+---
+= O StorageGRID 11,8 validou soluções de terceiros
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+As seguintes soluções de terceiros foram validadas para uso com o StorageGRID 11,8. Se a solução que você está procurando não estiver listada, entre em Contato com o representante da sua conta NetApp.
+
+
+
+== Soluções de terceiros validadas no StorageGRID
+
+Estas soluções foram testadas em colaboração com os respetivos parceiros.
+
+* Actifio
+* Alluxio
+* Apache Kafka
+* Ponto de montagem da AWS
+* Bridgestor
+* Cantemo
+* Colaboração de conteúdo Citrix
+* Collibra (versão mínima de qualidade de dados do Collibra 2024,02)
+* CommVault 11
+* Portal Ctera 6
+* Dalet
+* Datadobi
+* Data Dynamics StorageX
+* DefendX
+* Diskover dados
+* Dremio
+* Snapshot do Elasticsearch (incluindo camada congelada)
+* EMAM
+* Fujifilm Object Archive
+* GitHub Enterprise Server
+* IBM FileNet
+* IBM Spectrum Protect Plus
+* Interica
+* Komprise
+* Clusters de Big Data do Microsoft SQL Server
+* Model9
+* Modzy
+* Moonwalk Universal
+* NICE
+* Nasuni
+* OpenText Documentum 16,4
+* OpenText Documentum 21,4
+* OpenText InfoArchive 16 EP7
+* OpenText Media Management 16,5 com CyanGate Cloud
+* Panzura
+* PixitMedia ngenea
+* Ponto Archival Gateway 2,0
+* Point Storage Manager 6,4
+* Primestream
+* Quantum StorNext 5.4.0.1
+* reveille V10 Build 220706 ou superior
+* CDM da Rubrik
+* s3a
+* Signiant
+* Floco de neve
+* Spectra Logic On-Prem Glacier
+* Splunk Smartstore
+* Starburst
+* Arrumação fácil
+* Trino
+* Verniz Enterprise 6.0.4
+* Veeam 12
+* veritas Enterprise Vault 14
+* veritas NetBackup 8,0
+* Vertica 10.x
+* Vidisine
+* Virtalica StorageFabric
+* WEKA v3,10 ou posterior
+
+
+
+
+== Soluções de terceiros validadas no StorageGRID com bloqueio de objeto
+
+Estas soluções foram testadas em colaboração com os respetivos parceiros.
+
+* Recurso CommVault 11 versão 26
+* IBM FileNet
+* OpenText Documentum 21,4
+* Rubrik
+* Veeam 12
+* veritas Enterprise Vault 14.2.2
+* veritas NetBackup 10.1.1 e posterior
+
+
+
+
+== Soluções de terceiros compatíveis com o StorageGRID
+
+Essas soluções foram testadas.
+
+* Archiware
+* Comunicações da Axis
+* Congruity360
+* DataFrameworks
+* Plataforma ECODIGITAL DIVA
+* Encoding.com
+* Fujifilm Object Archive
+* Arquivo GE Centricity Enterprise
+* Gitlab
+* Hyland Acuo
+* IBM Aspera
+* Sistemas Milestone
+* OnSSI
+* Alcance o motor
+* SilverTrak
+* SoftNAS
+* QStar
+* Velasea
+
+
+
+
+== Principais gerentes suportados no StorageGRID
+
+Essas soluções foram testadas.
+
+* Entrust KeyControl 10,2
+* Hashicorp Vault 1.15.0
+* Thales CipherTrust Manager 2,0
+* Thales CipherTrust Manager 2,1
+* Thales CipherTrust Manager 2,2
+* Thales CipherTrust Manager 2,3
+* Thales CipherTrust Manager 2,4
+* Thales CipherTrust Manager 2,8
+* Thales CipherTrust Manager 2,9
+* Thales CipherTrust Manager 2,10
+* Thales CipherTrust Manager 2,11
+* Thales CipherTrust Manager 2,12
+* Thales CipherTrust Manager 2,13
+* Thales CipherTrust Manager 2,14
+

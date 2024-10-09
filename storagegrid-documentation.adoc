@@ -1,0 +1,25 @@
+---
+permalink: storagegrid-documentation.html 
+sidebar: sidebar 
+keywords: storagegrid, 11.8, 11.7, 11.6, 11.5, 11.4, 11.3, 11.2 
+summary: Você pode encontrar a documentação completa para cada versão do NetApp StorageGRID aqui. 
+---
+= Documentação do NetApp StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode encontrar a documentação completa para cada versão do NetApp StorageGRID aqui:
+
+* https://docs.netapp.com/us-en/storagegrid-appliances/index.html["Dispositivos StorageGRID"]
+* https://docs.netapp.com/us-en/storagegrid-118/index.html["StorageGRID 11,8"^]
+* https://docs.netapp.com/us-en/storagegrid-117/index.html["StorageGRID 11,7"^]
+* https://docs.netapp.com/us-en/storagegrid-116/index.html["StorageGRID 11,6"^]
+* https://docs.netapp.com/sgws-115/index.jsp["StorageGRID 11,5"^]
+* https://docs.netapp.com/sgws-114/index.jsp["StorageGRID 11,4"^]
+* https://docs.netapp.com/sgws-113/index.jsp["StorageGRID 11,3"^]
+* https://docs.netapp.com/sgws-112/index.jsp["StorageGRID 11,2"^]
+

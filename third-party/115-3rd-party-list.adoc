@@ -1,0 +1,97 @@
+---
+permalink: third-party/115-3rd-party-list.html 
+sidebar: sidebar 
+keywords: 11.5, third-party applications, storagegrid, ISV 
+summary: Soluções de terceiros validadas para StorageGRID 11,5 
+---
+= O StorageGRID 11,5 validou soluções de terceiros
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+As seguintes soluções de terceiros foram validadas para uso com o StorageGRID 11,5. Se a solução que você está procurando não estiver listada, entre em Contato com o representante da sua conta NetApp.
+
+
+
+== Soluções de terceiros validadas no StorageGRID
+
+Estas soluções foram testadas em colaboração com os respetivos parceiros.
+
+* Actifio
+* Alluxio
+* Bridgestor
+* Cantemo
+* Colaboração de conteúdo Citrix
+* CommVault 11
+* Portal Ctera 6
+* Dalet
+* Datadobi
+* Data Dynamics StorageX
+* DefendX
+* Interica
+* Komprise
+* Moonwalk Universal
+* NICE
+* Nasuni
+* OpenText Documentum 16,4
+* OpenText Documentum 21,4
+* OpenText InfoArchive 16 EP7
+* OpenText Media Management 16,5 com CyanGate Cloud
+* Panzura
+* Ponto Archival Gateway 2,0
+* Point Storage Manager 6,4
+* Primestream
+* Quantum StorNext 5.4.0.1
+* CDM da Rubrik
+* s3a
+* Signiant
+* Splunk Smartstore
+* Trino
+* Verniz Enterprise 6.0.4
+* Veeam 11
+* veritas Enterprise Vault 11
+* veritas Enterprise Vault 12
+* veritas NetBackup 8,0
+* Vertica 10.x
+* Vidisine
+* Virtalica StorageFabric
+
+
+
+
+== Soluções de terceiros validadas no StorageGRID com bloqueio de objeto
+
+Estas soluções foram testadas em colaboração com os respetivos parceiros.
+
+* OpenText Documentum 21,4
+* Veeam 11
+
+
+
+
+== Soluções de terceiros compatíveis com o StorageGRID
+
+Essas soluções foram testadas.
+
+* Archiware
+* Comunicações da Axis
+* Congruity360
+* DataFrameworks
+* Plataforma ECODIGITAL DIVA
+* Encoding.com
+* Fujifilm Object Archive
+* Arquivo GE Centricity Enterprise
+* Gitlab
+* Hyland Acuo
+* IBM Aspera
+* Sistemas Milestone
+* OnSSI
+* Alcance o motor
+* SilverTrak
+* SoftNAS
+* QStar
+* Velasea
+

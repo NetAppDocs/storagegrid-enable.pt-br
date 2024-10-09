@@ -1,0 +1,387 @@
+---
+permalink: product-feature-guides/port-remap.html 
+sidebar: sidebar 
+keywords: port remap, port redirect, port, remap, redirect 
+summary: Como utilizar o remapeamento de portas. 
+---
+= Como utilizar o remapeamento de portas
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Pode ser necessário remapear uma porta de entrada ou de saída por vários motivos. Você pode estar migrando do serviço de balanceador de carga CLB legado para o endpoint de balanceador de carga de serviço nginx atual e manter a mesma porta para reduzir o impactos para os clientes, deseja usar a porta 443 para o cliente S3 em uma rede de cliente de nó de administrador ou para restrições de firewall.
+
+
+
+== Migre clientes S3 do CLB para O NGINX com o Port Remap
+
+Em versões anteriores ao StorageGRID 11,3, o serviço de balanceamento de carga incluído nos nós de gateway é o CLB (Connection Load Balancer). No StorageGRID 11,3, o NetApp apresenta o serviço NGINX como uma solução integrada rica em recursos para balanceamento de carga de tráfego HTTP(s). Como o serviço CLB permanece disponível na versão atual do StorageGRID, não é possível reutilizar a porta 8082 na nova configuração de endpoint do balanceador de carga. Para contornar isso, a porta de entrada 8082 é remapeada para 10443. Isso faz com que todas as solicitações HTTPS que entram na porta 8082 no gateway redirecionem para a porta 10443, ignorando o serviço CLB e, em vez disso, conetando-se ao serviço NGINX. Embora as instruções a seguir sejam para VMware, a funcionalidade port_REMAP existe para todos os métodos de instalação e você pode usar um processo semelhante para implantações e dispositivos bare metal.
+
+
+
+=== Implantação do VMware Virtual Machine Gateway Node
+
+As etapas a seguir são para uma implantação do StorageGRID em que o nó ou nós de gateway são implantados no VMware vSphere 7 como VMs usando o formato de virtualização aberta (OVF) do StorageGRID. O processo implica remover destrutivamente a VM e reimplantar a VM com o mesmo nome e configuração. Antes de ligar a VM, altere a propriedade vApp para remapear a porta, ligue a VM e siga o processo de recuperação do nó.
+
+
+
+==== Pré-requisitos
+
+* Você está executando o StorageGRID 11,3 ou posterior
+* Você baixou e tem acesso aos arquivos de instalação VMware da versão do StorageGRID instalada.
+* Você tem uma conta do vCenter com permissões para ligar/desligar VMs, alterar as configurações das VMs e vApps, remover VMs do vCenter e implantar VMs pelo OVF.
+* Você criou um ponto de extremidade do balanceador de carga
++
+** A porta está configurada para a porta de redirecionamento desejada
+** O certificado SSL de endpoint é o mesmo que instalado para o serviço CLB no certificado servidor de Endpoints do Serviço de API de armazenamento de objetos ou o cliente pode aceitar uma alteração no certificado.
+
+
+
+
+[NOTE]
+====
+ If your existing certificate is self-signed, you cannot reuse it in the new endpoint. You must generate a new self-signed certificate when creating the endpoint and configure the clients to accept the new certificate.
+====
+
+
+==== Destrua o primeiro nó de gateway
+
+Para destruir o primeiro nó de gateway, siga estes passos:
+
+. Escolha o nó de gateway com o qual começar se a grade contiver mais de um.
+. Remova os IPs de nós de todas as entidades de round-robin DNS ou pools de balanceadores de carga, se aplicável.
+. Aguarde até que as sessões Time-to-Live (TTL) e Open expirem.
+. Desligue o nó da VM.
+. Remova o nó da VM do disco.
+
+
+
+
+==== Implante o nó de gateway de substituição
+
+Para implantar o nó de gateway de substituição, siga estas etapas:
+
+. Implante a nova VM do OVF, selecionando os arquivos .ovf, .mf e .vmdk do pacote de instalação baixado do site de suporte:
++
+** vsphere-gateway.mf
+** vsphere-gateway.ovf
+** NetApp-SG-11,4.0-20200721,1338.d3969b3.vmdk
+
+
+. Depois que a VM tiver sido implantada, selecione-a na lista de VMs, selecione a guia Configurar opções vApp.
++
+image:port-remap/vapp_options.png["Separador Opções do vApp"]
+
+. Role para baixo até a seção Propriedades e selecione a propriedade PORT_REMAP_INBOUND
++
+image:port-remap/remap_inbound.png["port remapear inbound"]
+
+. Role até o topo da lista Propriedades e clique em Editar
++
+image:port-remap/edit_button.png["botão edit (editar)"]
+
+. Selecione o separador tipo, confirme se a caixa de verificação configurável pelo utilizador está selecionada e, em seguida, clique em Guardar.
++
+image:port-remap/type_tab.png["guia tipo"]
+
+. Na parte superior da lista Propriedades, com a propriedade "PORT_REMAP_INBOUND" ainda selecionada, clique em Definir valor.
++
+image:port-remap/edit_button.png["botão definir valor"]
+
+. No campo valor da propriedade, insira a rede (grade, administrador ou cliente), TCP, a porta original (8082) e a nova porta (10443) com "/" entre cada valor, conforme descrito a seguir.
++
+image:port-remap/value.png["valor da propriedade"]
+
+. Se você estiver usando várias redes, use uma vírgula (,) para separar as cadeias de rede, por exemplo, Grid/tcp/8082/10443,admin/tcp/8082/10443,client/tcp/8082/10443
+
+
+
+
+==== Recupere o nó de gateway
+
+Para recuperar o Gateway Node, siga estas etapas:
+
+. Navegue até a seção Manutenção/recuperação da IU de Gerenciamento de Grade.
++
+image:port-remap/maint_menu.png["menu de manutenção"]
+
+. Ligue o nó da VM e aguarde que o nó apareça na seção Maintenance/Recovery Pending Nodes da IU de Gerenciamento de Grade.
++
+image:port-remap/recover_pend.png["recuperação pendente"]
+
++
+[NOTE]
+====
+ For information and directions for node recovery, see the https://docs.netapp.com/sgws-114/topic/com.netapp.doc.sg-maint/GUID-7E22B1B9-4169-4800-8727-75F25FC0FFB1.html[Recovery and Maintenance guide]
+====
+. Após a recuperação do nó, o IP pode ser incluído em todas as entidades de round-robin DNS ou pools de balanceadores de carga, se aplicável.
++
+Agora, todas as sessões HTTPS na porta 8082 vão para a porta 10443
+
+
+
+
+
+== Remapear a porta 443 para acesso ao cliente S3 em um nó Admin
+
+A configuração padrão no sistema StorageGRID para um nó de administrador ou grupo de HA que contém um nó de administrador deve ser 443 reservada para as interfaces de usuário do gerenciador de gerenciamento e locatário e não pode ser usada para pontos de extremidade do balanceador de carga 80. A solução para isso é usar o recurso de remapeamento de portas e redirecionar a porta de entrada 443 para uma nova porta que será configurada como um ponto de extremidade do balanceador de carga. Uma vez que esse tráfego do Cliente S3 concluído será capaz de usar a porta 443, a IU de gerenciamento de grade só estará acessível através da porta 8443 e a IU de gerenciamento do locatário só estará acessível na porta 9443. O recurso de remapeamento de porta só pode ser configurado no momento da instalação do nó. Para implementar um remapeamento de portas de um nó ativo na grade, ele deve ser redefinido para o estado pré-instalado. Este é um procedimento destrutivo que inclui uma recuperação de nó uma vez que a alteração de configuração foi feita.
+
+
+
+=== Backup de logs e bancos de dados
+
+Os nós de administração contêm logs de auditoria, métricas de prometheus, bem como informações históricas sobre atributos, alarmes e alertas. Ter vários nós de administração significa que você tem várias cópias desses dados. Se você não tiver vários nós de administrador em sua grade, você deve se certificar de preservar esses dados para restaurar após o nó ter sido recuperado no final deste processo. Se você tiver outro nó de administrador na grade, você poderá copiar os dados desse nó durante o processo de recuperação. Se você não tiver outro nó de administrador na grade, você pode seguir estas instruções para copiar os dados antes de destruir o nó.
+
+
+
+==== Copiar registos de auditoria
+
+. Faça login no nó Admin:
++
+.. Introduza o seguinte comando: `ssh admin@_grid_node_IP_`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Digite o seguinte comando para mudar para root: `su -`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Adicione a chave privada SSH ao agente SSH. Introduza: `ssh-add`
+.. Insira a senha de acesso SSH listada no `Passwords.txt` arquivo.
++
+ When you are logged in as root, the prompt changes from `$` to `#`.
+
+
+. Criar o diretório para copiar todos os arquivos de log de auditoria para um local temporário em um nó de grade separado permite usar _storage_node_01_:
++
+.. `ssh admin@_storage_node_01_IP_`
+.. `mkdir -p /var/local/tmp/saved-audit-logs`
+
+
+. De volta ao nó admin, pare o serviço AMS para impedir que ele crie um novo arquivo de log: `service ams stop`
+. Renomeie o arquivo audit.log para que ele não substitua o arquivo existente quando você copiá-lo para o nó Admin recuperado.
++
+.. Renomeie audit.log para um nome de arquivo numerado exclusivo, como aaaa-mm-dd.txt.1. Por exemplo, você pode renomear o arquivo de log de auditoria para 2015-10-25.txt,1
++
+[source, console]
+----
+cd /var/local/audit/export
+ls -l
+mv audit.log 2015-10-25.txt.1
+----
+
+
+. Reinicie o serviço AMS: `service ams start`
+. Copiar todos os ficheiros de registo de auditoria: `scp * admin@_storage_node_01_IP_:/var/local/tmp/saved-audit-logs`
+
+
+
+
+==== Copiar dados Prometheus
+
+
+NOTE: Copiar o banco de dados Prometheus pode levar uma hora ou mais. Alguns recursos do Gerenciador de Grade ficarão indisponíveis enquanto os serviços forem interrompidos no nó Admin.
+
+. Crie o diretório para copiar os dados prometheus para um local temporário em um nó de grade separado, novamente utilizaremos _storage_node_01_:
++
+.. Faça login no nó de storage:
++
+... Introduza o seguinte comando: `ssh admin@_storage_node_01_IP_`
+... Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+... mkdir -p /var/local/tmp/prometheus'
+
+
+
+
+. Faça login no nó Admin:
++
+.. Introduza o seguinte comando: `ssh admin@_admin_node_IP_`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Digite o seguinte comando para mudar para root: `su -`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Adicione a chave privada SSH ao agente SSH. Introduza: `ssh-add`
+.. Insira a senha de acesso SSH listada no `Passwords.txt` arquivo.
++
+ When you are logged in as root, the prompt changes from `$` to `#`.
+
+
+. No Admin Node, pare o serviço Prometheus: `service prometheus stop`
++
+.. Copie o banco de dados Prometheus do nó de administração de origem para o nó de armazenamento local de backup Node: `/rsync -azh --stats "/var/local/mysql_ibdata/prometheus/data" "_storage_node_01_IP_:/var/local/tmp/prometheus/"`
+
+
+. Reinicie o serviço Prometheus no Admin Node de origem.`service prometheus start`
+
+
+
+
+==== Backup de informações históricas
+
+As informações históricas são armazenadas em um banco de dados mysql. Para descarregar uma cópia do banco de dados, você precisará do usuário e da senha do NetApp. Se você tiver outro nó de administrador na grade, essa etapa não será necessária e o banco de dados poderá ser clonado de um nó de administrador restante durante o processo de recuperação.
+
+. Faça login no nó Admin:
++
+.. Introduza o seguinte comando: `ssh admin@_admin_node_IP_`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Digite o seguinte comando para mudar para root: `su -`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Adicione a chave privada SSH ao agente SSH. Introduza: `ssh-add`
+.. Insira a senha de acesso SSH listada no `Passwords.txt` arquivo.
++
+ When you are logged in as root, the prompt changes from `$` to `#`.
+
+
+. Pare os serviços do StorageGRID no nó Admin e inicie o NTP e mysql
++
+.. Parar todos os serviços: `service servermanager stop`
+.. reinicie o serviço ntp: `service ntp start` ..reinicie o serviço mysql: `service mysql start`
+
+
+. Dump mi banco de dados para /var/local/tmp
++
+.. introduza o seguinte comando: `mysqldump –u _username_ –p _password_ mi > /var/local/tmp/mysql-mi.sql`
+
+
+. Copie o arquivo de despejo mysql para um nó alternativo, vamos usar _storage_node_01:
+`scp /var/local/tmp/mysql-mi.sql _storage_node_01_IP_:/var/local/tmp/mysql-mi.sql`
++
+.. Quando você não precisar mais de acesso sem senha a outros servidores, remova a chave privada do agente SSH. Introduza: `ssh-add -D`
+
+
+
+
+
+
+=== Reconstrua o nó Admin
+
+Agora que você tem uma cópia de backup de todos os dados e logs desejados em outro nó de administrador na grade ou armazenados em um local temporário, é hora de redefinir o dispositivo para que o remapa de portas possa ser configurado.
+
+. A redefinição de um appliance retorna ao estado pré-instalado, onde ele só retém o nome do host, IP e configurações de rede. Todos os dados serão perdidos e é por isso que nos certificamos de ter um backup de qualquer informação importante.
++
+.. introduza o seguinte comando: `sgareinstall`
++
+[source, console]
+----
+root@sg100-01:~ # sgareinstall
+WARNING: All StorageGRID Webscale services on this node will be shut down.
+WARNING: Data stored on this node may be lost.
+WARNING: You will have to reinstall StorageGRID Webscale to this node.
+
+After running this command and waiting a few minutes for the node to reboot,
+browse to one of the following URLs to reinstall StorageGRID Webscale on
+this node:
+
+    https://10.193.174.192:8443
+    https://10.193.204.192:8443
+    https://169.254.0.1:8443
+
+Are you sure you want to continue (y/n)? y
+Renaming SG installation flag file.
+Initiating a reboot to trigger the StorageGRID Webscale appliance installation wizard.
+
+----
+
+
+. Após algum tempo, o aparelho reiniciará e você poderá acessar o nó PGE UI.
+. Navegue até Configurar rede
++
+image:port-remap/remap_link.png["Selecione remapear portas"]
+
+. Selecione a rede, o protocolo, a direção e as portas pretendidas e, em seguida, clique no botão Adicionar regra.
++
+
+NOTE: O remapeamento da porta de entrada 443 na REDE DE GRADE interromperá a instalação e os procedimentos de expansão. Não é recomendável remapear a porta 443 na rede DE GRADE.
+
++
+image:port-remap/app_remap.png["adicionar remapeamento de portas a redes"]
+
+. Um dos remapas de portas desejados foi adicionado, você pode retornar à guia inicial e clicar no botão Iniciar instalação.
+
+
+Pode agora seguir os procedimentos de recuperação do nó Admin no link:https://docs.netapp.com/us-en/storagegrid-116/maintain/recovering-from-admin-node-failures.html["documentação do produto"]
+
+
+
+== Restaure bancos de dados e logs
+
+Agora que o nó de administrador foi recuperado, você pode restaurar as métricas, logs e informações históricas. Se você tiver outro nó de administrador na grade, siga os link:https://docs.netapp.com/us-en/storagegrid-116/maintain/recovering-from-admin-node-failures.html["documentação do produto"]scripts utilizando _prometheus-clone-dB.sh_ e _mi-clone-dB.sh_. Se este for o seu único nó de administrador e você optar por fazer backup desses dados, siga as etapas abaixo para restaurar as informações.
+
+
+
+=== Copiar registos de auditoria de volta
+
+. Faça login no nó Admin:
++
+.. Introduza o seguinte comando: `ssh admin@_grid_node_IP_`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Digite o seguinte comando para mudar para root: `su -`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Adicione a chave privada SSH ao agente SSH. Introduza: `ssh-add`
+.. Insira a senha de acesso SSH listada no `Passwords.txt` arquivo.
++
+ When you are logged in as root, the prompt changes from `$` to `#`.
+
+
+. Copie os arquivos de log de auditoria preservados para o Admin Node recuperado: `scp admin@_grid_node_IP_:/var/local/tmp/saved-audit-logs/YYYY* .`
+. Para segurança, exclua os logs de auditoria do nó de grade com falha depois de verificar se eles foram copiados com sucesso para o nó de administração recuperado.
+. Atualize as configurações de usuário e grupo dos arquivos de log de auditoria no Admin Node recuperado: `chown ams-user:bycast *`
+
+
+Você também deve restaurar qualquer acesso de cliente pré-existente ao compartilhamento de auditoria. Para obter mais informações, consulte as instruções para administrar o StorageGRID.
+
+
+
+=== Restaurar métricas Prometheus
+
+
+NOTE: Copiar o banco de dados Prometheus pode levar uma hora ou mais. Alguns recursos do Gerenciador de Grade ficarão indisponíveis enquanto os serviços forem interrompidos no nó Admin.
+
+. Faça login no nó Admin:
++
+.. Introduza o seguinte comando: `ssh admin@_grid_node_IP_`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Digite o seguinte comando para mudar para root: `su -`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Adicione a chave privada SSH ao agente SSH. Introduza: `ssh-add`
+.. Insira a senha de acesso SSH listada no `Passwords.txt` arquivo.
++
+ When you are logged in as root, the prompt changes from `$` to `#`.
+
+
+. No Admin Node, pare o serviço Prometheus: `service prometheus stop`
++
+.. Copie o banco de dados Prometheus do local de backup temporário para o nó de administrador: `/rsync -azh --stats "_backup_node_:/var/local/tmp/prometheus/" "/var/local/mysql_ibdata/prometheus/"`
+.. verifique se os dados estão no caminho correto e estão completos `ls /var/local/mysql_ibdata/prometheus/data/`
+
+
+. Reinicie o serviço Prometheus no Admin Node de origem.`service prometheus start`
+
+
+
+
+=== Restaurar informações históricas
+
+. Faça login no nó Admin:
++
+.. Introduza o seguinte comando: `ssh admin@_grid_node_IP_`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Digite o seguinte comando para mudar para root: `su -`
+.. Introduza a palavra-passe listada no `Passwords.txt` ficheiro.
+.. Adicione a chave privada SSH ao agente SSH. Introduza: `ssh-add`
+.. Insira a senha de acesso SSH listada no `Passwords.txt` arquivo.
++
+ When you are logged in as root, the prompt changes from `$` to `#`.
+
+
+. Copie o arquivo de despejo mysql do nó alternativo: `scp grid_node_IP_:/var/local/tmp/mysql-mi.sql /var/local/tmp/mysql-mi.sql`
+. Pare os serviços do StorageGRID no nó Admin e inicie o NTP e mysql
++
+.. Parar todos os serviços: `service servermanager stop`
+.. reinicie o serviço ntp: `service ntp start` ..reinicie o serviço mysql: `service mysql start`
+
+
+. Solte o banco de dados mi e crie um novo banco de dados vazio: `mysql -u _username_ -p _password_ -A mi -e "drop database mi; create database mi;"`
+. restaure o banco de dados mysql a partir do despejo do banco de dados: `mysql -u _username_ -p _password_ -A mi < /var/local/tmp/mysql-mi.sql`
+. Reinicie todos os outros serviços `service servermanager start`
+
+
+_Por Aron Klein_

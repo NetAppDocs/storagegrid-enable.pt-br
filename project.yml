@@ -1,0 +1,30 @@
+---
+settings:
+  name: How to enable StorageGRID in your environment
+  search: storagegrid-enable,storagegrid-118,storagegrid-appliances
+  internal:
+    pdf_enabled: true
+    termcheck_enabled: false
+  prod:
+    pdf_enabled: true
+    harmony_enabled: false
+  langs: pt-br,us-en,ja-jp,ko-kr,zh-cn,zh-tw,de-de,es-es,fr-fr,it-it
+sidebar:
+  entries:
+  - title: Como ativar o StorageGRID
+    url: "/index.html"
+  - title: Experimente o StorageGRID
+    url: "/evaluation-software.html"
+  - section: third-party
+  - section: product-feature-guides
+  - section: tools-apps-guides
+  - section: examples
+  - section: technical-reports
+  - title: Experimente o StorageGRID
+    url: "/evaluation-software.html"
+  - title: Blog posts
+    url: "/blogs.html"
+  - title: Documentação do StorageGRID
+    url: "/storagegrid-documentation.html"
+  - title: Avisos legais
+    url: "/legal-notices.html"

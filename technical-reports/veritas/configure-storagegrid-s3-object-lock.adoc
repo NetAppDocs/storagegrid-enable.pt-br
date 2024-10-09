@@ -1,0 +1,64 @@
+---
+permalink: technical-reports/veritas/configure-storagegrid-s3-object-lock.html 
+sidebar: sidebar 
+keywords: object lock, s3, configure, storagegrid 
+summary: Saiba como configurar o StorageGRID para armazenamento WORM usando o bloqueio de objetos S3. 
+---
+= Configurar o bloqueio de objetos StorageGRID S3 para storage WORM
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Saiba como configurar o StorageGRID para armazenamento WORM usando o bloqueio de objetos S3.
+
+
+
+== Pré-requisitos para configurar o StorageGRID para storage WORM
+
+Para storage WORM, o StorageGRID usa o bloqueio de objetos S3 para reter objetos para conformidade. Isso requer o StorageGRID 11,6 ou superior, onde a retenção padrão do bucket do bloqueio de objetos S3 foi introduzida. O Enterprise Vault também requer a versão 14.2.2 ou superior.
+
+
+
+== Configurar a retenção padrão do bucket do bloqueio de objetos do StorageGRID S3
+
+Para configurar a retenção padrão do bucket do bloqueio de objetos do StorageGRID S3, execute as seguintes etapas:
+
+.Passos
+. No Gerenciador do Locatário do StorageGRID, crie um bucket e clique em continuar
++
+image:veritas/veritas-create-bucket.png["perguntas/veritas-create-bucket.png"]
+
+. Selecione a opção Ativar bloqueio de objetos S3D e clique em criar balde.
++
+image:veritas/veritas-create-bucket-2.png["perguntas/veritas-create-bucket-2.png"]
+
+. Depois que o balde for criado, selecione o balde para visualizar as opções do balde. Expanda a opção suspensa S3 Object Lock.
++
+image:veritas/veritas-overview.png["perguntas/veritas-overview.png"]
+
+. Em retenção padrão, selecione Ativar e defina um período de retenção padrão de 1 dia. Clique em Salvar alterações.
++
+image:veritas/veritas-s3-object-lock.png["versões/veritas-s3-object-lock"]
+
++
+O bucket agora está pronto para ser usado pelo Enterprise Vault para armazenar dados WORM.
+
+
+
+
+
+== Configure o Enterprise Vault
+
+Para configurar o Enterprise Vault, execute as seguintes etapas:
+
+.Passos
+. Repita as etapas 1-3 na link:configure-storagegrid-s3-object-lock.html#configure-storagegrid-s3-object-lock-default-bucket-retention["Configuração básica"] seção, mas desta vez selecione a opção armazenar dados no modo WORM usando o bloqueio de objeto S3. Clique em seguinte.
++
+image:veritas/veritas-new-partition-8.png["versões/veritas-new-partition-8"]
+
+. Ao inserir as configurações de conexão do bucket S3, verifique se você está inserindo o nome de um bucket S3 que tem a retenção padrão do bloqueio de objetos S3 ativada.
+. Teste a conexão para verificar as configurações.
+

@@ -1,0 +1,130 @@
+---
+permalink: tools-apps-guides/elk-instructions.html 
+sidebar: sidebar 
+keywords: ELK, log analytics, log analysis, StorageGRID troubleshooting 
+summary: 'Com o recurso de encaminhamento de syslog do StorageGRID 11,6, você pode configurar um servidor syslog externo para coletar e analisar mensagens de log do StorageGRID. ELK (Elasticsearch, Logstash, Kibana) tornou-se uma das soluções de análise de logs mais populares. este artigo inclui amostra de configuração do Logstash para filtrar e definir padrões de mensagens de log, consulta do Kibana, gráficos e amostra de painel para dar a você um início rápido para gerenciamento e análise de logs do StorageGRID.' 
+---
+= Análises de log do StorageGRID usando o ELK stack
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Com o recurso de encaminhamento de syslog do StorageGRID 11,6, você pode configurar um servidor syslog externo para coletar e analisar mensagens de log do StorageGRID. ELK (Elasticsearch, Logstash, Kibana) tornou-se uma das soluções de análise de logs mais populares. Assista ao https://media.netapp.com/video-detail/3d090a61-23d7-5ad7-9746-4cebbb7452fb/storagegrid-log-analysis-using-elk-stack["Análise de log do StorageGRID usando o vídeo ELK"^] para exibir uma configuração DO ELK de exemplo e como ele pode ser usado para identificar e solucionar problemas de solicitações S3 com falha. este artigo fornece arquivos de exemplo de configuração do Logstash, consultas do Kibana, gráficos e painel para dar a você um início rápido para o gerenciamento e análise de logs do StorageGRID.
+
+
+
+== Requisitos
+
+* StorageGRID 11.6.0.2 ou superior
+* ELK (Elasticsearch, Logstash e Kibana) 7,1x ou superior instalado e em operação
+
+
+
+
+== Arquivos de exemplo
+
+* link:../media/elk-config/elk7-sample.zip["Faça o download do pacote de arquivos de amostra Logstash 7.x"] *md5 checksum* 148c23d0021d9a4bb4a6c0287464deab e *sha256 checksum* f51ec9e2e3f842d5a7861566b167a561b4373038b4e7bb3c8b8be3d522adf2d6
+* link:../media/elk-config/elk8-sample.zip["Faça o download do pacote de arquivos de amostra Logstash 8.x"] *md5 checksum* e11bae3a662f87c310ef363d0fe06835 e *sha256 checksum* 5c670755742cfdfd5aa723a596ba087e0153a65bcaef3934afdb682f6cd278d
+
+
+
+
+== Suposição
+
+Os leitores estão familiarizados com a terminologia e operações do StorageGRID e ELK.
+
+
+
+== Instrução
+
+Duas versões de amostra são fornecidas devido a diferenças nos nomes definidos pelos padrões de grok. Por exemplo, o padrão de grok SYSLOGBASE no arquivo de configuração Logstash define nomes de campo de forma diferente, dependendo da versão instalada do Logstash.
+
+[listing]
+----
+match => {"message" => '<%{POSINT:syslog_pri}>%{SYSLOGBASE} %{GREEDYDATA:msg-details}'}
+----
+* Logstash 7,17 amostra*
+
+image:elk-config/logstash-7.17.fields-sample.png["Amostra de Logstash 7,17"]
+
+* Logstash 8,23 amostra*
+
+image:elk-config/logstash-8.x.fields-sample.png["Amostra de Logstash 8,23"]
+
+*Passos*
+
+. Descompacte a amostra fornecida com base na versão ELK instalada. * Sglog-2-file.conf:* este arquivo de configuração envia mensagens de log do StorageGRID para um arquivo no Logstash sem transformação de dados. Você pode usar isso para confirmar que o Logstash está recebendo mensagens do StorageGRID ou para ajudar a entender os padrões de log do StorageGRID. *Sglog-2-es.conf:* este arquivo de configuração transforma mensagens de log do StorageGRID usando vários padrões e filtros. Ele inclui exemplos de instruções drop, que deixam cair mensagens com base em padrões ou filtros. A saída é enviada ao Elasticsearch para indexação. Personalize o arquivo de configuração selecionado de acordo com a instrução dentro do arquivo.
+. Teste o arquivo de configuração personalizado:
++
+[listing]
+----
+/usr/share/logstash/bin/logstash --config.test_and_exit -f <config-file-path/file>
+----
++
+Se a última linha retornada for semelhante à linha abaixo, o arquivo de configuração não tem erros de sintaxe:
+
++
+[listing]
+----
+[LogStash::Runner] runner - Using config.test_and_exit mode. Config Validation Result: OK. Exiting Logstash
+----
+. Copie o arquivo conf personalizado para a configuração do servidor Logstash: /Etc/logstash/conf.d se você não tiver habilitado o config.reload.automatic em /etc/logstash/logstash.yml, reinicie o serviço Logstash. Caso contrário, aguarde até que o intervalo de recarga da configuração passe.
++
+[listing]
+----
+ grep reload /etc/logstash/logstash.yml
+# Periodically check if the configuration has changed and reload the pipeline
+config.reload.automatic: true
+config.reload.interval: 5s
+----
+. Verifique /var/log/logstash/logstash-plain.log e confirme que não há erros iniciando o Logstash com o novo arquivo de configuração.
+. Confirme se a porta TCP foi iniciada e escutada. Neste exemplo, a porta TCP 5000 é usada.
++
+[listing]
+----
+netstat -ntpa | grep 5000
+tcp6       0      0 :::5000                 :::*                    LISTEN      25744/java
+----
+. A partir da GUI do gerenciador do StorageGRID, configure o servidor syslog externo para enviar mensagens de log para o Logstash. Consulte https://media.netapp.com/video-detail/3d090a61-23d7-5ad7-9746-4cebbb7452fb/storagegrid-log-analysis-using-elk-stack["vídeo de demonstração"^] para obter mais informações.
+. Você precisa configurar ou desativar o firewall no servidor Logstash para permitir a conexão de nós StorageGRID à porta TCP definida.
+. Na GUI do Kibana, selecione Gerenciamento -> Ferramentas de desenvolvimento. Na página Console, execute este comando GET para confirmar que novos índices são criados no Elasticsearch.
++
+[listing]
+----
+GET /_cat/indices/*?v=true&s=index
+----
+. A partir do Kibana GUI, crie um padrão de índice (ELK 7.x) ou visualização de dados (ELK 8.x).
+. Na GUI do Kibana, digite 'objetos salvos' na caixa de pesquisa que está localizada no centro superior. Na página objetos salvos, selecione Importar. Em Opções de importação, selecione "solicitar ação em conflito"
++
+image:elk-config/kibana-import-options.png["Kibana Importar opções"]
+
++
+Importe elk<version>-query-chart-sample.ndjson. Quando solicitado a resolver o conflito, selecione o padrão de índice ou a exibição de dados que você criou na etapa 8.
+
++
+image:elk-config/kibana-import-conflict.png["Conflito de Kibana"]
+
++
+Os seguintes objetos Kibana são importados: * Consulta * * auditoria msg-s3rq-orlm * Registro de bycast S3 mensagens relacionadas * aviso de nível de log ou acima * evento de segurança com falha * Gráfico * * S3 solicitações contam com base em bycast.log * código de status HTTP * auditoria msg discriminação por tipo * tempo de resposta médio de S3 * Painel * * * S3 solicitação de painel * usando os gráficos acima.
+
+
+
+Agora você está pronto para executar a análise de log do StorageGRID usando o Kibana.
+
+
+
+== Recursos adicionais
+
+* https://coralogix.com/blog/syslog-101-everything-you-need-to-know-to-get-started/["syslog101"]
+* https://www.elastic.co/what-is/elk-stack["O que é a pilha ELK"]
+* https://github.com/hpcugent/logstash-patterns/blob/master/files/grok-patterns["Lista de padrões Grok"]
+* https://logz.io/blog/logstash-grok/["Um guia para iniciantes para Logstash: Grok"]
+* https://coralogix.com/blog/a-practical-guide-to-logstash-syslog-deep-dive/["Um guia prático para o Logstash: Syslog Deep Dive"]
+* https://www.elastic.co/guide/en/kibana/master/document-explorer.html["Guia Kibana – explore o documento"]
+* https://docs.netapp.com/us-en/storagegrid-116/audit/index.html["Referência de mensagens de log de auditoria do StorageGRID"]
+
+
+_Por Angela Cheng_

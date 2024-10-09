@@ -1,0 +1,24 @@
+---
+section: tools-apps-guides
+title: Guias de ferramentas e aplicações
+entries:
+- title: Use o conetor Cloudera Hadoop S3A
+  url: "/tools-apps-guides/use-cloudera-hadoop-s3a-connector.html"
+- title: Use o S3cmd para testar e demonstrar o acesso ao S3
+  url: "/tools-apps-guides/use-S3cmd-test-demonstrate-S3-access.html"
+- title: Crie um banco de dados Vertica Eon Mode com armazenamento comunitário
+  url: "/tools-apps-guides/vertica-eon-mode-database-using-storagegrid.html"
+- title: Use o Elasticsearch, o Logstash e o Kibana para análises de log
+  url: "/tools-apps-guides/elk-instructions.html"
+- title: Use Prometheus e Grafana para estender a retenção de métricas
+  url: "/tools-apps-guides/federate-prometheus.html"
+- title: Configure o Datadog para coletar métricas e traps do StorageGRID snmp
+  url: "/tools-apps-guides/use-datadog-snmp.html"
+- title: Use rclone para migrar, COLOCAR e EXCLUIR objetos no StorageGRID
+  url: "/tools-apps-guides/use-rclone-migrate-delete.html"
+- title: Use o Veeam Backup and Replication com o StorageGRID
+  url: "/tools-apps-guides/veeam-br.html"
+- title: Configure o Dremio com o StorageGRID
+  url: "/tools-apps-guides/configure-dremio-storagegrid.html"
+- title: Configure o GitLab com o StorageGRID
+  url: "/tools-apps-guides/integrate-gitlab.html"

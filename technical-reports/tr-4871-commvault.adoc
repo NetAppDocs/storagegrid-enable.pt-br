@@ -1,0 +1,582 @@
+---
+permalink: technical-reports/tr-4871-commvault.html 
+sidebar: sidebar 
+keywords: Backup, on-premises, commvault, storagegrid, object, S3, WORM 
+summary: Este relatório descreve a solução de proteção de dados fornecida em conjunto pela CommVault e NetApp. 
+---
+= TR-4871 - Backup e recuperação do CommVault Complete e NetApp StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+
+
+== Visão geral da solução
+
+A CommVault e a NetApp fizeram uma parceria para criar uma solução de proteção de dados conjunta que combina o software CommVault Complete Backup and Recovery for NetApp com o software NetApp StorageGRID para storage de nuvem. Muitas organizações querem migrar o storage para a nuvem, escalar os sistemas e automatizar a política para retenção de dados a longo prazo. O CommVault Complete Backup and Recovery e o NetApp StorageGRID oferecem soluções exclusivas e fáceis de usar que trabalham juntas para ajudar você a atender às demandas de crescimento rápido de dados e aumento das regulamentações no mundo todo. O storage de objetos baseado em nuvem é conhecido por sua resiliência, capacidade de escala e eficiências operacionais e de custo que o tornam uma escolha natural como destino para o seu backup. A CommVault e a NetApp juntas certificaram sua solução combinada em 2014 e, desde então, desenvolveram uma integração mais profunda entre suas duas soluções. Clientes de todos os tipos em todo o mundo adotaram a solução combinada de backup e recuperação CommVault Complete e StorageGRID.
+
+Ao implementar o software CommVault Complete Backup and Recovery com storage de nuvem, você tem duas opções de backup:
+
+* Faça backup em um destino de disco primário e também faça backup de uma cópia auxiliar no armazenamento em nuvem.
+* Fazer backup no storage de nuvem como destino principal.
+
+
+No passado, o storage de objetos ou nuvem era considerado de baixa performance para ser usado no backup primário. O uso de um destino de disco primário permitiu que os clientes tivessem processos de backup e restauração mais rápidos e mantessem uma cópia auxiliar na nuvem como um backup inativo. O StorageGRID representa a próxima geração de storage de objetos. O StorageGRID oferece alta performance e taxa de transferência massiva, além de performance e flexibilidade além do que outros fornecedores de storage de objetos oferecem.
+
+A Tabela 1 lista os benefícios de cada opção de backup com o StorageGRID.
+
+
+
+==== Tabela 1) backup primário para disco, além de uma cópia auxiliar, em comparação com o backup primário para StorageGRID.
+
+[cols="1a,1a,1a"]
+|===
+|  | Backup primário para disco e uma cópia auxiliar para StorageGRID | Backup primário para StorageGRID 
+
+
+ a| 
+Desempenho
+ a| 
+Tempo de recuperação mais rápido, usando montagem em tempo real ou recuperação em tempo real: Ideal para workloads Tier0/Tier1.
+ a| 
+Não pode ser utilizado para operações de montagem em tempo real ou de recuperação em tempo real. Ideal para operação de restauração de streaming e para retenção de longo prazo.
+
+
+
+ a| 
+Arquitetura de implantação
+ a| 
+Usa o all-flash ou um disco giratório como primeira camada inicial de backup. StorageGRID é usado como um nível secundário.
+ a| 
+Simplifica a implantação usando o StorageGRID como destino de backup completo.
+
+
+
+ a| 
+Recursos avançados (restauração ao vivo)
+ a| 
+Suportado
+ a| 
+Não suportado
+
+|===
+
+
+=== Público-alvo
+
+Este documento destina-se a administradores e arquitetos de dados que usam as soluções de backup e recuperação da CommVault e StorageGRID.
+
+
+
+=== Tecnologia da solução
+
+A solução testada combina as soluções CommVault e NetApp para criar uma solução conjunta poderosa.
+
+O software CommVault Complete Backup and Recovery é uma solução de gerenciamento de informações e dados integrada de nível empresarial, desenvolvida do zero em uma única plataforma e com uma base de código unificada. Todas as suas funções compartilham tecnologias de back-end, trazendo vantagens e benefícios incomparáveis de uma abordagem totalmente integrada para proteger, gerenciar e acessar seus dados. O software contém módulos para proteger, arquivar, analisar, replicar e pesquisar seus dados. Os módulos compartilham um conjunto comum de serviços de back-end e recursos avançados que interagem perfeitamente uns com os outros. A solução aborda todos os aspectos do gerenciamento de dados em sua empresa, ao mesmo tempo em que oferece escalabilidade infinita e controle sem precedentes de dados e informações.
+
+Os principais recursos da plataforma de software CommVault incluem:
+
+* Uma solução completa de proteção de dados compatível com todos os principais sistemas operacionais, aplicações e bancos de dados em servidores virtuais e físicos, sistemas nas, infraestruturas baseadas em nuvem e dispositivos móveis.
+* Gerenciamento simplificado por meio de um único console: Você pode visualizar, gerenciar e acessar todas as funções e todos os dados e informações da empresa.
+* Vários métodos de proteção, incluindo backup e arquivamento de dados, gerenciamento de snapshot, replicação de dados e indexação de conteúdo para e-Discovery.
+* Gerenciamento eficiente de storage usando deduplicação em disco e storage de nuvem.
+* Integração com matrizes de armazenamento NetApp, como AFF, FAS, NetApp HCI e e-Series, e sistemas de armazenamento de escalabilidade horizontal NetApp SolidFire. Integração também com o software NetApp Cloud Volumes ONTAP para automatizar a criação de cópias NetApp Snapshot indexadas e com reconhecimento de aplicações em todo o portfólio de storage da NetApp.
+* Gerenciamento completo da infraestrutura virtual compatível com os principais hypervisors virtuais no local e plataformas de hyperscaler de nuvem pública.
+* Recursos avançados de segurança para limitar o acesso a dados essenciais, fornecer recursos de gerenciamento granular e fornecer acesso de logon único para usuários do ative Directory.
+* Gerenciamento de dados baseado em políticas que permite gerenciar seus dados com base nas necessidades empresariais, e não no local físico.
+* Uma experiência de usuário final de ponta, capacitando seus usuários a proteger, encontrar e recuperar seus próprios dados.
+* Automação orientada por API, permitindo que você use ferramentas de terceiros, como o vRealize Automation ou o Service Now, para gerenciar suas operações de proteção e recuperação de dados.
+
+
+Para obter detalhes sobre workloads compatíveis, visite https://www.commvault.com/supported-technologies[].
+
+O NetApp StorageGRID como uma categoria de nuvem CommVault é uma solução empresarial de storage de objetos para nuvem híbrida. Você pode implantá-lo em vários sites, seja em um dispositivo criado sob medida ou como uma implantação definida por software. O StorageGRID permite que você estabeleça políticas de gerenciamento de dados que determinem como os dados são armazenados e protegidos. A StorageGRID coleta as informações necessárias para desenvolver e aplicar políticas. Ele examina uma ampla gama de caraterísticas e necessidades, incluindo desempenho, durabilidade, disponibilidade, localização geográfica, longevidade e custo. Os dados são totalmente mantidos e protegidos à medida que se movem entre locais e à medida que envelhecem.
+
+O mecanismo de política inteligente StorageGRID ajuda você a escolher uma das seguintes opções:
+
+* Usar codificação de apagamento para fazer backup de dados em vários locais para resiliência.
+* Copiar objetos para locais remotos para minimizar a latência e o custo da WAN.
+
+
+Quando o StorageGRID armazena um objeto, você o acessa como um objeto, independentemente de onde ele esteja ou quantas cópias existem. Esse comportamento é crucial para a recuperação de desastres, porque com ele, mesmo que uma cópia de backup de seus dados esteja corrompida, o StorageGRID é capaz de restaurar seus dados.
+
+Reter dados de backup em seu storage primário pode ser caro. Ao usar o NetApp StorageGRID, você libera espaço no storage primário migrando dados de backup inativos para o StorageGRID, enquanto aproveita as diversas funcionalidades do StorageGRID. O valor dos dados de backup muda ao longo do tempo, assim como o custo de armazená-los. O StorageGRID pode minimizar o custo do storage primário e aumentar a durabilidade dos dados.
+
+
+
+=== Configuração da solução
+
+Na configuração do laboratório, o ambiente StorageGRID consistia em quatro dispositivos NetApp StorageGRID SG5712, um nó de administração principal virtual e um nó de gateway virtual. O dispositivo SG5712 é a opção de nível de entrada, uma configuração de linha de base. A escolha de opções de dispositivos de maior performance, como o NetApp StorageGRID SG5760 ou o SG6060, pode fornecer benefícios significativos de performance. Consulte o arquiteto de soluções da NetApp StorageGRID para obter assistência sobre o dimensionamento.
+
+Na política de proteção de dados, o StorageGRID usa uma política de gerenciamento de ciclo de vida integrado (ILM) para gerenciar e proteger os dados. As regras do ILM são avaliadas em uma política de cima para baixo. Implementamos a política de ILM mostrada na Tabela 2.
+
+
+
+==== Tabela 2) Política de ILM do StorageGRID.
+
+[cols="1a,1a,1a"]
+|===
+| Regra ILM | Qualificadores | Comportamento de ingestão 
+
+
+ a| 
+Codificação de apagamento 2-1
+ a| 
+Objetos acima de 200KB
+ a| 
+Equilibrado
+
+
+
+ a| 
+2 cópia
+ a| 
+Todos os objetos
+ a| 
+Commit duplo
+
+|===
+A regra de cópia ILM 2 é a regra padrão. A regra de codificação de apagamento 2-1 foi aplicada para este teste a qualquer objeto 200KB ou maior. A regra padrão foi aplicada a objetos menores que 200KB. A aplicação das regras desta forma é uma melhor prática do StorageGRID.
+
+Para obter detalhes técnicos sobre esse ambiente de teste, leia a seção Design da solução e práticas recomendadas no https://www.netapp.com/pdf.html?item=/media/19372-tr-4831.pdf["Proteção de dados com escalabilidade horizontal do NetApp com o CommVault"^] relatório técnico.
+
+
+
+=== Dimensionamento
+
+Consulte os especialistas em proteção de dados da NetApp para obter um dimensionamento específico para o seu ambiente. Especialistas em proteção de dados da NetApp podem usar a ferramenta Calculadora de storage de CommVault Total Backup para estimar os requisitos da infraestrutura de backup. A ferramenta requer acesso ao CommVault Partner Portal. Inscreva-se para ter acesso, se necessário.
+
+
+
+=== Entradas de dimensionamento CommVault
+
+As tarefas a seguir podem ser usadas para realizar a descoberta para o dimensionamento da solução de proteção de dados:
+
+* Identifique as cargas de trabalho do sistema ou aplicativo/banco de dados e a capacidade de front-end correspondente (em terabytes [TB]) que precisarão ser protegidas.
+* Identifique a carga de trabalho de VM/arquivo e a capacidade front-end (TB) semelhante que precisará ser protegida.
+* Identificar requisitos de retenção de curto e longo prazo.
+* Identifique a taxa de alteração de % diária para os conjuntos de dados/workloads identificados.
+* Identificar o crescimento projetado dos dados nos próximos 12, 24 e 36 meses.
+* Defina o rto e o RPO para proteção/recuperação de dados de acordo com as necessidades dos negócios.
+
+
+Quando essas informações estiverem disponíveis, o dimensionamento da infraestrutura de backup pode ser feito, resultando em uma repartição das capacidades de storage necessárias.
+
+
+
+=== Orientação de dimensionamento StorageGRID
+
+Antes de executar o dimensionamento do NetApp StorageGRID, considere esses aspectos da sua carga de trabalho:
+
+* Capacidade utilizável
+* Modo WORM
+* Tamanho médio do objeto
+* Requisitos de desempenho
+* Política de ILM aplicada
+
+
+A quantidade de capacidade utilizável precisa acomodar o tamanho do workload de backup categorizado no StorageGRID e o cronograma de retenção.
+
+O modo WORM será ativado ou não? Com WORM ativado no CommVault, isso configurará o bloqueio de objetos no StorageGRID. Isso aumentará a capacidade de armazenamento de objetos necessária. A quantidade de capacidade necessária varia de acordo com a duração de retenção e o número de alterações de objeto em cada backup.
+
+O tamanho médio do objeto é um parâmetro de entrada que ajuda no dimensionamento para o desempenho em um ambiente StorageGRID. Os tamanhos médios de objetos usados para um workload do CommVault dependem do tipo de backup.
+
+A Tabela 3 lista os tamanhos médios de objetos por tipo de backup e descreve o que o processo de restauração lê do armazenamento de objetos.
+
+
+
+==== Tabela 3) comportamento de restauração e tamanho do objeto do workload CommVault.
+
+[cols="1a,1a,1a"]
+|===
+| Tipo de cópia de segurança | Tamanho médio do objeto | Restaurar o comportamento 
+
+
+ a| 
+Faça uma cópia auxiliar no StorageGRID
+ a| 
+32 MB
+ a| 
+Leitura completa do objeto 32MBD.
+
+
+
+ a| 
+Direcionar o backup para o StorageGRID (deduplicação habilitada)
+ a| 
+8 MB
+ a| 
+1MB leitura aleatória
+
+
+
+ a| 
+Direcionar o backup para o StorageGRID (deduplicação desativada)
+ a| 
+32 MB
+ a| 
+Leitura completa do objeto 32MBD.
+
+|===
+Além disso, compreender os requisitos de performance para backups completos e incrementais ajuda a determinar o dimensionamento dos nós de storage da StorageGRID. Os métodos de proteção de dados da política de gerenciamento de ciclo de vida das informações do StorageGRID (ILM) determinam a capacidade necessária para armazenar backups da CommVault e afetar o dimensionamento da grade.
+
+A replicação StorageGRID ILM é um dos dois mecanismos usados pelo StorageGRID para armazenar dados de objetos. Quando o StorageGRID atribui objetos a uma regra de ILM que replica dados, o sistema cria cópias exatas dos dados dos objetos e armazena as cópias em nós de storage.
+
+A codificação de apagamento é o segundo método usado pelo StorageGRID para armazenar dados de objetos. Quando o StorageGRID atribui objetos a uma regra ILM que está configurada para criar cópias codificadas de apagamento, ele segmenta dados de objeto em fragmentos de dados. Em seguida, ele calcula fragmentos de paridade adicionais e armazena cada fragmento em um nó de storage diferente. Quando um objeto é acessado, ele é remontado usando os fragmentos armazenados. Se um fragmento de dados ou um fragmento de paridade ficar corrompido ou for perdido, o algoritmo de codificação de apagamento pode recriar esse fragmento usando um subconjunto dos dados restantes e fragmentos de paridade.
+
+Os dois mecanismos exigem quantidades diferentes de armazenamento, como estes exemplos demonstram:
+
+* Se você armazenar duas cópias replicadas, a sobrecarga de storage será duplicada.
+* Se você armazenar uma 2 cópia codificada de apagamento por mais de 1 vezes, a sobrecarga de storage aumenta em 1,5 vezes.
+
+
+Para a solução testada, foi usada uma implantação de StorageGRID de nível básico em um único local:
+
+* Nó de administrador: Máquina virtual VMware (VM)
+* Balanceador de carga: VM VMware
+* Nós de storage: 4x SG5712 TB com 4TB unidades
+* Nó de administrador principal e nó de gateway: VMs VMware com os requisitos mínimos de workload de produção
+
+
+[NOTE]
+====
+O StorageGRID também é compatível com balanceadores de carga de terceiros.
+
+====
+O StorageGRID normalmente é implantado em dois ou mais locais com políticas de proteção de dados que replicam dados para proteção contra falhas em nível de nó e local. Ao fazer backup dos dados no StorageGRID, os dados são protegidos por várias cópias ou por codificação de apagamento que separa e remonta os dados de forma confiável por meio de um algoritmo.
+
+Você pode usar a ferramenta de dimensionamento https://fusion.netapp.com["Fusion"] para dimensionar sua grade.
+
+
+
+=== Dimensionamento
+
+Você pode expandir um sistema NetApp StorageGRID adicionando storage aos nós de storage, adicionando novos nós de grade a um local existente ou adicionando um novo local de data center. Você pode realizar expansões sem interromper a operação do seu sistema atual. O StorageGRID dimensiona a performance usando nós de performance mais alta para nós de storage ou o dispositivo físico que executa o balanceador de carga e os nós de administração ou simplesmente adicionando nós adicionais.
+
+[NOTE]
+====
+Para obter mais informações sobre como expandir o sistema StorageGRID, https://docs.netapp.com/us-en/storagegrid-118/landing-expand/index.html["Guia de expansão do StorageGRID 11,8"] consulte .
+
+====
+
+
+=== Especificações de hardware da StorageGRID
+
+A Tabela 4 descreve o hardware NetApp StorageGRID usado neste teste. O dispositivo StorageGRID SG5712 com rede 10Gbps é a opção de nível de entrada e representa uma configuração de linha de base. Opcionalmente, o SG5712 pode ser configurado para rede 25GbpsG.
+
+A escolha de opções de dispositivo de alta performance, como os dispositivos NetApp StorageGRID SG5760, SG6060 ou All Flash SGF6112, pode fornecer benefícios significativos de desempenho. Consulte o arquiteto de soluções da NetApp StorageGRID para obter assistência sobre o dimensionamento.
+
+
+
+==== Tabela 4) especificações de hardware do SG5712.
+
+[cols="1a,1a,1a,1a,1a"]
+|===
+| Hardware | Quantidade | Disco | Capacidade utilizável | Rede 
+
+
+ a| 
+Aparelhos StorageGRID SG5712
+ a| 
+4
+ a| 
+48 x 4TB (HDD SAS near-line)
+ a| 
+136 TB
+ a| 
+10Gbps
+
+|===
+
+
+=== Requisitos do software CommVault e StorageGRID
+
+As tabelas 5 e 6 listam os requisitos de software para o software CommVault e NetApp StorageGRID instalados no software VMware para nossos testes. Quatro gerenciadores de transmissão de dados do MediaAgent e um servidor CommServe foram instalados. No teste, a rede 10GbpsG foi implementada para a infraestrutura VMware.
+
+
+
+==== Tabela 5) requisitos totais do sistema do software CommVault.
+
+[cols="1a,1a,1a,1a,1a,1a"]
+|===
+| Componente | Quantidade | Armazenamento de dados | Tamanho | Total | Total de IOPS necessário 
+
+
+ a| 
+Servidor CommServe
+ a| 
+1
+ a| 
+SO
+ a| 
+500 GB
+ a| 
+500 GB
+ a| 
+n/a.
+
+
+
+ a| 
+ a| 
+ a| 
+SQL
+ a| 
+500 GB
+ a| 
+500 GB
+ a| 
+n/a.
+
+
+
+ a| 
+MediaAgent
+ a| 
+4
+ a| 
+CPU virtual (vCPU)
+ a| 
+16
+ a| 
+64
+ a| 
+n/a.
+
+
+
+ a| 
+ a| 
+ a| 
+RAM
+ a| 
+128 GB
+ a| 
+512
+ a| 
+n/a.
+
+
+
+ a| 
+ a| 
+ a| 
+SO
+ a| 
+500 GB
+ a| 
+2 TB
+ a| 
+n/a.
+
+
+
+ a| 
+ a| 
+ a| 
+Cache de índice
+ a| 
+2 TB
+ a| 
+8 TB
+ a| 
+Mais de 200 anos
+
+
+
+ a| 
+ a| 
+ a| 
+DDB
+ a| 
+2 TB
+ a| 
+8 TB
+ a| 
+200-80.000K
+
+|===
+No ambiente de teste, um nó de administrador principal virtual e um nó de gateway virtual foram implantados no VMware em um storage array do NetApp e-Series E2812. Cada nó estava em um servidor separado com os requisitos mínimos de ambiente de produção descritos na Tabela 6:
+
+
+
+==== Tabela 6) requisitos para nós de administração virtual e nós de gateway do StorageGRID.
+
+[cols="1a,1a,1a,1a,1a"]
+|===
+| Tipo de nó | Quantidade | VCPU | RAM | Armazenamento 
+
+
+ a| 
+Nó de gateway
+ a| 
+1
+ a| 
+8
+ a| 
+24 GB
+ a| 
+100GB LUN para o SO
+
+
+
+ a| 
+Nó de administrador
+ a| 
+1
+ a| 
+8
+ a| 
+24 GB
+ a| 
+100GB LUN para o SO
+
+200GB LUN para tabelas de nó Admin
+
+200GB LUN para o log de auditoria do nó Admin
+
+|===
+
+
+=== Executar um trabalho de proteção de dados com o CommVault Complete Backup and Recovery e NetApp StorageGRID
+
+Para configurar o NetApp StorageGRID com o CommVault Complete Backup and Recovery for NetApp, as etapas a seguir foram executadas para adicionar o StorageGRID como uma biblioteca de nuvem no software CommVault.
+
+
+
+=== Configurar o CommVault com NetApp StorageGRID
+
+. Faça login no CommVault Command Center. No painel esquerdo, clique em armazenamento > nuvem > Adicionar para ver e responder à caixa de diálogo Adicionar nuvem:
++
+image:commvault/add-cloud.png["Adicione a nuvem"]
+
+. Para tipo, selecione NetApp StorageGRID.
+. No MediaAgent, selecione todos os associados à biblioteca na nuvem.
+. Para o host do servidor, insira o endereço IP ou o nome do host do endpoint do StorageGRID e o número da porta.
++
+Siga as etapas na documentação do StorageGRID no https://docs.netapp.com/sgws-113/topic/com.netapp.doc.sg-admin/GUID-54FCAB84-143C-4A5D-B078-A837886BB242.html["como configurar um ponto de extremidade do balanceador de carga (porta)"]. Certifique-se de que tem uma porta HTTPS com um certificado auto-assinado e o endereço IP ou o nome de domínio do endpoint StorageGRID.
+
+. Se você quiser usar a deduplicação, ative essa opção e forneça o caminho para o local do banco de dados de deduplicação.
+. Clique em Guardar.
+
+
+
+
+=== Crie um plano de backup com o NetApp StorageGRID como destino principal
+
+. No painel esquerdo, selecione Gerenciar > planos para ver e responder à caixa de diálogo criar Plano de Backup do servidor.
++
+image:commvault/create-server.png["Criar plano de backup do servidor"]
+
+. Introduza um nome de plano.
+. Selecione o destino de backup de armazenamento do Serviço de armazenamento simples (S3) do StorageGRID que você criou anteriormente.
+. Digite o período de retenção do backup e o objetivo do ponto de restauração (RPO) que você deseja.
+. Clique em Guardar.
+
+
+
+
+=== Inicie um trabalho de backup para proteger seus workloads usando o software CommVault e o StorageGRID
+
+Para iniciar um trabalho de backup do CommVault Complete Backup and Recovery para o StorageGRID, siga estas etapas:
+
+. No CommVault Command Center, navegue para proteger > virtualização.
+. Adicione um hypervisor do VMware vCenter Server.
+. Clique no hypervisor que você acabou de adicionar.
+. Clique em Adicionar grupo VM para responder à caixa de diálogo Adicionar grupo VM para que você possa ver o ambiente do vCenter que você planeja proteger.
++
+image:commvault/add-vm-group.png["Adicionar grupo VM"]
+
+. Selecione um datastore, uma VM ou uma coleção de VMs e insira um nome para ele.
+. Selecione o plano de cópia de segurança que criou na tarefa anterior.
+. Clique em Salvar para ver o grupo de VM que você criou.
+. No canto superior direito da janela do grupo VM, selecione Backup:
++
+image:commvault/vm-group.png["Grupo VM"]
+
+. Selecione completo como o nível de backup, (opcionalmente) solicitar um e-mail quando o backup for concluído e clique em OK para iniciar o trabalho de backup:
++
+image:commvault/backup-level.png["Nível de backup"]
+
+. Navegue até a página de resumo do trabalho para ver as métricas do trabalho:
++
+image:commvault/job-summary.png["Resumo do trabalho"]
+
+
+
+
+
+=== Testes de desempenho da linha de base
+
+A Tabela 7 mostra os resultados de nossos testes de desempenho de linha de base. Na operação de cópia Pausa, quatro MediaAgents do CommVault fizeram backup dos dados em um sistema NetApp AFF A300 e uma cópia auxiliar foi criada no NetApp StorageGRID. Para obter detalhes sobre o ambiente de configuração de teste, leia a seção Design da solução e melhores práticas no https://www.netapp.com/pdf.html?item=/media/19372-tr-4831.pdf["Proteção de dados com escalabilidade horizontal do NetApp com o CommVault"^] relatório técnico.
+
+Os testes foram realizados com 100 VMs e 1000 VMs, ambos os testes com uma mistura de 50/50 VMs Windows e CentOS.
+
+
+
+==== Tabela 7) testes de desempenho da linha de base.
+
+[cols="1a,1a,1a"]
+|===
+| Operação | Velocidade de cópia de segurança | Restaurar velocidade 
+
+
+ a| 
+Cópia AUX
+ a| 
+2 TB/hora
+ a| 
+1,27 TB/hora
+
+
+
+ a| 
+Direto de e para objeto (deduplicação ativada)
+ a| 
+2,2 TB/hora
+ a| 
+1,22 TB/hora
+
+|===
+Para testar o desempenho de idade, 2,5 milhões de objetos foram excluídos. Como mostrado nas Figuras 2 e 3, a execução de exclusão foi concluída em menos de 3 horas e libertou mais de 80TBMB de espaço. O processamento de exclusão começou às 10:30 AM.
+
+
+
+==== Figura 1) exclusão de 2,5 milhões (80TB) objetos em menos de 3 horas.
+
+image:commvault/obj-time.png["Objetos ao longo do tempo"]
+
+
+
+==== Figura 2) liberando 80TB TB de storage em menos de 3 horas.
+
+image:commvault/storage-time.png["Armazenamento ao longo do tempo"]
+
+
+
+=== Recomendação de nível de consistência do balde
+
+O NetApp StorageGRID permite que o usuário final selecione o nível de consistência para operações executadas nos objetos nos buckets do Simple Storage Service (S3).
+
+Os CommVault MediaAgents são os migradores de dados em um ambiente CommVault. Na maioria dos casos, os MediaAgents são configurados para gravar localmente em um site StorageGRID primário. Por esse motivo, recomenda-se um alto nível de consistência dentro de um local primário. Use as diretrizes a seguir quando você definir o nível de consistência nos buckets do CommVault criados no StorageGRID.
+
+[NOTE]
+====
+ If you have a Commvault version earlier than 11.0.0 - Service Pack 16, consider upgrading Commvault to the newest version. If that is not an option, be sure to follow the guidelines for your version.
+====
+* Versões do CommVault anteriores a 11.0.0 - Service Pack 16.* Em versões anteriores a 11.0.0 - Service Pack 16, a CommVault executa S3 CABEÇAS e OBTÉM operações em objetos inexistentes como parte do processo de restauração e eliminação. Defina o nível de consistência do balde para um local seguro para obter o nível de consistência ideal para backups da CommVault para StorageGRID.
+* CommVault versões 11.0.0 - Service Pack 16 e posteriores.* Nas versões 11.0.0 - Service Pack 16 e posteriores, o número de operações S3 HEAD e GET executadas em objetos inexistentes é minimizado. Defina o nível de consistência do bucket padrão como leitura após nova gravação para garantir alto nível de consistência no ambiente CommVault e StorageGRID.
+
+
+
+
+=== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Centro de Documentação do StorageGRID 11,8 https://docs.netapp.com/us-en/storagegrid-118/[]
+* Documentação do produto NetApp https://docs.netapp.com[]
+* Documentação do CommVault https://documentation.commvault.com/2024/essential/index.html[]
+

@@ -1,0 +1,50 @@
+---
+permalink: blogs.html 
+sidebar: sidebar 
+keywords: storagegrid, blogs 
+summary: Você pode encontrar alguns blogs do NetApp StorageGRID aqui. 
+---
+= Blogs do NetApp StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode encontrar alguns ótimos blogs do NetApp StorageGRID aqui:
+
+* Fev. 16 2024: https://www.netapp.com/blog/storagegrid-11-8-enhanced-security-and-simplicity/["Apresentamos o StorageGRID 11,8: Segurança, simplicidade e experiência do usuário aprimorados"^]
+* Fev. 16 2024: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Introducing-StorageGRID-11-8/ba-p/450762["Apresentamos o StorageGRID 11,8"^]
+* Fev. 2 2024:  https://community.netapp.com/t5/Tech-ONTAP-Blogs/Announcing-the-StorageGRID-lakeFS-Solution-Brief/ba-p/450611["Anunciando o resumo da solução StorageGRID e lakeFS"^]
+* Dez 12 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Big-data-analytics-on-StorageGRID-Dremio-performs-23-times-faster-than-Apache/ba-p/449695["Análise de big data no StorageGRID: Dremio tem um desempenho 23 vezes mais rápido do que o Apache Hive"^]
+* Nov 7 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Spectra-Logic-On-Prem-Glacier-with-StorageGRID/ba-p/448686["Geleira Spectra Logic On-Prem com StorageGRID"^]
+* Out 17 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Moving-on-from-Hadoop-Modernizing-Data-Analytics-with-Dremio-and-StorageGRID/ba-p/448335["A partir do Hadoop: Modernizando a análise de dados com Dremio e StorageGRID"^]
+* Set 1 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Leveraging-Cloud-Insights-to-Monitor-and-Collect-Logs-Using-Fluent-Bit/ba-p/447301["Utilizando o Cloud Insights para monitorar e coletar logs usando o Fluent Bit"^]
+* Ago 30 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Mountpoint-for-Amazon-S3-File-System-is-Now-GA/ba-p/447314["Ponto de montagem para o Amazon S3 File System agora é GA"^]
+* Maio de 16 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Introducing-StorageGRID-11-7-and-the-new-all-flash-object-storage-appliance/ba-p/444095["Apresentamos o StorageGRID 11,7 e o novo dispositivo de storage de objetos all-flash SGF6112"^]
+* Maio de 16 2023: https://www.netapp.com/blog/storagegrid-object-storage-platform/["Novidades da família de storage de objetos StorageGRID"^]
+* Mar 30 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Mountpoint-for-Amazon-S3-alpha-release-with-StorageGRID/ba-p/442993["Ponto de montagem para a versão alfa do Amazon S3 com StorageGRID"^]
+* Mar 30 2023: https://www.netapp.com/blog/3-2-1-backup-bluexp-ontap-storagegrid-rest-apis/["Use o BlueXP  para proteger EPIC EHR com uma política de backup compatível com 3:2:1"^]
+* Mar 14 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/How-to-back-up-Epic-Systems-EHR-databases-with-one-command-in-a-3-2-1-compliant/ba-p/442426#M171["Como fazer backup de bancos de dados EHR da Epic Systems com um comando em uma arquitetura compatível com 3:2:1"^]
+* Fev. 14 2023: https://www.netapp.com/blog/bedag-storagegrid-story/["O que o chocolate, esqui, relógios e mainframes têm em comum?"^]
+* Janeiro de 18 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/StorageGRID-S3-Object-Lock-validated-for-veritas-NetBackup/ba-p/440916["Bloqueio de objetos do StorageGRID S3 validado para o veritas NetBackup"^]
+* Janeiro de 16 2023: https://community.netapp.com/t5/Tech-ONTAP-Blogs/StorageGRID-renews-NF203-and-ISO-IEC-25051-compliance-certification/ba-p/440942["A StorageGRID renova a certificação de conformidade NF203 e ISO/IEC 25051"^]
+* Dez 6 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/StorageGRID-achieves-KPMG-compliance-certification/ba-p/440343["A StorageGRID alcança a certificação de conformidade da KPMG"^]
+* Nov 23 2022: https://www.netapp.com/blog/explainable-AI-netapp-modzy/["Inteligência artificial explicável com MLOps alimentados por NetApp e Modzy"^]
+* Nov 7 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/StorageGRID-and-ONTAP-S3-support-Differences-similarities-and-integration/ba-p/439706["Suporte ao StorageGRID e ao ONTAP S3: Diferenças, semelhanças e integração"^]
+* Out 5 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-Cloud-Insights-adds-StorageGRID-gallery-dashboards/ba-p/438882#M130["O NetApp Cloud Insights adiciona painéis de galeria do StorageGRID"^]
+* Out 5 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Defrost-your-data-on-StorageGRID-for-Snowflake/ba-p/438883#M131["Descongele seus dados no StorageGRID para floco de neve"^]
+* Set 26 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-StorageGRID-for-service-providers/ba-p/438658["NetApp StorageGRID para provedores de serviços"^]
+* Set 19 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/DataLock-and-Ransomware-Protection-Support-for-StorageGRID/ba-p/438222["Suporte à proteção contra DataLock e ransomware para StorageGRID"^]
+* Set 1 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Take-these-Metrics-and-Graph-it/ba-p/437919["Pegue essas métricas e Graph It"^]
+* Ago 23 2022: https://www.netapp.com/blog/build-your-data-lake-storagegrid/["Construa seu data Lake no StorageGRID"^]
+* Ago 17 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/It-all-starts-with-Object-Locking-Building-a-S3-storage-ecosystem-for-critical/ba-p/437464["Tudo começa com o Object Locking... criando um ecossistema de armazenamento S3 para aplicativos de backup críticos"^]
+* Ago 16 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Integrating-StorageGRID-with-the-open-source-ELK-stack-to-enhance-customer/ba-p/437420["Integração do StorageGRID com o stack de código aberto ELK para aprimorar a experiência do cliente"^]
+* Ago 5 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-StorageGRID-earns-Common-Criteria-security-certification/ba-p/437143["A NetApp StorageGRID obtém a certificação de segurança Common Criteria"^]
+* Julho de 26 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Check-out-the-growing-list-of-validated-partner-solutions-for-StorageGRID/ba-p/436908["Confira a lista crescente de soluções de parceiros validadas para a StorageGRID"^]
+* Junho de 9 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Use-Cloudera-Hadoop-S3A-connector-with-StorageGRID/ba-p/435801["Use o conetor Cloudera Hadoop S3A com StorageGRID"^]
+* Maio de 26 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/StorageGRID-storing-and-managing-the-on-premises-backup-and-replication-data/ba-p/435322#M94["StorageGRID: Armazenamento e gerenciamento de dados de replicação e backup no local"^]
+* Maio de 24 2022: https://www.netapp.com/blog/modernize-analytics-workloads-netapp-alluxio/["Modernize seus workloads de análise com o NetApp e a Alluxio"^]
+* Maio de 10 2022: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Lab-on-Demand-is-one-of-your-best-sales-tools-for-StorageGRID/ba-p/434876["Lab on Demand é a sua melhor ferramenta de vendas para StorageGRID"^]
+

@@ -1,0 +1,117 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/ransomware-protection/understand-object-lock-storagegrid.html 
+keywords: object lock, storagegrid 
+summary: Explore como o bloqueio de objetos no StorageGRID fornece um modelo WORM para impedir a exclusão ou substituição de dados, e como ele atende aos requisitos regulatórios. 
+---
+= Defesa contra ransomware usando bloqueio de objeto
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Explore como o bloqueio de objetos no StorageGRID fornece um modelo WORM para impedir a exclusão ou substituição de dados, e como ele atende aos requisitos regulatórios.
+
+O bloqueio de objetos fornece um modelo WORM para impedir que objetos sejam excluídos ou substituídos. A implementação do StorageGRID do bloqueio de objetos https://www.netapp.com/media/9041-ar-cohasset-netapp-storagegrid-sec-assessment.pdf["Cohasset avaliado"^] destina-se a ajudar a atender a requisitos regulatórios, dar suporte à retenção legal, modo de conformidade e modo de governança para retenção de objetos e políticas de retenção de buckets padrão. Você deve habilitar o bloqueio de objetos como parte da criação e controle de versão do bucket. Uma versão específica de um objeto é bloqueada e, se nenhuma ID de versão for definida, a retenção é colocada na versão atual do objeto. Se a versão atual tiver a retenção configurada e for feita uma tentativa de excluir, modificar ou substituir o objeto, uma nova versão será criada com um marcador de exclusão ou a nova revisão do objeto como a versão atual, e a versão bloqueada será mantida como uma versão não atual. Para aplicativos que ainda não são compatíveis, talvez você ainda possa usar o bloqueio de objetos e uma configuração de retenção padrão colocada no bucket. Depois que a configuração é definida, isso aplica uma retenção de objetos a cada novo objeto colocado no bucket. Isso funciona desde que o aplicativo esteja configurado para não excluir ou substituir os objetos antes que o tempo de retenção tenha passado.
+
+Aqui estão alguns exemplos usando a API de bloqueio de objetos:
+
+Bloqueio de objeto retenção legal é um simples status de ligar/desligar aplicado a um objeto.
+
+[listing]
+----
+aws s3api put-object-legal-hold --bucket mybucket --key myfile.txt --legal-hold Status=ON --endpoint-url https://s3.company.com
+
+----
+Definir o status de retenção legal não retorna nenhum valor se bem-sucedido, portanto, ele pode ser verificado com uma operação GET.
+
+[listing]
+----
+aws s3api get-object-legal-hold --bucket mybucket --key myfile.txt --endpoint-url https://s3.company.com
+{
+    "LegalHold": {
+        "Status": "ON"
+    }
+}
+----
+Para desativar a retenção legal, aplique o status OFF.
+
+[listing]
+----
+aws s3api put-object-legal-hold --bucket mybucket --key myfile.txt --legal-hold Status=OFF --endpoint-url https://s3.company.com
+aws s3api get-object-legal-hold --bucket mybucket --key myfile.txt --endpoint-url https://s3.company.com
+{
+    "LegalHold": {
+        "Status": "OFF"
+    }
+}
+
+----
+A configuração da retenção de objeto é feita com um carimbo de data/hora retent until.
+
+[listing]
+----
+aws s3api put-object-retention --bucket mybucket --key myfile.txt --retention '{"Mode":"COMPLIANCE", "RetainUntilDate": "2022-06-10T16:00:00"}'  --endpoint-url https://s3.company.com
+----
+Novamente, não há valor retornado no sucesso, então você pode verificar o status de retenção da mesma forma com uma chamada recebida.
+
+[listing]
+----
+aws s3api get-object-retention --bucket mybucket --key myfile.txt  --endpoint-url https://s3.company.com
+{
+    "Retention": {
+        "Mode": "COMPLIANCE",
+        "RetainUntilDate": "2022-06-10T16:00:00+00:00"
+    }
+----
+Colocar uma retenção padrão em um bucket habilitado para bloqueio de objetos usa um período de retenção em dias e anos.
+
+[listing]
+----
+aws s3api put-object-lock-configuration --bucket mybucket --object-lock-configuration '{ "ObjectLockEnabled": "Enabled", "Rule": { "DefaultRetention": { "Mode": "COMPLIANCE", "Days": 1 }}}' --endpoint-url https://s3.company.com
+----
+Como na maioria dessas operações, nenhuma resposta é retornada com sucesso, então, podemos realizar um GET para a configuração verificar.
+
+[listing]
+----
+aws s3api get-object-lock-configuration --bucket mybucket --endpoint-url https://s3.company.com
+{
+    "ObjectLockConfiguration": {
+        "ObjectLockEnabled": "Enabled",
+        "Rule": {
+            "DefaultRetention": {
+                "Mode": "COMPLIANCE",
+                "Days": 1
+            }
+        }
+    }
+}
+----
+Em seguida, você pode colocar um objeto no bucket com a configuração de retenção aplicada.
+
+[listing]
+----
+aws s3 cp myfile.txt s3://mybucket --endpoint-url https://s3.company.com
+----
+A OPERAÇÃO DE COLOCAÇÃO retorna uma resposta.
+
+[listing]
+----
+upload: ./myfile.txt to s3://mybucket/myfile.txt
+----
+No objeto de retenção, a duração de retenção definida no bucket no exemplo anterior é convertida em um carimbo de data/hora de retenção no objeto.
+
+[listing]
+----
+aws s3api get-object-retention --bucket mybucket --key myfile.txt --endpoint-url https://s3.company.com
+{
+    "Retention": {
+        "Mode": "COMPLIANCE",
+        "RetainUntilDate": "2022-03-02T15:22:47.202000+00:00"
+    }
+}
+----

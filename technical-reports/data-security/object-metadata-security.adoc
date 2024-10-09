@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/data-security/object-metadata-security.html 
+keywords: object metadata security, storagegrid 
+summary: Explore os recursos de segurança de objetos e metadados no StorageGRID. 
+---
+= Segurança de objetos e metadados
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Explore os recursos de segurança de objetos e metadados no StorageGRID.
+
+[cols="20,30a,30,20"]
+|===
+| Recurso | Função | Impacto | Conformidade regulamentar 
+
+
+| AES (Advanced Encryption Standard) encriptação de objetos no lado do servidor  a| 
+O StorageGRID fornece criptografia de objetos no lado do servidor baseada em AES 128 e AES 256. Os administradores de grade podem habilitar a criptografia como uma configuração padrão global. O StorageGRID também suporta o cabeçalho de criptografia do lado do servidor x-amz S3 para permitir ou desativar a criptografia por objeto. Quando ativado, os objetos são criptografados quando armazenados ou em trânsito entre nós de grade.
+| Ajuda a proteger o armazenamento e a transmissão de objetos, independentemente do hardware de armazenamento subjacente. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Gerenciamento de chaves integrado  a| 
+Quando a criptografia é ativada, cada objeto é criptografado com uma chave simétrica única gerada aleatoriamente, que é armazenada dentro do StorageGRID sem acesso externo.
+| Permite a criptografia de objetos sem exigir gerenciamento de chaves externas. |  
+
+
+| Discos de criptografia compatíveis com Federal Information Processing Standard (FIPS) 140-2  a| 
+Os dispositivos StorageGRID SG5712, SG5760, SG6060 e SGF6024 oferecem a opção de discos de criptografia compatíveis com FIPS 140-2. As chaves de criptografia para os discos podem ser gerenciadas, como opção, por um servidor KMIP externo.
+| Permite o storage seguro de dados, metadados e objetos do sistema. Também fornece criptografia de objeto baseada em software StorageGRID, que protege o armazenamento e a transmissão de objetos. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Verificação de integridade em segundo plano e auto-cura  a| 
+O StorageGRID usa um mecanismo de intertravamento de hashes, checksums e verificações de redundância cíclica (CRCs) no nível de objeto e subobjeto para proteger contra inconsistência, adulteração ou modificação de dados, tanto quando os objetos estão em armazenamento quanto em trânsito. O StorageGRID deteta automaticamente objetos corrompidos e adulterados e os substitui, enquanto coloca em quarentena os dados alterados e alerta o administrador.
+| Permite que os administradores de Grid cumpram SLA, regulamentos e outras obrigações em relação à durabilidade dos dados. Ajuda os clientes a detetar ransomware ou vírus que tentam criptografar, adulterar ou modificar dados. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Retenção e posicionamento de objetos baseados em políticas  a| 
+O StorageGRID permite que os administradores de grade configurem regras de ILM, que especificam retenção, posicionamento, proteção, transição e expiração de objetos. Os administradores de grade podem configurar o StorageGRID para filtrar objetos por seus metadados e aplicar regras em vários níveis de granularidade, incluindo em toda a grade, locatário, bucket, prefixo de chave e pares de valor-chave de metadados definidos pelo usuário. O StorageGRID ajuda a garantir que os objetos sejam armazenados de acordo com as regras do ILM ao longo de seus ciclos de vida, a menos que sejam explicitamente excluídos pelo cliente.
+| Ajuda a reforçar a disposição, a proteção e a retenção dos dados. Ajuda os clientes a alcançarem o SLA para durabilidade, disponibilidade e desempenho. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Verificação de metadados em segundo plano  a| 
+O StorageGRID verifica periodicamente os metadados de objetos em segundo plano para aplicar alterações no posicionamento ou proteção dos dados do objeto, conforme especificado pelo ILM.
+| Ajuda a descobrir objetos corrompidos. |  
+
+
+| Consistência ajustável  a| 
+Os locatários podem selecionar níveis de consistência no nível do bucket para garantir que recursos como conectividade multisite estejam disponíveis.
+| Fornece a opção de confirmar gravações na grade somente quando um número necessário de sites ou recursos estiver disponível. |  
+|===

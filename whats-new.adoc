@@ -1,0 +1,27 @@
+---
+permalink: whats-new.html 
+sidebar: sidebar 
+keywords: whats new, third-party applications, storagegrid, Guides, cookbooks 
+summary: Aqui estão as mudanças recentes neste site. 
+---
+= O que há de novo
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Use esta coleção de documentos para saber como habilitar aplicativos e ferramentas em seu ambiente e testar recursos com o StorageGRID. Aqui você encontrará exemplos e livros de receitas que expandem a documentação do produto e fornecem algumas próximas etapas na avaliação e integração com o StorageGRID.
+
+[cols="1a,4a"]
+|===
+| Solte | O que mudou 
+
+
+ a| 
+11,6
+ a| 
+Lançamento inicial. Inclui guias e listas validadas de soluções de terceiros para as versões 11,2-11,6 do StorageGRID.
+
+|===

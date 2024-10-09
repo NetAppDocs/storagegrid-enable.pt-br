@@ -1,0 +1,57 @@
+---
+permalink: evaluation-software.html 
+sidebar: sidebar 
+keywords: eval, StorageGRID, S3, software, download 
+summary: Etapas para acessar o software de avaliação do StorageGRID para um cliente em potencial. 
+---
+= Passos para aceder ao software de avaliação StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta instrução destina-se a vendas, parceiros e clientes potenciais da NetApp envolvidos com a NetApp.
+
+
+
+== Registre-se para uma conta
+
+. Registe-se para obter uma conta no https://mysupport.netapp.com/site/user/registration["Site de suporte da NetApp"] utilizando o e-mail da sua empresa.
++
+.. Se já tiver uma conta, avance para o passo seguinte.
+
+
+. Inicie sessão com a conta criada.
+. Crie um caso de suporte não técnico para elevar os níveis de acesso ao "prospect". Para fazer isso, clique no "https://mysupport.netapp.com/site/help?relevanturl=%2Fuser%2Fregistration["Relatar um problema"]link " no rodapé do site.
+. Selecione "problema de registo" como a categoria de feedback.
+. Na seção de comentários, escreva: "Eu gostaria de obter acesso de prospect para baixar o software de avaliação StorageGRID."
++
+.. Mencione o nome da pessoa interna do NetApp que sugeriu o pedido de acesso ao cliente potencial.
+
+
+
+
+
+
+== Baixar StorageGRID
+
+. Depois que seu caso de suporte for revisado e aprovado, o suporte da NetApp notificará você por e-mail de que sua conta recebeu acesso a clientes potenciais.
+. Faça download do https://mysupport.netapp.com/site/downloads/evaluation/storagegrid["Software de avaliação StorageGRID"].
+
+
+[NOTE]
+====
+O arquivo de licença Eval está localizado dentro do arquivo zip. Ele é o StorageGRID-Webscale-<version> NLF000000.txt uma vez descompactado.
+
+====
+[NOTE]
+====
+Baixar o software é um processo que envolve medidas de conformidade comercial para aderir aos requisitos legais. Para garantir a conformidade, os usuários precisam criar uma conta e abrir um caso de suporte antes de obter acesso. Esse processo nos ajuda a manter o controle e a documentação adequados, ao mesmo tempo em que fornece aos clientes potenciais o software pronto para a produção de que precisam.
+
+Nós fornecemos a versão "pronta para produção" do StorageGRID, que não é uma versão de código aberto ou alternativa. É importante notar que *o suporte não é fornecido* a menos que o cliente potencial atualize para uma licença de produção.
+
+Por favor, entre em Contato com StorageGRID.NetApp.com para qualquer problema com os passos acima.
+
+====

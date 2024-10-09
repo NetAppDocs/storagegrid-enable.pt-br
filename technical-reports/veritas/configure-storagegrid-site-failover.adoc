@@ -1,0 +1,73 @@
+---
+permalink: technical-reports/veritas/configure-storagegrid-site-failover.html 
+sidebar: sidebar 
+keywords: site failover, configure, storagegrid 
+summary: Saiba como configurar o failover de site do StorageGRID em um cenário de recuperação de desastres. 
+---
+= Configurar o failover de local do StorageGRID para recuperação de desastres
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../../media/
+
+
+[role="lead"]
+Saiba como configurar o failover de site do StorageGRID em um cenário de recuperação de desastres.
+
+É comum que uma implantação de arquitetura StorageGRID seja multisite. Os locais podem ser ativo-ativo ou ativo-passivo para DR. Em um cenário de DR, certifique-se de que o veritas Enterprise Vault possa manter a conexão com seu storage primário (StorageGRID) e continuar a obter e obter dados durante uma falha no local. Esta seção fornece orientações de configuração de alto nível para uma implantação ativa-passiva de dois locais. Para obter informações detalhadas sobre essas diretrizes, consulte a link:https://docs.netapp.com/us-en/storagegrid-118/["Documentação do StorageGRID"] página ou entre em Contato com um especialista da StorageGRID.
+
+
+
+== Pré-requisitos para configurar o StorageGRID com o veritas Enterprise Vault
+
+Antes de configurar o failover de site do StorageGRID, verifique os seguintes pré-requisitos:
+
+* Há uma implantação de StorageGRID de dois locais; por exemplo, site1 e site2.
+* Um nó de administrador executando o serviço de balanceador de carga ou um nó de gateway, em cada local, para balanceamento de carga foi criado.
+* Um ponto de extremidade do balanceador de carga StorageGRID foi criado.
+
+
+
+
+== Configurar failover de site do StorageGRID
+
+Para configurar o failover do site do StorageGRID, execute as seguintes etapas:
+
+.Passos
+. Para garantir a conetividade com o StorageGRID durante falhas no local, configure um grupo de alta disponibilidade (HA). Na interface do Gerenciador de Grade do StorageGRID (GMI), clique em Configuração, grupos de alta disponibilidade e criar.
++
+image:vertias/veritas-create-high-availability-group.png["perguntas/veritas-create-high-availability-group"]
+
+. Introduza as informações necessárias. Clique em Selecionar interfaces e inclua as interfaces de rede DO site1 e DO site2 em que O site1 (o site principal) é o mestre preferido. Atribua um endereço IP virtual dentro da mesma sub-rede. Clique em Guardar.
++
+image:veritas/veritas-edit-high-availability-group.png["perguntas/veritas-edit-high-availability-group"]
+
+. Esse endereço IP virtual (VIP) deve ser associado ao nome de host S3 usado durante a configuração de partição do veritas Enterprise Vault. O endereço VIP resolve o tráfego para O site1 e, durante A falha DO site1, o endereço VIP redireciona o tráfego para O site2 de forma transparente.
+. Certifique-se de que os dados sejam replicados para site1 e site2. Dessa forma, se O site1 falhar, os dados do objeto ainda estarão disponíveis em site2. Isso é feito configurando primeiro os pools de armazenamento.
++
+No StorageGRID GMI, clique em ILM, pools de armazenamento e, em seguida, crie. Siga o assistente para criar dois pools de armazenamento: Um para site1 e outro para site2.
+
++
+Os pools de storage são agrupamentos lógicos de nós usados para definir o posicionamento do objeto
+
++
+image:veritas/veritas-storage-pool-details-site-1.png["versões/veritas-storage-pool-details-site-1"]
+
++
+image:veritas/veritas-storage-pool-details-site-2.png["versões/veritas-storage-pool-details-site-2"]
+
+. No StorageGRID GMI, clique em ILM, regras e, em seguida, criar. Siga o assistente para criar uma regra ILM especificando uma cópia a ser armazenada por local com um comportamento de ingestão de balanceado.
++
+image:veritas/veritas-storage-pool-details-site-3.png["versões/veritas-storage-pool-details-site-3"]
+
+. Adicione a regra ILM a uma política ILM e ative a política.
+
+
+Esta configuração resulta no seguinte resultado:
+
+* Um IP de endpoint virtual S3 onde site1 é o primário e site2 é o endpoint secundário. Se site1 falhar, o VIP falhará para site2.
+* Quando os dados arquivados são enviados do veritas Enterprise Vault, o StorageGRID garante que uma cópia seja armazenada NO site1 e que outra cópia DR seja armazenada no site2. Se O site1 falhar, o Enterprise Vault continuará a ingerir e recuperar do site2.
+
+
+
+NOTE: Ambas as configurações são transparentes para o veritas Enterprise Vault. O endpoint S3, o nome do bucket, as chaves de acesso e assim por diante são os mesmos. Não há necessidade de reconfigurar as configurações de conexão S3 na partição veritas Enterprise Vault.
