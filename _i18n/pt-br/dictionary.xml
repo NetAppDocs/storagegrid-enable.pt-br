@@ -8,7 +8,6 @@
   <block id="7ed997d0afb0f25bef5074cfbae5d820" category="inline-link">Apresentamos o StorageGRID 11,8</block>
   <block id="b41a18341b59a0683c39812165cc0c0b" category="list-text">Fev. 16 2024:<block ref="70310190f4683d95ee6551bded030474" category="inline-link-rx"></block></block>
   <block id="00039cf6e879cf2c96e1147810458aae" category="inline-link">Anunciando o resumo da solução StorageGRID e lakeFS</block>
-  <block id="d4594ce3b33a972e211fe9682ce3d309" category="list-text">Fev. 2 2024: <block ref="00c18eee7b83b56a4fc536edaabb5a21" category="inline-link-rx"></block></block>
   <block id="a45308928cdb317709d69e1a9d7f54cf" category="inline-link">Análise de big data no StorageGRID: Dremio tem um desempenho 23 vezes mais rápido do que o Apache Hive</block>
   <block id="4a9aae048c463acb4451f4593f34edc7" category="list-text">Dez 12 2023:<block ref="56387d425a7d1ca386f6000ce26e6a91" category="inline-link-rx"></block></block>
   <block id="0de69010a0b885390944d59945579799" category="inline-link">Geleira Spectra Logic On-Prem com StorageGRID</block>
@@ -3136,4 +3135,5 @@
   <block id="ae52e3c45bd713b4082b98c518149807" category="sidebar">Configurar o StorageGRID para storage WORM</block>
   <block id="654021875452c0979ec25d167125283d" category="sidebar">Configurar o StorageGRID para recuperação de desastres</block>
   <block id="024f3a8ba5709643c2f09c8eabccae87" category="sidebar">Soluções validadas de terceiros - Visão geral</block>
+  <block id="454255deb718c7d2b26df2342f80d3d3" category="list-text">Fev. 2 2024: <block ref="890e1ea9b3a6310b9da56310b581c035" category="inline-link-rx"></block></block>
 </blocks>
