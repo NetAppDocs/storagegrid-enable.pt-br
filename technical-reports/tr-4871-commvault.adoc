@@ -257,7 +257,7 @@ Você pode expandir um sistema NetApp StorageGRID adicionando storage aos nós d
 
 [NOTE]
 ====
-Para obter mais informações sobre como expandir o sistema StorageGRID, https://docs.netapp.com/us-en/storagegrid-118/landing-expand/index.html["Guia de expansão do StorageGRID 11,8"] consulte .
+Para obter mais informações sobre como expandir o sistema StorageGRID, https://docs.netapp.com/us-en/storagegrid-119/landing-expand/index.html["Guia de expansão do StorageGRID 11,9"] consulte .
 
 ====
 
@@ -576,7 +576,7 @@ Os CommVault MediaAgents são os migradores de dados em um ambiente CommVault. N
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
 
-* Centro de Documentação do StorageGRID 11,8 https://docs.netapp.com/us-en/storagegrid-118/[]
+* Centro de Documentação do StorageGRID 11,9 https://docs.netapp.com/us-en/storagegrid-119/[]
 * Documentação do produto NetApp https://docs.netapp.com[]
 * Documentação do CommVault https://documentation.commvault.com/2024/essential/index.html[]
 

@@ -32,7 +32,7 @@ Quando a criptografia é ativada, cada objeto é criptografado com uma chave sim
 
 
 | Discos de criptografia compatíveis com Federal Information Processing Standard (FIPS) 140-2  a| 
-Os dispositivos StorageGRID SG5712, SG5760, SG6060 e SGF6024 oferecem a opção de discos de criptografia compatíveis com FIPS 140-2. As chaves de criptografia para os discos podem ser gerenciadas, como opção, por um servidor KMIP externo.
+Os dispositivos StorageGRID SG5812, SG5860, SG6160 e SGF6024 oferecem a opção de discos de criptografia compatíveis com FIPS 140-2. As chaves de criptografia para os discos podem ser gerenciadas, como opção, por um servidor KMIP externo.
 | Permite o storage seguro de dados, metadados e objetos do sistema. Também fornece criptografia de objeto baseada em software StorageGRID, que protege o armazenamento e a transmissão de objetos. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
 
 

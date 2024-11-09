@@ -1,7 +1,7 @@
 ---
 permalink: storagegrid-documentation.html 
 sidebar: sidebar 
-keywords: storagegrid, 11.8, 11.7, 11.6, 11.5, 11.4, 11.3, 11.2 
+keywords: storagegrid, 11.9, 11.8, 11.7, 11.6, 11.5, 11.4, 11.3, 11.2 
 summary: Você pode encontrar a documentação completa para cada versão do NetApp StorageGRID aqui. 
 ---
 = Documentação do NetApp StorageGRID
@@ -15,6 +15,7 @@ summary: Você pode encontrar a documentação completa para cada versão do Net
 Você pode encontrar a documentação completa para cada versão do NetApp StorageGRID aqui:
 
 * https://docs.netapp.com/us-en/storagegrid-appliances/index.html["Dispositivos StorageGRID"]
+* https://docs.netapp.com/us-en/storagegrid-118/index.html["StorageGRID 11,9"^]
 * https://docs.netapp.com/us-en/storagegrid-118/index.html["StorageGRID 11,8"^]
 * https://docs.netapp.com/us-en/storagegrid-117/index.html["StorageGRID 11,7"^]
 * https://docs.netapp.com/us-en/storagegrid-116/index.html["StorageGRID 11,6"^]
