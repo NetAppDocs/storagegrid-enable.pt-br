@@ -21,6 +21,8 @@ indexpage:
     links:
     - title: Visão geral
       url: "/third-party/index.html"
+    - title: StorageGRID 11,9
+      url: "/third-party/119-3rd-party-list.html"
     - title: StorageGRID 11,8
       url: "/third-party/118-3rd-party-list.html"
     - title: StorageGRID 11,7
