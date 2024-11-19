@@ -30,7 +30,11 @@ O clone de nó pode ser um método mais rápido para substituir os nós de dispo
 
 
 * O processo de clone de nó requer que o nó de origem fique off-line à grade durante o processo de clonagem. Se um nó adicional ficar offline durante este período, os serviços do cliente podem ser afetados.
-* Um nó de armazenamento só pode estar offline durante 15 dias. Se a estimativa do processo de clonagem estiver próxima de 15 dias ou exceder 15 dias, use os procedimentos de expansão e desativação.
+* 11,8 e abaixo: Um nó de armazenamento só pode estar offline por 15 dias. Se a estimativa do processo de clonagem estiver próxima de 15 dias ou exceder 15 dias, use os procedimentos de expansão e desativação.
++
+** 11,9: O limite de 15 dias foi removido.
+
+
 * Para um SG6060U ou SG6160U com compartimentos de expansão, você precisa adicionar o tempo para o tamanho correto da unidade de gaveta ao tempo do dispositivo base para obter a duração total do clone.
 * O número de volumes em um dispositivo de storage de destino deve ser maior ou igual ao número de volumes no nó de origem. Você não pode clonar um nó de origem com 16 volumes de armazenamento de objetos (rangedb) para um dispositivo de storage de destino com 12 volumes de armazenamento de objetos, mesmo que o dispositivo de destino tenha maior capacidade do que o nó de origem. A maioria dos dispositivos de storage tem volumes de armazenamento de objetos de 16 TB, exceto o dispositivo de storage SGF6112 que tem apenas volumes de armazenamento de objetos de 12 TB. Por exemplo, você não pode clonar de um SG5760 para um SGF6112.
 
@@ -47,11 +51,11 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 
 
 
-==== SG5612 -> qualquer
+==== SG5612/SG5712/SG5812 -> QUALQUER
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
@@ -68,6 +72,8 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 4 dias
  a| 
 4,5 dias
+ a| 
+5,5 dias
 
 
 
@@ -85,99 +91,63 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 4 dias
  a| 
 4,5 dias
-
-|===
-
-
-==== SG5712/SG5812 -> qualquer
-
-[cols="2a,1a,1a,1a,1a,1a,1a"]
-|===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
-
-
  a| 
-10 GB
- a| 
-1 dia
- a| 
-2 dias
- a| 
-2,5 dias
- a| 
-3 dias
- a| 
-4 dias
- a| 
-4,5 dias
-
-
-
- a| 
-25 GB
- a| 
-1 dia
- a| 
-2 dias
- a| 
-2,5 dias
- a| 
-3 dias
- a| 
-4 dias
- a| 
-4,5 dias
+5,5 dias
 
 |===
 
 
 ==== SG5660 -> SG5760/SG5860
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
 10 GB
  a| 
-3 dia
- a| 
-6 dias
+3,5 dia
  a| 
 7 dias
  a| 
 8,5 dias
  a| 
-11,5 dias
+10,5 dias
  a| 
-*13 dias*
+*13,5 dias*
+ a| 
+*15,5 dias*
+ a| 
+*18,5 dias*
 
 
 
  a| 
 25 GB
  a| 
-3 dia
- a| 
-6 dias
+3,5 dia
  a| 
 7 dias
  a| 
 8,5 dias
  a| 
-11,5 dias
+10,5 dias
  a| 
-*13 dias*
+*13,5 dias*
+ a| 
+*15,5 dias*
+ a| 
+*18,5 dias*
 
 |===
 
 
 ==== SG5660 -> SG6060/SG6160
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
@@ -194,6 +164,8 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 9 dias
  a| 
 10 dias
+ a| 
+*12 dias*
 
 
 
@@ -211,57 +183,63 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 8 dias
  a| 
 9 dias
+ a| 
+10 dias
 
 |===
 
 
 ==== SG5760/SG5860 -> SG5760/SG5860
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
 10 GB
  a| 
-3 dia
- a| 
-6 dias
+3,5 dia
  a| 
 7 dias
  a| 
 8,5 dias
  a| 
-11,5 dias
+10,5 dias
  a| 
-*13 dias*
+*13,5 dias*
+ a| 
+*15,5 dias*
+ a| 
+*18,5 dias*
 
 
 
  a| 
 25 GB
  a| 
-3 dia
- a| 
-6 dias
+3,5 dia
  a| 
 7 dias
  a| 
 8,5 dias
  a| 
-11,5 dias
+10,5 dias
  a| 
-*13 dias*
+*13,5 dias*
+ a| 
+*15,5 dias*
+ a| 
+*18,5 dias*
 
 |===
 
 
 ==== SG5760/SG5860 -> SG6060/SG6160
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
@@ -278,32 +256,36 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 9 dias
  a| 
 10 dias
+ a| 
+*12 dias*
 
 
 
  a| 
 25 GB
  a| 
-1,5 dia
- a| 
-3 dias
+2 dia
  a| 
 3,5 dias
  a| 
 4,5 dias
  a| 
-6 dias
+5,5 dias
  a| 
-6,5 dias
+7 dias
+ a| 
+8 dias
+ a| 
+9,5 dias
 
 |===
 
 
 ==== SG6060/SG6160 -> SG6060/SG6160
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
@@ -320,23 +302,27 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 8,5 dias
  a| 
 9,5 dias
+ a| 
+11,5 dias
 
 
 
  a| 
 25 GB
  a| 
-1,5 dia
+2 dia
  a| 
 3 dias
  a| 
-3,5 dias
- a| 
 4 dias
  a| 
-5,5 dias
+4,5 dias
  a| 
 6 dias
+ a| 
+7 dias
+ a| 
+8,5 dias
 
 |===
 
@@ -347,9 +333,9 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 
 ==== SG5760/SG5860 -> SG5760/SG5860
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
@@ -363,9 +349,11 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
  a| 
 9,5 dias
  a| 
-12,5 dias
+*12,5 dias*
  a| 
 *14 dias*
+ a| 
+*17 dias*
 
 
 
@@ -380,18 +368,20 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
  a| 
 9,5 dias
  a| 
-12,5 dias
+*12,5 dias*
  a| 
 *14 dias*
+ a| 
+*17 dias*
 
 |===
 
 
 ==== SG5760/SG5860 -> SG6060/SG6160
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
@@ -408,6 +398,8 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 10 dias
  a| 
 11 dias
+ a| 
+*13 dias*
 
 
 
@@ -425,21 +417,23 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 6,5 dias
  a| 
 7 dias
+ a| 
+8,5 dias
 
 |===
 
 
 ==== SG6060/SG6160 -> SG6060/SG6160
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
 10 GB
  a| 
-3,5 dia
+3 dia
  a| 
 5 dias
  a| 
@@ -450,6 +444,8 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 9,5 dias
  a| 
 10,5 dias
+ a| 
+*13 dias*
 
 
 
@@ -458,24 +454,26 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
  a| 
 2 dia
  a| 
-3 dias
- a| 
-4 dias
+3,5 dias
  a| 
 4,5 dias
  a| 
-6 dias
+5 dias
  a| 
 7 dias
+ a| 
+7,5 dias
+ a| 
+9 dias
 
 |===
 
 
 ==== Compartimento de expansão (adicione acima de SG6060/SG6160 para cada gaveta no dispositivo de origem)
 
-[cols="2a,1a,1a,1a,1a,1a,1a"]
+[cols="2a,1a,1a,1a,1a,1a,1a,1a"]
 |===
-| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade 
+| Velocidade da interface de rede | 4TB tamanho da unidade | 8TB tamanho da unidade | 10TB tamanho da unidade | 12TB tamanho da unidade | 16TB tamanho da unidade | 18TB tamanho da unidade | 22TB tamanho da unidade 
 
 
  a| 
@@ -492,6 +490,8 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 9,5 dias
  a| 
 10,5 dias
+ a| 
+*12 dias*
 
 
 
@@ -509,6 +509,8 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 6 dias
  a| 
 7 dias
+ a| 
+8,5 dias
 
 |===
 _Por Aron Klein_
