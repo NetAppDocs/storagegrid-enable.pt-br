@@ -12,7 +12,9 @@ summary: 'Com o recurso de encaminhamento de syslog do StorageGRID 11,6, você p
 
 
 [role="lead"]
-Com o recurso de encaminhamento de syslog do StorageGRID 11,6, você pode configurar um servidor syslog externo para coletar e analisar mensagens de log do StorageGRID. ELK (Elasticsearch, Logstash, Kibana) tornou-se uma das soluções de análise de logs mais populares. Assista ao https://media.netapp.com/video-detail/3d090a61-23d7-5ad7-9746-4cebbb7452fb/storagegrid-log-analysis-using-elk-stack["Análise de log do StorageGRID usando o vídeo ELK"^] para exibir uma configuração DO ELK de exemplo e como ele pode ser usado para identificar e solucionar problemas de solicitações S3 com falha. este artigo fornece arquivos de exemplo de configuração do Logstash, consultas do Kibana, gráficos e painel para dar a você um início rápido para o gerenciamento e análise de logs do StorageGRID.
+_Por Angela Cheng_
+
+Com o recurso de encaminhamento de syslog do StorageGRID, você pode configurar um servidor syslog externo para coletar e analisar mensagens de log do StorageGRID. ELK (Elasticsearch, Logstash, Kibana) tornou-se uma das soluções de análise de logs mais populares. Assista ao https://media.netapp.com/video-detail/3d090a61-23d7-5ad7-9746-4cebbb7452fb/storagegrid-log-analysis-using-elk-stack["Análise de log do StorageGRID usando o vídeo ELK"^] para exibir uma configuração DO ELK de exemplo e como ele pode ser usado para identificar e solucionar problemas de solicitações S3 com falha. O StorageGRID 11,9 suporta a exportação de log de acesso de endpoint do balanceador de carga para o servidor syslog externo. Assista a isso https://youtu.be/hnnT0QqLSgA?si=tDMPc4bdbqumYzFz["Vídeo do YouTube"^] para saber mais sobre esse novo recurso. este artigo fornece arquivos de exemplo de configuração do Logstash, consultas do Kibana, gráficos e painel para dar a você um início rápido para o gerenciamento e análise de logs do StorageGRID.
 
 
 
@@ -28,6 +30,7 @@ Com o recurso de encaminhamento de syslog do StorageGRID 11,6, você pode config
 
 * link:../media/elk-config/elk7-sample.zip["Faça o download do pacote de arquivos de amostra Logstash 7.x"] *md5 checksum* 148c23d0021d9a4bb4a6c0287464deab e *sha256 checksum* f51ec9e2e3f842d5a7861566b167a561b4373038b4e7bb3c8b8be3d522adf2d6
 * link:../media/elk-config/elk8-sample.zip["Faça o download do pacote de arquivos de amostra Logstash 8.x"] *md5 checksum* e11bae3a662f87c310ef363d0fe06835 e *sha256 checksum* 5c670755742cfdfd5aa723a596ba087e0153a65bcaef3934afdb682f6cd278d
+* link:../media/elk-config/elk8-sample-for-sg119.zip["Faça o download do pacote de arquivos de amostra Logstash 8.x para o StorageGRID 11,9"] *md5 checksum* 41272857c4a54600f95995f6ed74800d e *sha256 checksum* 67048e8661052719990851e1ad960d4902fe537a6e135e8600177188da677c9
 
 
 
@@ -108,7 +111,7 @@ Importe elk<version>-query-chart-sample.ndjson. Quando solicitado a resolver o c
 image:elk-config/kibana-import-conflict.png["Conflito de Kibana"]
 
 +
-Os seguintes objetos Kibana são importados: * Consulta * * auditoria msg-s3rq-orlm * Registro de bycast S3 mensagens relacionadas * aviso de nível de log ou acima * evento de segurança com falha * Gráfico * * S3 solicitações contam com base em bycast.log * código de status HTTP * auditoria msg discriminação por tipo * tempo de resposta médio de S3 * Painel * * * S3 solicitação de painel * usando os gráficos acima.
+Os seguintes objetos Kibana são importados: * Consulta * * * auditoria-msg-s3rq S3-orlm * Registro de bycast S3 S3 mensagens relacionadas com * aviso de nível de log ou acima * evento de segurança com falha * nginx-gw Registro de acesso de endpoint (disponível apenas em elk8-sample-for-sg119.zip) * Gráfico * S3 pedidos contam com base em bycast.log * Código de status HTTP *
 
 
 
@@ -126,5 +129,3 @@ Agora você está pronto para executar a análise de log do StorageGRID usando o
 * https://www.elastic.co/guide/en/kibana/master/document-explorer.html["Guia Kibana – explore o documento"]
 * https://docs.netapp.com/us-en/storagegrid-116/audit/index.html["Referência de mensagens de log de auditoria do StorageGRID"]
 
-
-_Por Angela Cheng_

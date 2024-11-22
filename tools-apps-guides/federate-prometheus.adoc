@@ -12,6 +12,8 @@ summary: Este relatório técnico fornece instruções detalhadas para configura
 
 
 [role="lead"]
+_Por Aron Klein_
+
 Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID 11,6 com serviços externos do Prometheus e Grafana.
 
 
@@ -384,5 +386,3 @@ image:prometheus/grafana_panel_edit.png["painel de edição grafana"]
 === Conclusão
 
 Agora temos um servidor Prometheus com capacidade de armazenamento e retenção de dados personalizáveis. Com isso, podemos continuar construindo nossos próprios painéis com as métricas mais relevantes para nossas operações. Você pode obter mais informações sobre as métricas do Prometheus coletadas no https://docs.netapp.com/us-en/storagegrid-116/monitor/commonly-used-prometheus-metrics.html["Documentação do StorageGRID"^].
-
-_Por Aron Klein_

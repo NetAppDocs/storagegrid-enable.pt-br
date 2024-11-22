@@ -12,6 +12,8 @@ summary: Este guia descreve o procedimento para criar um banco de dados do modo 
 
 
 [role="lead"]
+_Por Angela Cheng_
+
 Este guia descreve o procedimento para criar um banco de dados do modo Vertica Eon com armazenamento comunitário no NetApp StorageGRID.
 
 

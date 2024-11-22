@@ -12,6 +12,8 @@ summary: Rclone é uma ferramenta de linha de comando gratuita e cliente para op
 
 
 [role="lead"]
+_Por Siegfried Hepp e Aron Klein_
+
 Rclone é uma ferramenta de linha de comando gratuita e cliente para operações S3. Você pode usar o rclone para migrar, copiar e excluir dados de objetos no StorageGRID. O rclone inclui a capacidade de excluir buckets mesmo quando não estiver vazio com uma função de "purga", como visto em um exemplo abaixo.
 
 
@@ -456,5 +458,3 @@ n rclone ls sgdemo:test01
  2023/04/14 09:40:51 Failed to ls: directory not found
 ====
 
-
-_Por Siegfried Hepp e Aron Klein_

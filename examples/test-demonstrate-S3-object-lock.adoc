@@ -12,6 +12,8 @@ summary: O Object Lock fornece um modelo WORM para impedir que objetos sejam exc
 
 
 [role="lead"]
+_Por Aron Klein_
+
 O Object Lock fornece um modelo WORM para impedir que objetos sejam excluídos ou substituídos. A implementação do StorageGRID do bloqueio de objetos é avaliada pela Cohasset para ajudar a atender aos requisitos regulatórios, oferecendo suporte à retenção legal e ao modo de conformidade para retenção de objetos e políticas de retenção de buckets padrão.
 
 Este guia demonstrará a API S3D Object Lock.
@@ -221,5 +223,3 @@ aws s3api delete-object  --bucket <bucket> --key <file> --version-id "<VersionId
 An error occurred (AccessDenied) when calling the DeleteObject operation: Access Denied
 ----
 
-
-_Por Aron Klein_

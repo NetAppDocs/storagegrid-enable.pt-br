@@ -12,6 +12,8 @@ summary: Configure a fonte de dados do Dremio com o StorageGRID
 
 
 [role="lead"]
+_Por Angela Cheng_
+
 O Dremio dá suporte a uma variedade de fontes de dados, incluindo armazenamento de objetos baseado na nuvem ou no local. Você pode configurar o Dremio para usar o StorageGRID como fonte de dados de armazenamento de objetos.
 
 
@@ -84,5 +86,3 @@ image:dremio/dremio-add-source-advanced.png["Nova fonte - Opções avançadas"]
 image:dremio/dremio-source-added.png["Nova fonte de dados adicionada"]
 
 
-
-_Por Angela Cheng_
