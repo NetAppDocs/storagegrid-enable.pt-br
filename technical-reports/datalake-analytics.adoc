@@ -30,8 +30,6 @@ A solução de storage de objetos da NetApp StorageGRID oferece escalabilidade, 
 
 *Entrega de conteúdo:* o StorageGRID S3 pode ser usado para armazenar e entregar conteúdo estático do site, arquivos de Mídia e downloads de software para usuários em todo o mundo, aproveitando a distribuição geográfica e o namespace global da StorageGRID para entrega de conteúdo rápida e confiável.
 
-*Disposição em camadas de dados:* os clientes do NetApp usam o recurso ONTAP FabricPool para mover dados automaticamente entre um nível local de alto desempenho para o StorageGRID. A disposição em camadas libera storage flash caro para dados ativos e mantém os dados inativos prontamente disponíveis no storage de objetos de baixo custo. Isto maximiza o desempenho e as poupanças.
-
 *Arquivo de dados:* o StorageGRID oferece diferentes tipos de armazenamento e suporta a disposição em camadas em opções públicas de armazenamento de baixo custo a longo prazo, tornando-o uma solução ideal para arquivamento e retenção de dados a longo prazo que precisam ser mantidos para fins de conformidade ou históricos.
 
 *Casos de uso de armazenamento de objetos*
@@ -128,7 +126,7 @@ S3 pedidos de divisão
 | Consultas TPCDS 99 e total de minutos (cache desativado) | 30 | 28 | 22 
 
 
-| Consultas TPCDS 99 e total de minutos (cache ativado) | 22 | 28 | 21,5 
+| TPCDS 99 consultas e total de minutos 2 (cache ativado) | 22 | 28 | 21,5 
 
 
  a| 
@@ -156,6 +154,8 @@ S3 pedidos de divisão
 
 | Total de solicitações (cache desativado) | 2.156.578 | 939.148 | 932.071 
 |===
+2 o desempenho do Trino/Starburst é prejudicado por recursos de computação; adicionar mais RAM ao cluster reduz o tempo total de consulta.
+
 Como mostrado na primeira tabela, o Hive é significativamente mais lento do que outros ecossistemas modernos de lakehouse de dados. Observamos que o Hive enviou um grande número de solicitações de list-objects S3, que normalmente são lentas em todas as plataformas de armazenamento de objetos, especialmente quando se trata de buckets contendo muitos objetos. Isso aumenta significativamente a duração geral da consulta. Além disso, os ecossistemas modernos do lago podem enviar um grande número de SOLICITAÇÕES GET em paralelo, variando de 2.000 a 5.000 solicitações por segundo, em comparação com as de 50 a 100 solicitações da Hive por segundo. O sistema de arquivos padrão mimetismo por Hive e Hadoop S3A contribui para a lentidão do Hive ao interagir com o armazenamento de objetos S3D.
 
 O uso do Hadoop (em armazenamento de objetos HDFS ou S3) com o Hive ou Spark requer um amplo conhecimento do Hadoop e do Hive/Spark, bem como uma compreensão de como as configurações de cada serviço interagem. Juntos, eles têm mais de 1.000 configurações, muitas das quais estão inter-relacionadas e não podem ser alteradas independentemente. Encontrar a combinação ideal de configurações e valores requer uma quantidade enorme de tempo e esforço.

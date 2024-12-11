@@ -1612,7 +1612,6 @@
   <block id="4dc7ef59b422ad6beec0dcf560a3fdf9" category="paragraph">*Backup de dados e recuperação de desastres:* as empresas podem usar o StorageGRID S3 como uma solução confiável e econômica para fazer backup de dados críticos e recuperá-los em caso de desastre.</block>
   <block id="b05954e05454ab56e0d356cb4ad49d95" category="paragraph">* Armazenamento de dados para aplicativos:* o StorageGRID S3 pode ser usado como um back-end de armazenamento para aplicativos, permitindo que os desenvolvedores armazenem e recuperem arquivos, imagens, vídeos e outros tipos de dados facilmente.</block>
   <block id="5623c900b98e0e5e17c60c75ded947b1" category="paragraph">*Entrega de conteúdo:* o StorageGRID S3 pode ser usado para armazenar e entregar conteúdo estático do site, arquivos de Mídia e downloads de software para usuários em todo o mundo, aproveitando a distribuição geográfica e o namespace global da StorageGRID para entrega de conteúdo rápida e confiável.</block>
-  <block id="60b72d1ecbd87ac726a3dbb733456c59" category="paragraph">*Disposição em camadas de dados:* os clientes do NetApp usam o recurso ONTAP FabricPool para mover dados automaticamente entre um nível local de alto desempenho para o StorageGRID. A disposição em camadas libera storage flash caro para dados ativos e mantém os dados inativos prontamente disponíveis no storage de objetos de baixo custo. Isto maximiza o desempenho e as poupanças.</block>
   <block id="454845c7ca306686c28f96a59487d70c" category="paragraph">*Arquivo de dados:* o StorageGRID oferece diferentes tipos de armazenamento e suporta a disposição em camadas em opções públicas de armazenamento de baixo custo a longo prazo, tornando-o uma solução ideal para arquivamento e retenção de dados a longo prazo que precisam ser mantidos para fins de conformidade ou históricos.</block>
   <block id="a324e6c3bb7d6684738c923e7b52ea98" category="paragraph">*Casos de uso de armazenamento de objetos*</block>
   <block id="9f79f86c9a539a911125a876ef6a3c2e" category="inline-image-macro">Diagrama de caso de uso de StorageGRID, largura de 396mm, altura de 394mm</block>
@@ -1695,7 +1694,6 @@
   <block id="077385462ac0cf8f7fe1ddb0b3983c42" category="cell">Consultas TPCDS 99 e total de minutos (cache desativado)</block>
   <block id="34173cb38f07f89ddbebc2ac9128303f" category="cell">30</block>
   <block id="b6d767d2f8ed5d21a44b0e5886680cb9" category="cell">22</block>
-  <block id="95df7e4eb2568a2c428c70b695f7cac2" category="cell">Consultas TPCDS 99 e total de minutos (cache ativado)</block>
   <block id="d81fdeb5a429e85d04118048e4b3485d" category="cell">21,5</block>
   <block id="b7ae258c3f8653133aa9c0c448f67516" category="cell">Obter (cache desativado)</block>
   <block id="3bb0dd7ec24af388f7e49723482fb553" category="cell">2.154.747</block>
@@ -3150,4 +3148,6 @@
   <block id="a3f1428e66932d96ff43f4bf4a938e38" category="inline-link-macro">Faça o download do pacote de arquivos de amostra Logstash 8.x para o StorageGRID 11,9</block>
   <block id="92648c644fef59d092d8ebc7df369fd8" category="list-text"><block ref="69ef6b23b33f55d10cdea70d6bd19e3d" category="inline-link-macro-rx"></block> *md5 checksum* 41272857c4a54600f95995f6ed74800d e *sha256 checksum* 67048e8661052719990851e1ad960d4902fe537a6e135e8600177188da677c9</block>
   <block id="52f70839644ed308c4da8e45cf815a31" category="paragraph">Os seguintes objetos Kibana são importados: * Consulta * * * auditoria-msg-s3rq S3-orlm * Registro de bycast S3 S3 mensagens relacionadas com * aviso de nível de log ou acima * evento de segurança com falha * nginx-gw Registro de acesso de endpoint (disponível apenas em elk8-sample-for-sg119.zip) * Gráfico * S3 pedidos contam com base em bycast.log * Código de status HTTP *</block>
+  <block id="975915e0dc64af72667a293b87be5f66" category="cell">TPCDS 99 consultas e total de minutos 2 (cache ativado)</block>
+  <block id="a447f0aa56d54d66cf89976cc810a113" category="paragraph">2 o desempenho do Trino/Starburst é prejudicado por recursos de computação; adicionar mais RAM ao cluster reduz o tempo total de consulta.</block>
 </blocks>
