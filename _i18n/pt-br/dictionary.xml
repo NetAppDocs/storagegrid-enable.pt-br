@@ -605,17 +605,11 @@
   <block id="ef79c64bf374a8f7d8f11ddac8bac6ea" category="list-text">Se a nova sub-rede da rede Grid for usada no novo local, <block ref="a48adf12485e7e1fabf51f229ceb57fd" category="inline-link-macro-rx"></block></block>
   <block id="a27c73113b9f8b1c8936231a5c6b72db" category="list-text">Faça login no nó de administração principal, use o Change-ip para fazer a alteração de IP de grade, deve *stage* a alteração antes de desligar o nó para realocação.</block>
   <block id="e8ebed2710314532bd7421c291775f7a" category="list-text">Selecione 2 e, em seguida, 1 para a alteração de IP de Grade</block>
-  <block id="f246621acb182eca202eb998d35a0a71" category="paragraph"><block ref="f246621acb182eca202eb998d35a0a71" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0fc35f100f57d71f3d04d75f8e34db7a" category="list-text">selecione 5 para mostrar as alterações</block>
-  <block id="51db02a440736bec001c7d690821ec49" category="paragraph"><block ref="51db02a440736bec001c7d690821ec49" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0db10ef124f48bf74646e51d511e42e7" category="list-text">selecione 10 para validar e aplicar a alteração.</block>
-  <block id="ecf8b3b84403afdd8f30ff4ca92df4d0" category="paragraph"><block ref="ecf8b3b84403afdd8f30ff4ca92df4d0" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b535a2204d1cc298ac5c3b36cc8a9249" category="list-text">Deve selecionar *stage* nesta etapa.</block>
-  <block id="a8c78f88b73dcaf8b7082c7d8bab4356" category="paragraph"><block ref="a8c78f88b73dcaf8b7082c7d8bab4356" category="inline-image-macro-rx" type="image"></block></block>
   <block id="23e28a352f23f6051ecbe97b0516b42f" category="list-text">Se o nó de administrador principal estiver incluído na alteração acima, digite *'a' para reiniciar o nó de administrador principal manualmente*</block>
-  <block id="6cfd9d702fc475a31c16db4299ee31a0" category="paragraph"><block ref="6cfd9d702fc475a31c16db4299ee31a0" category="inline-image-macro-rx" type="image"></block></block>
   <block id="355ec7ab5ee5e52899a8a48528d82b93" category="list-text">Prima ENTER para regressar ao menu anterior e sair da interface Change-ip.</block>
-  <block id="34efad53185ba8366fcb774fe4502175" category="paragraph"><block ref="34efad53185ba8366fcb774fe4502175" category="inline-image-macro-rx" type="image"></block></block>
   <block id="6a713acf175fd861bbb563ab540a06fe" category="list-text">No Grid Manager, baixe o novo pacote de recuperação. *Gerenciador de grade* &gt; *Manutenção* &gt; *Pacote de recuperação*</block>
   <block id="96557217b00ac75f863bec84c65347bf" category="list-text">Se a alteração de VLAN for necessária no dispositivo StorageGRID, consulte a <block ref="f1c1d143229526a165bf49ac775d4ecd" category="inline-xref-macro-rx"></block>seção .</block>
   <block id="26afb12dd81518887c60c85ae47dab08" category="list-text">Encerre todos os nós e/ou dispositivos no local, rotule/remova as unidades de disco, se necessário, desprenda, embale e mova.</block>
@@ -1634,12 +1628,8 @@
   <block id="39b5836a4532001dfbe7e05fb49461e4" category="list-text">Cluster de VMs, cada uma com 128G GB de RAM e 24 vCPU, armazenamento SSD para disco do sistema</block>
   <block id="a7bc6add825dafcb28d8468de2244c0e" category="list-text">Hadoop 3.3.5 com Hive 3.1.3 (1 nó de nome e 4 nós de dados)</block>
   <block id="6b3b732f04270b0bc61c4e04a2f39184" category="list-text">Delta Lake com Spark 3.2.0 (1 master e 4 workers) e Hadoop 3.3.5</block>
-  <block id="37e59045c327c8ae9b2d4f7b4f136217" category="list-text">dremio V23 (1 cordinador e 5 executores)</block>
-  <block id="1543c40ac4e68e60ea63a94bfab320ec" category="list-text">Trino v438 (1 cordinador e 5 trabalhadores)</block>
-  <block id="e9940dffc6cb8987f8ea2849d2c81a2c" category="list-text">Starburst v453 (1 cordinador e 5 trabalhadores)</block>
   <block id="670aaecb1a526fbed439dad3ec353a96" category="list-text">Storage de objetos</block>
   <block id="e6626cf4bf50ce440a045708b2e1f1e5" category="list-text">NetApp StorageGRID 11,8 com 3 x SG6060 e 1x SG1000 balanceador de carga</block>
-  <block id="20536af82697c291683798ab540160e0" category="list-text">Proteção de objetos - 2 cópias (o resultado é semelhante ao EC 2-1)</block>
   <block id="3cf72a217876a6502e40c6bc45a93c60" category="list-text">Tamanho do banco de dados 1000GB</block>
   <block id="b9d35717430d39eef24c76f0c1796c11" category="list-text">O cache foi desativado em todos os ecossistemas para cada teste de consulta usando o formato Parquet. Para o formato Iceberg, comparamos o número de solicitações GET S3 e o tempo total de consulta entre cenários desabilitados em cache e habilitados para cache.</block>
   <block id="cdbfde1ab888a940af383c70c682b87a" category="paragraph">TPC-DS inclui 99 consultas SQL complexas projetadas para benchmarking. Medimos o tempo total necessário para executar todas as 99 consultas e realizamos uma análise detalhada examinando o tipo e o número de S3 solicitações. Nossos testes compararam a eficiência de dois formatos de tabela populares: Parquet e Iceberg.</block>
@@ -1653,63 +1643,49 @@
   <block id="35b5589d5690d7ef32acf311beb9bbea" category="cell">TPCDS 99 consultas e total de minutos</block>
   <block id="c98abcd54e4d3791a1400bab7aa399fe" category="cell">1084 1</block>
   <block id="b53b3a3d6ab90ce0268229151c9bde11" category="cell">55</block>
-  <block id="67c6a1e7ce56d3d6fa748ab6d9af3fd7" category="cell">47</block>
   <block id="6364d3f0f495b6ab9dcf8d3b5c6e0b01" category="cell">32</block>
   <block id="33e75ff09dd601bbe69f351039152189" category="cell">28</block>
   <block id="75b00b5e6500e718036f28f893b7dee1" category="paragraph">S3 pedidos de divisão</block>
   <block id="7528035a93ee69cedb1dbddb2f0bfcc8" category="cell">OBTER</block>
   <block id="8db7bb1512ff25e1db67c5b9a53f897d" category="cell">1.117.184</block>
   <block id="2569e54b8230d5c2746fa85c61dcf512" category="cell">2.074.610</block>
-  <block id="7cea2b87e7eb0c4d67994a7b9fa4f3d3" category="cell">4.414.227</block>
   <block id="e1327a62998567085c28d8caac25a097" category="cell">1.504.212</block>
   <block id="61f6b2bbbbcd552b422c8740065ff520" category="cell">1.495.039</block>
   <block id="6f53c4f40f0a0d7fefdb89564ac1c713" category="cell">Observação: Toda a gama GANHA</block>
   <block id="a9d41bf59f53e6160f0b13f571ea418a" category="cell">Alcance de 80% de 2KB a 2MB de 32MB objetos, 50 a 100 solicitações/seg</block>
   <block id="e0b8bceb4cded5e4c1e2d73d9331f0f7" category="cell">Alcance de 73% abaixo de 100KB de 32MB objetos, 1000 - 1400 solicitações/seg</block>
-  <block id="bfe0f96dc7eb9140699f8fdd7568c553" category="cell">90% 1M byte range get de 256MB objetos, 2000 - 2300 solicitações/seg</block>
   <block id="c7eb1fdd90d51dff9000a413a518c83c" category="cell">Alcance obter tamanho: 50% abaixo de 100KB, 16% em torno de 1MB, 27% 2MB-9MB, 3500 - 4000 solicitações/seg</block>
   <block id="f8bc1fd43d6bb150e5b0b51185508a46" category="cell">Obter tamanho: 50% abaixo de 100KB, 16% em torno de 1MB, 27% 2MB-9MB, 4000 - 5000 solicitação/seg</block>
   <block id="0f220d208874b104e26e73ec94b0e690" category="cell">Listar objetos</block>
   <block id="bfc2dfc2cb23058c08a7d12b5c3abb19" category="cell">312.053</block>
   <block id="0e706da47bd945de88f06af5c56e1e6a" category="cell">24.158</block>
-  <block id="335f5352088d7d9bf74191e006d8e24c" category="cell">240</block>
   <block id="e2230b853516e7b05d79744fbd4c9c13" category="cell">509</block>
   <block id="c03e2ac569e5aac15b52493eef30e9e7" category="cell">CABEÇA (objeto inexistente)</block>
   <block id="b920dc6d7f4f2319e93bdcc850be6166" category="cell">156.027</block>
   <block id="8e43c25a28a92db67de364324cbdf9dd" category="cell">12.103</block>
-  <block id="58a2fc6ed39fd083f55d4182bf88826d" category="cell">192</block>
   <block id="cfcd208495d565ef66e7dff9f98764da" category="cell">0</block>
   <block id="d241bb72f8484e8c12847a1c342893cc" category="cell">CABEÇA (objeto existente)</block>
   <block id="791138a3078a87a630b0ddcc779f5365" category="cell">982.126</block>
   <block id="41157fd52202414d46b193aa0dc0e7ed" category="cell">922.732</block>
-  <block id="4a12caac680acef61b9d5542d0bdd153" category="cell">1.845</block>
   <block id="645d67b4eb5a0d06bf14fe7a682ced76" category="cell">Total de solicitações</block>
   <block id="a56d0d38d9846ac044442ecabae19902" category="cell">2.567.390</block>
   <block id="6dfffbda5aeba01126df9439ffbc82a3" category="cell">3.033.603</block>
-  <block id="b0f186b9ad3639a900dc289160a9505b" category="cell">4.416.504</block>
   <block id="a6555d2b06722bde8a106c16e353a06a" category="cell">1.504.721</block>
   <block id="794b1e43f91a9913da14ea20cd4198c9" category="cell">1.499.551</block>
   <block id="f1cab053650b93fe71331be2c4c9c40d" category="paragraph">1 não é possível concluir a consulta número 72</block>
   <block id="2e09f209b7749073d8732d856a6afe12" category="paragraph">*Resultado da consulta TPC-DS com formato de tabela Iceberg*</block>
   <block id="077385462ac0cf8f7fe1ddb0b3983c42" category="cell">Consultas TPCDS 99 e total de minutos (cache desativado)</block>
-  <block id="34173cb38f07f89ddbebc2ac9128303f" category="cell">30</block>
   <block id="b6d767d2f8ed5d21a44b0e5886680cb9" category="cell">22</block>
   <block id="d81fdeb5a429e85d04118048e4b3485d" category="cell">21,5</block>
   <block id="b7ae258c3f8653133aa9c0c448f67516" category="cell">Obter (cache desativado)</block>
-  <block id="3bb0dd7ec24af388f7e49723482fb553" category="cell">2.154.747</block>
   <block id="817c2a89c3531f80836a2db8d06d85b3" category="cell">938.639</block>
   <block id="5f4363558dd08c8d9c04d30802266c70" category="cell">931.582</block>
   <block id="18c14d7f109f020c287a26f7a8f428d4" category="cell">Obter (cache ativado)</block>
-  <block id="e3f91fa6ba87f03f3166a20beea1c344" category="cell">5.389</block>
   <block id="6b11f97cb60ca2cd6f46178c1e7cf4f3" category="cell">30.158</block>
   <block id="bc06fdbde6a0ac6d6d654b6614f9b5d7" category="cell">3.281</block>
-  <block id="76de71b9903e9b839668c173592c80be" category="cell">Alcance obter tamanho: 67% 1MB, 15% 100KB, 10% 500KB, 3000 - 4000 solicitações/seg</block>
   <block id="5819eb0ec4b00d343de26ea1746d62b0" category="cell">Alcance obter tamanho: 42% abaixo de 100KB, 17% em torno de 1MB, 33% 2MB-9MB, 3500 - 4000 solicitações/seg</block>
   <block id="a6939d8de1e94d811eb67cb92270c822" category="cell">Alcance obter tamanho: 43% abaixo de 100KB, 17% em torno de 1MB, 33% 2MB-9MB, 4000 - 5000 solicitações/seg</block>
-  <block id="46ba9f2a6976570b0353203ec4474217" category="cell">284</block>
-  <block id="e087b5b2372a325fbbc3eb02013bd513" category="cell">1.261</block>
   <block id="2d6a14455d72488e5e91089f0b50905c" category="cell">Total de solicitações (cache desativado)</block>
-  <block id="2096b1864713f451954f320346ec801a" category="cell">2.156.578</block>
   <block id="bfd8a8a359e411cea773da89ea7b516e" category="cell">939.148</block>
   <block id="95368980785d6fcc2e447b3569f7e08e" category="cell">932.071</block>
   <block id="e7c4b70d9a61af19b7bb26b3656a04a7" category="paragraph">Como mostrado na primeira tabela, o Hive é significativamente mais lento do que outros ecossistemas modernos de lakehouse de dados. Observamos que o Hive enviou um grande número de solicitações de list-objects S3, que normalmente são lentas em todas as plataformas de armazenamento de objetos, especialmente quando se trata de buckets contendo muitos objetos. Isso aumenta significativamente a duração geral da consulta. Além disso, os ecossistemas modernos do lago podem enviar um grande número de SOLICITAÇÕES GET em paralelo, variando de 2.000 a 5.000 solicitações por segundo, em comparação com as de 50 a 100 solicitações da Hive por segundo. O sistema de arquivos padrão mimetismo por Hive e Hadoop S3A contribui para a lentidão do Hive ao interagir com o armazenamento de objetos S3D.</block>
@@ -3150,4 +3126,33 @@
   <block id="52f70839644ed308c4da8e45cf815a31" category="paragraph">Os seguintes objetos Kibana são importados: * Consulta * * * auditoria-msg-s3rq S3-orlm * Registro de bycast S3 S3 mensagens relacionadas com * aviso de nível de log ou acima * evento de segurança com falha * nginx-gw Registro de acesso de endpoint (disponível apenas em elk8-sample-for-sg119.zip) * Gráfico * S3 pedidos contam com base em bycast.log * Código de status HTTP *</block>
   <block id="975915e0dc64af72667a293b87be5f66" category="cell">TPCDS 99 consultas e total de minutos 2 (cache ativado)</block>
   <block id="a447f0aa56d54d66cf89976cc810a113" category="paragraph">2 o desempenho do Trino/Starburst é prejudicado por recursos de computação; adicionar mais RAM ao cluster reduz o tempo total de consulta.</block>
+  <block id="bc2469224adc8a8ee41f7c9d2f89498e" category="inline-image-macro">editar ip-mudança</block>
+  <block id="743a7af3c67be6e10fc77339961e23fb" category="paragraph"><block ref="743a7af3c67be6e10fc77339961e23fb" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f9ab05454998236921a6b0e281fae632" category="inline-image-macro">validar</block>
+  <block id="6e6f4af6899b11671003020ac07a3a96" category="paragraph"><block ref="6e6f4af6899b11671003020ac07a3a96" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3762c8020ba0ce4a7a389025eb72cf94" category="inline-image-macro">mudanças de fase</block>
+  <block id="fbd50b0647972077b13e74d396e8896e" category="paragraph"><block ref="fbd50b0647972077b13e74d396e8896e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a78f24ac183c3cb24df5f184a2e0b46d" category="inline-image-macro">Reinicie o administrador manualmente</block>
+  <block id="f8ce374542d0a27e4d8d96c0f7315dc3" category="paragraph"><block ref="f8ce374542d0a27e4d8d96c0f7315dc3" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f34e35f25d10586d1af2b8d83719ee5f" category="inline-image-macro">Menu anterior</block>
+  <block id="c38ca150b2bcf962c0873899a514800e" category="paragraph"><block ref="c38ca150b2bcf962c0873899a514800e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a0bfb8e59e6c13fc8d990781f77694fe" category="inline-image-macro">Continue</block>
+  <block id="3211aaa59b164a687021525248c48c20" category="paragraph"><block ref="3211aaa59b164a687021525248c48c20" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="122cfba1930d02037ab442d83e00ecfb" category="list-text">Dremio v25,2 (1 coordenador e 5 executores)</block>
+  <block id="ed539d33b6810957992d273d5fe36c89" category="list-text">Trino v438 (1 coordenador e 5 trabalhadores)</block>
+  <block id="8b03eab5bbec674c2055b88603e6b915" category="list-text">Starburst v453 (1 coordenador e 5 trabalhadores)</block>
+  <block id="150169d4934a641a9290023e45d8827c" category="list-text">Proteção de objetos - 2 cópias (o resultado é semelhante ao EC 2-1)</block>
+  <block id="19ca14e7ea6328a42e0eb13d585e4c22" category="cell">36</block>
+  <block id="71958970b7dcf9b9a9a0547a08451814" category="cell">3.939.690</block>
+  <block id="21d6b11365dd533455aef1380bc83463" category="cell">90% 1M byte range get de 256MB objetos, 2500 - 3000 solicitações/seg</block>
+  <block id="da4fb5c6e93e74d3df8527599fa62642" category="cell">120</block>
+  <block id="26657d5ff9020d2abefe558796b99584" category="cell">96</block>
+  <block id="43460f9628a66a0085c583d8246d0d66" category="cell">3.939,906</block>
+  <block id="9b7ed7cdb52b5dffcfa7c7d3a1591cce" category="cell">1.985.922</block>
+  <block id="f0da24bce2825366359f84209912aad9" category="cell">611.347</block>
+  <block id="ffbb0c48a0c397085ed7e56cf32a94ff" category="cell">Alcance obter tamanho: 67% 1MB, 15% 100KB, 10% 500KB, 3500 - 4500 solicitações/seg</block>
+  <block id="372d3f309fef061977fb2f7ba36d74d2" category="cell">1465</block>
+  <block id="c913303f392ffc643f7240b180602652" category="cell">1464</block>
+  <block id="6cd2cdb0fa97e6793df3667997292b8a" category="cell">3.702</block>
+  <block id="93ee6d81759b8ae556ed02d6b52a3447" category="cell">1.992.553</block>
 </blocks>

@@ -40,27 +40,27 @@ image:site-relocation/s3-completed-request.png["S3 Visão geral amostra de gráf
 +
 .. Selecione 2 e, em seguida, 1 para a alteração de IP de Grade
 +
-image:site-relocation/ip-change-1.png[""]
+image:site-relocation/ip-change-1.png["editar ip-mudança"]
 
 .. selecione 5 para mostrar as alterações
 +
-image:site-relocation/ip-change-2.png[""]
+image:site-relocation/ip-change-2.png["validar"]
 
 .. selecione 10 para validar e aplicar a alteração.
 +
-image:site-relocation/ip-change-3.png[""]
+image:site-relocation/ip-change-3.png["mudanças de fase"]
 
 .. Deve selecionar *stage* nesta etapa.
 +
-image:site-relocation/ip-change-4.png[""]
+image:site-relocation/ip-change-4.png["Reinicie o administrador manualmente"]
 
 .. Se o nó de administrador principal estiver incluído na alteração acima, digite *'a' para reiniciar o nó de administrador principal manualmente*
 +
-image:site-relocation/ip-change-5.png[""]
+image:site-relocation/ip-change-5.png["Menu anterior"]
 
 .. Prima ENTER para regressar ao menu anterior e sair da interface Change-ip.
 +
-image:site-relocation/ip-change-6.png[""]
+image:site-relocation/ip-change-6.png["Continue"]
 
 
 

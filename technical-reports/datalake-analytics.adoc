@@ -11,9 +11,6 @@ summary: Este relatório aborda a análise de big data no StorageGRID.
 :imagesdir: ../media/
 
 
-[role="lead"]
-_Por Angela Cheng_
-
 
 
 == Casos de uso do NetApp StorageGRID
@@ -65,9 +62,9 @@ este artigo apresenta uma referência abrangente de vários ecossistemas de arma
 ** Cluster de VMs, cada uma com 128G GB de RAM e 24 vCPU, armazenamento SSD para disco do sistema
 ** Hadoop 3.3.5 com Hive 3.1.3 (1 nó de nome e 4 nós de dados)
 ** Delta Lake com Spark 3.2.0 (1 master e 4 workers) e Hadoop 3.3.5
-** dremio V23 (1 cordinador e 5 executores)
-** Trino v438 (1 cordinador e 5 trabalhadores)
-** Starburst v453 (1 cordinador e 5 trabalhadores)
+** Dremio v25,2 (1 coordenador e 5 executores)
+** Trino v438 (1 coordenador e 5 trabalhadores)
+** Starburst v453 (1 coordenador e 5 trabalhadores)
 
 
 * Storage de objetos
@@ -89,7 +86,7 @@ TPC-DS inclui 99 consultas SQL complexas projetadas para benchmarking. Medimos o
 | Ecossistema | Colmeia | Delta Lake | Dremio | Trino | Starburst 
 
 
-| TPCDS 99 consultas e total de minutos | 1084 1 | 55 | 47 | 32 | 28 
+| TPCDS 99 consultas e total de minutos | 1084 1 | 55 | 36 | 32 | 28 
 
 
  a| 
@@ -97,22 +94,22 @@ S3 pedidos de divisão
 
 
 
-| OBTER | 1.117.184 | 2.074.610 | 4.414.227 | 1.504.212 | 1.495.039 
+| OBTER | 1.117.184 | 2.074.610 | 3.939.690 | 1.504.212 | 1.495.039 
 
 
-| Observação: Toda a gama GANHA | Alcance de 80% de 2KB a 2MB de 32MB objetos, 50 a 100 solicitações/seg | Alcance de 73% abaixo de 100KB de 32MB objetos, 1000 - 1400 solicitações/seg | 90% 1M byte range get de 256MB objetos, 2000 - 2300 solicitações/seg | Alcance obter tamanho: 50% abaixo de 100KB, 16% em torno de 1MB, 27% 2MB-9MB, 3500 - 4000 solicitações/seg | Obter tamanho: 50% abaixo de 100KB, 16% em torno de 1MB, 27% 2MB-9MB, 4000 - 5000 solicitação/seg 
+| Observação: Toda a gama GANHA | Alcance de 80% de 2KB a 2MB de 32MB objetos, 50 a 100 solicitações/seg | Alcance de 73% abaixo de 100KB de 32MB objetos, 1000 - 1400 solicitações/seg | 90% 1M byte range get de 256MB objetos, 2500 - 3000 solicitações/seg | Alcance obter tamanho: 50% abaixo de 100KB, 16% em torno de 1MB, 27% 2MB-9MB, 3500 - 4000 solicitações/seg | Obter tamanho: 50% abaixo de 100KB, 16% em torno de 1MB, 27% 2MB-9MB, 4000 - 5000 solicitação/seg 
 
 
-| Listar objetos | 312.053 | 24.158 | 240 | 509 | 512 
+| Listar objetos | 312.053 | 24.158 | 120 | 509 | 512 
 
 
-| CABEÇA (objeto inexistente) | 156.027 | 12.103 | 192 | 0 | 0 
+| CABEÇA (objeto inexistente) | 156.027 | 12.103 | 96 | 0 | 0 
 
 
-| CABEÇA (objeto existente) | 982.126 | 922.732 | 1.845 | 0 | 0 
+| CABEÇA (objeto existente) | 982.126 | 922.732 | 0 | 0 | 0 
 
 
-| Total de solicitações | 2.567.390 | 3.033.603 | 4.416.504 | 1.504.721 | 1.499.551 
+| Total de solicitações | 2.567.390 | 3.033.603 | 3.939,906 | 1.504.721 | 1.499.551 
 |===
 1 não é possível concluir a consulta número 72
 
@@ -123,10 +120,10 @@ S3 pedidos de divisão
 | Ecossistema | Dremio | Trino | Starburst 
 
 
-| Consultas TPCDS 99 e total de minutos (cache desativado) | 30 | 28 | 22 
+| Consultas TPCDS 99 e total de minutos (cache desativado) | 22 | 28 | 22 
 
 
-| TPCDS 99 consultas e total de minutos 2 (cache ativado) | 22 | 28 | 21,5 
+| TPCDS 99 consultas e total de minutos 2 (cache ativado) | 16 | 28 | 21,5 
 
 
  a| 
@@ -134,25 +131,25 @@ S3 pedidos de divisão
 
 
 
-| Obter (cache desativado) | 2.154.747 | 938.639 | 931.582 
+| Obter (cache desativado) | 1.985.922 | 938.639 | 931.582 
 
 
-| Obter (cache ativado) | 5.389 | 30.158 | 3.281 
+| Obter (cache ativado) | 611.347 | 30.158 | 3.281 
 
 
-| Observação: Toda a gama GANHA | Alcance obter tamanho: 67% 1MB, 15% 100KB, 10% 500KB, 3000 - 4000 solicitações/seg | Alcance obter tamanho: 42% abaixo de 100KB, 17% em torno de 1MB, 33% 2MB-9MB, 3500 - 4000 solicitações/seg | Alcance obter tamanho: 43% abaixo de 100KB, 17% em torno de 1MB, 33% 2MB-9MB, 4000 - 5000 solicitações/seg 
+| Observação: Toda a gama GANHA | Alcance obter tamanho: 67% 1MB, 15% 100KB, 10% 500KB, 3500 - 4500 solicitações/seg | Alcance obter tamanho: 42% abaixo de 100KB, 17% em torno de 1MB, 33% 2MB-9MB, 3500 - 4000 solicitações/seg | Alcance obter tamanho: 43% abaixo de 100KB, 17% em torno de 1MB, 33% 2MB-9MB, 4000 - 5000 solicitações/seg 
 
 
-| Listar objetos | 284 | 0 | 0 
+| Listar objetos | 1465 | 0 | 0 
 
 
-| CABEÇA (objeto inexistente) | 284 | 0 | 0 
+| CABEÇA (objeto inexistente) | 1464 | 0 | 0 
 
 
-| CABEÇA (objeto existente) | 1.261 | 509 | 509 
+| CABEÇA (objeto existente) | 3.702 | 509 | 509 
 
 
-| Total de solicitações (cache desativado) | 2.156.578 | 939.148 | 932.071 
+| Total de solicitações (cache desativado) | 1.992.553 | 939.148 | 932.071 
 |===
 2 o desempenho do Trino/Starburst é prejudicado por recursos de computação; adicionar mais RAM ao cluster reduz o tempo total de consulta.
 

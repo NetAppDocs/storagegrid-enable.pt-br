@@ -8,7 +8,7 @@ summary: Etapas para acessar o software de avaliação do StorageGRID para um cl
 :hardbreaks:
 :allow-uri-read: 
 :icons: font
-:imagesdir: ../media/
+:imagesdir: ./media/
 
 
 [role="lead"]
