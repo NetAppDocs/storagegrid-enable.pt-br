@@ -41,7 +41,6 @@ Para saber mais sobre as informações descritas neste documento, consulte os se
 
 * Centro de Documentação do NetApp StorageGRID https://docs.netapp.com/us-en/storagegrid-118/[]
 * Capacitação NetApp StorageGRID https://docs.netapp.com/us-en/storagegrid-enable/[]
-* Página de recursos da documentação do StorageGRID https://www.netapp.com/data-storage/storagegrid/documentation/[]
 * Documentação do produto NetApp https://www.netapp.com/support-and-training/documentation/[]
 * Aplicação NetApp StorageGRID para Splunk https://splunkbase.splunk.com/app/3898/#/details[]
 
