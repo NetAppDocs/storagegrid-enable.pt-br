@@ -2,6 +2,8 @@
 section: product-feature-guides
 title: Guias de recursos do produto
 entries:
+- title: Alcançar RPO zero com o StorageGRID
+  url: "/product-feature-guides/achieve-zero-rpo.html"
 - title: Crie o Cloud Storage Pool para AWS ou Google Cloud
   url: "/product-feature-guides/create-cloud-storage-pool-aws-google-cloud.html"
 - title: Criar Cloud Storage Pool para storage Azure Blob
