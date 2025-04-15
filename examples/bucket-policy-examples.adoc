@@ -2,7 +2,7 @@
 permalink: examples/bucket-policy-examples.html 
 sidebar: sidebar 
 keywords: iam, bucket policy, group policy, policy 
-summary: 'Aqui estão exemplos de políticas de bucket e políticas de grupo (políticas do IAM).' 
+summary: Aqui estão exemplos de políticas e permissões no StorageGRID S3. 
 ---
 = Exemplo de políticas de bucket e Group(IAM)
 :hardbreaks:
@@ -12,8 +12,183 @@ summary: 'Aqui estão exemplos de políticas de bucket e políticas de grupo (po
 
 
 [role="lead"]
-Aqui estão exemplos de políticas de bucket e políticas de grupo (políticas do IAM).
+Aqui estão exemplos de políticas e permissões no StorageGRID S3.
 
+
+
+== A estrutura de uma política
+
+No StorageGRID, as políticas de grupo são as mesmas que as políticas de serviço do AWS user (IAM) S3.
+
+As políticas de grupo são necessárias no StorageGRID. Um usuário com S3 chaves de acesso, mas não atribuído a um grupo de usuários, ou atribuído a um grupo sem uma política que conceda algumas permissões, não poderá acessar nenhum dado.
+
+As políticas de bucket e grupo compartilham a maioria dos mesmos elementos. As políticas são construídas no formato json e podem ser geradas usando o. https://awspolicygen.s3.amazonaws.com/policygen.html["Gerador de políticas da AWS"]
+
+Todas as políticas definirão o efeito, a(s) ação(ões) e o(s) recurso(s). Políticas de bucket também definirão um principal.
+
+O *efeito* será permitir ou negar o pedido. O *Principal* é a(s) conta(s)/usuário(s) que está(ão) a ser(ão) concedida(s) ou negada(s) as habilidades. Isso pode ser definido como um curinga ou um usuário ou grupo local ou federado de dentro do locatário que o intervalo reside ou outro locatário na grade. O usuário ou grupo pode ser identificado pelo nome ou string de ID. A *Ação* é o conjunto de S3 operações que estão sendo concedidas ou negadas ao(s) usuário(s).
+
+
+NOTE: A ação S3:ListBucket permitida é necessária para que os usuários executem quaisquer ações S3D.
+
+O *recurso* é o bucket ou buckets em que os princípios estão sendo concedidos ou negados a capacidade de executar as ações. Opcionalmente, pode haver uma *condição* para quando a ação da política é válida.
+
+O formato do JSON polict será assim:
+
+[source, json]
+----
+{
+  "Statement": [
+    {
+      "Sid": "Custom name for this permission",
+      "Effect": "Allow or Deny",
+      "Principal": {
+        "AWS": "arn:aws:iam::Tenant_ID:federated-group/Group_Name",
+        "AWS": "arn:aws:iam::Tenant_ID:group/Group_Name",
+        "AWS": "arn:aws:iam::Tenant_ID::federated-user/User_Name",
+        "AWS": "User_Name"
+      },
+      "Action": [
+        "s3:ListBucket",
+        "s3:Other_Action"
+      ],
+      "Resource": [
+        "arn:aws:s3:::Example_Bucket",
+        "arn:aws:s3:::Example_Bucket/*"
+      ],
+    }
+  ]
+}
+----
+
+
+== Usando o gerador de políticas da AWS
+
+O gerador de políticas da AWS é uma ótima ferramenta para ajudar a obter o código json com o formato correto e as informações que você está tentando implementar.
+
+Para gerar as permissões para uma política de grupo do StorageGRID: * Escolha a política do IAM para o tipo de política. * Selecione o botão para o efeito desejado - permitir ou negar. É uma boa prática iniciar suas políticas com as permissões de negação e, em seguida, adicionar as permissões de permissão * na caixa suspensa ações clique na caixa ao lado de quantas das ações S3 que você deseja incluir nesta permissão ou na caixa "todas as ações". * Digite os caminhos de intervalo na caixa Nome de recurso do Amazon (ARN). Inclua "ARN:aws:S3:::" antes do nome do intervalo. Ex. "arn:aws:s3:::examplebucket"
+
+image:policy/group-generic.png["Gerar uma política de grupo"]
+
+Para gerar as permissões para uma política de bucket: * Escolha a Política de bucket do S3 para o tipo de diretiva. * Selecione o botão para o efeito desejado - permitir ou negar. É uma boa prática iniciar suas políticas com as permissões de negação e, em seguida, adicionar as permissões de permissão * tipo nas informações de usuário ou grupo para o principal. * Na lista suspensa ações, clique na caixa ao lado de tantas das S3 ações que você deseja incluir nesta permissão ou na caixa "todas as ações". * Digite os caminhos de intervalo na caixa Nome de recurso do Amazon (ARN). Inclua "ARN:aws:S3:::" antes do nome do intervalo. Ex. "arn:aws:s3:::examplebucket"
+
+image:policy/bucket-generic.png["Gerar uma política de bucket"]
+
+Por exemplo, se você quiser gerar uma política de bucket para permitir que todos os usuários executem operações GetObject em todos os objetos no bucket, enquanto somente os usuários pertencentes ao grupo "Marketing" na conta especificada terão acesso total.
+
+* Selecione S3 Bucket Policy como o tipo de política.
+* Escolha o efeito permitir
+* Insira as informações do grupo Marketing - ARN:aws:iam::95390887230002558202:grupo federado/Marketing
+* Clique na caixa "todas as ações"
+* Digite as informações do bucket - ARN:aws:S3:::examplebucket,arn:aws:S3:::examplebucket/*
+
+
+image:policy/example-bucket1.png["Gere a primeira permissão na política"]
+
+* Clique no botão "Adicionar declaração"
+
+
+image:policy/permission1.png["Primeira permissão na política inserida"]
+
+* Escolha o efeito permitir
+* Digite o asterisco (*) para todos
+* Clique na caixa ao lado de ações GetObject e ListBucket"
+
+
+image:policy/getobject.png["Selecione GetObject"] image:policy/listbucket.png["Selecione ListBucket"]
+
+* Digite as informações do bucket - ARN:aws:S3:::examplebucket,arn:aws:S3:::examplebucket/*
+
+
+image:policy/example-bucket2.png["Gere a segunda permissão na política"]
+
+* Clique no botão "Adicionar declaração"
+
+
+image:policy/permission3.png["Segunda permissão na política"]
+
+* Clique no botão "gerar política" e uma janela pop-up aparecerá com a política gerada.
+
+
+image:policy/example-output.png["A saída final"]
+
+* Copie o texto json completo que deve ser assim:
+
+
+[source, json]
+----
+{
+  "Id": "Policy1744399292233",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1744399152830",
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::examplebucket",
+        "arn:aws:s3:::examplebucket/*"
+      ],
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::95390887230002558202:federated-group/Marketing"
+        ]
+      }
+    },
+    {
+      "Sid": "Stmt1744399280838",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::examplebucket",
+        "arn:aws:s3:::examplebucket/*"
+      ],
+      "Principal": "*"
+    }
+  ]
+}
+----
+este json pode ser usado como está, ou você pode remover as linhas ID e versão acima da linha "Statement" e você pode personalizar o Sid para cada permissão com um título mais significativo para cada permissão, ou estes podem ser removidos também.
+
+Por exemplo:
+
+[source, json]
+----
+{
+  "Statement": [
+    {
+      "Sid": "MarketingAllowFull",
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::examplebucket",
+        "arn:aws:s3:::examplebucket/*"
+      ],
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::95390887230002558202:federated-group/Marketing"
+        ]
+      }
+    },
+    {
+      "Sid": "EveryoneReadOnly",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::examplebucket",
+        "arn:aws:s3:::examplebucket/*"
+      ],
+      "Principal": "*"
+    }
+  ]
+}
+----
 
 
 == Políticas de grupo (IAM)
@@ -26,6 +201,7 @@ Essa política de grupo só permitirá que os usuários acessem objetos no inter
 
 [source, json]
 ----
+{
 "Statement": [
     {
       "Sid": "AllowListBucketOfASpecificUserPrefix",
@@ -133,6 +309,14 @@ Esta política de grupo irá restringir os usuários de excluir objetos versiona
     ]
 }
 ----
+
+
+== Políticas do bucket
+
+
+
+=== Restrinja as exclusões do usuário de objetos versionados em um bucket
+
 Esta política de bucket irá restringir um usuário(identificado pelo UserId "56622399308951294926") de excluir objetos versionados por versionID
 
 [source, json]
@@ -178,29 +362,29 @@ Essa política permite que um único usuário tenha acesso somente leitura a um 
             "Sid": "Deny non user1",
             "Effect": "Deny",
             "NotPrincipal": {
-                "AWS": "urn:sgws:identity::34921514133002833665:user/user1"
+                "AWS": "arn:aws:iam::34921514133002833665:user/user1"
             },
             "Action": [
                 "s3:*"
             ],
             "Resource": [
-                "urn:sgws:s3:::bucket1",
-                "urn:sgws:s3:::bucket1/*"
+                "arn:aws:s3:::bucket1",
+                "arn:aws:s3:::bucket1/*"
             ]
         },
         {
             "Sid": "Allow user1 read access to bucket bucket1",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "urn:sgws:identity::34921514133002833665:user/user1"
+                "AWS": "arn:aws:iam::34921514133002833665:user/user1"
             },
             "Action": [
                 "s3:GetObject",
                 "s3:ListBucket"
             ],
             "Resource": [
-                "urn:sgws:s3:::bucket1",
-                "urn:sgws:s3:::bucket1/*"
+                "arn:aws:s3:::bucket1",
+                "arn:aws:s3:::bucket1/*"
             ]
         }
     ]
