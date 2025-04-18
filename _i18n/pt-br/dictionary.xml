@@ -3305,8 +3305,6 @@
   <block id="8a4af1af804f24fc5095bcb2f05db9c4" category="inline-link">Gerador de políticas da AWS</block>
   <block id="2bf2ec7dad10916c7d2bbb85d22b8113" category="paragraph">As políticas de bucket e grupo compartilham a maioria dos mesmos elementos. As políticas são construídas no formato json e podem ser geradas usando o.<block ref="b825d77c880bca33764ff404def2b41e" category="inline-link-rx"></block></block>
   <block id="8efdfc962f00530ec94e00c5411f744c" category="paragraph">Todas as políticas definirão o efeito, a(s) ação(ões) e o(s) recurso(s). Políticas de bucket também definirão um principal.</block>
-  <block id="036aeedca40738e98fb9980b5c2675af" category="paragraph">O *efeito* será permitir ou negar o pedido. O *Principal* é a(s) conta(s)/usuário(s) que está(ão) a ser(ão) concedida(s) ou negada(s) as habilidades. Isso pode ser definido como um curinga ou um usuário ou grupo local ou federado de dentro do locatário que o intervalo reside ou outro locatário na grade. O usuário ou grupo pode ser identificado pelo nome ou string de ID. A *Ação* é o conjunto de S3 operações que estão sendo concedidas ou negadas ao(s) usuário(s).</block>
-  <block id="dba9490f360197ade1689ea1d2889b5c" category="admonition">A ação S3:ListBucket permitida é necessária para que os usuários executem quaisquer ações S3D.</block>
   <block id="2dc7323af24c93e28f62e0e080730041" category="paragraph">O *recurso* é o bucket ou buckets em que os princípios estão sendo concedidos ou negados a capacidade de executar as ações. Opcionalmente, pode haver uma *condição* para quando a ação da política é válida.</block>
   <block id="98d8787db8134942993742f28e6e638e" category="section-title">Usando o gerador de políticas da AWS</block>
   <block id="7fd5fa9d1e888f7d962c6930557d8e36" category="paragraph">O gerador de políticas da AWS é uma ótima ferramenta para ajudar a obter o código json com o formato correto e as informações que você está tentando implementar.</block>
@@ -3345,4 +3343,16 @@
   <block id="5e90956923e27ad94083a42655710d27" category="paragraph">Para gerar as permissões para uma política de bucket: * Escolha a Política de bucket do S3 para o tipo de diretiva. * Selecione o botão para o efeito desejado - permitir ou negar. É uma boa prática iniciar suas políticas com as permissões de negação e, em seguida, adicionar as permissões de permissão * tipo nas informações de usuário ou grupo para o principal. * Na lista suspensa ações, clique na caixa ao lado de tantas das S3 ações que você deseja incluir nesta permissão ou na caixa "todas as ações". * Digite os caminhos de intervalo na caixa Nome de recurso do Amazon (ARN). Inclua "ARN:aws:S3:::" antes do nome do intervalo. Ex. "arn:aws:s3:::example_bucket"</block>
   <block id="6286b2654fd9f607da0c9a689ef54e7c" category="list-text">Insira as informações do bucket - ARN:aws:S3:::example_bucket,arn:aws:S3:::example_bucket/*</block>
   <block id="8e42358c3df8a569be04cad92e8b7479" category="paragraph"><block ref="8e42358c3df8a569be04cad92e8b7479" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e73b44d49494e2ac6f4ce555878eacec" category="paragraph">O *efeito* será permitir ou negar o pedido.</block>
+  <block id="e3d361dfeb32442ba3887fb26cadd759" category="paragraph">O *principal*</block>
+  <block id="7c8bff59dd5d9771fc52f17ce6414420" category="list-text">Aplica-se apenas a políticas de bucket.</block>
+  <block id="4a47dee52461b2ce5adaefbba5fc57b0" category="list-text">O principal é a(s) conta(s)/usuário(s) que está sendo concedido(s) ou negado(s) as permissões.</block>
+  <block id="7b0fef71a6a5b6046a79dcb31b7991ec" category="list-text">Pode ser definido como:</block>
+  <block id="cdecd059c81b66125ab436ad5ba1f0db" category="list-text">Um curinga</block>
+  <block id="171a87df01e0c7aab0969853c4d63f99" category="list-text">Um ID de locatário para todos os usuários em um locatário (equivalente à conta da AWS)</block>
+  <block id="15ab6cf4100c9219aec62139d8ecadc0" category="list-text">Um usuário (local ou federado de dentro do locatário o bucket reside, ou outro locatário na grade)</block>
+  <block id="36bafc76e6f620a3ad8f1ff1389d5aeb" category="list-text">Um grupo (local ou federado de dentro do locatário o bucket reside, ou outro inquilino na grade).</block>
+  <block id="1fb97d2f8d3ea337eb88de35459a8dfa" category="paragraph">A *Ação* é o conjunto de S3 operações que estão sendo concedidas ou negadas ao(s) usuário(s).</block>
+  <block id="c4b3b18f1ab46adb439794c3e45b0a5a" category="admonition">Para políticas de Grupo, a ação S3:ListBucket permitida é necessária para que os usuários executem quaisquer ações S3D.</block>
+  <block id="21e1d6809aa3d238b83ad7b2536121ce" category="section-title">restrinja um intervalo a alguns usuários com acesso somente leitura.</block>
 </blocks>
