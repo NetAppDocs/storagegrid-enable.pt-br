@@ -2,9 +2,9 @@
 permalink: examples/bucket-policy-examples.html 
 sidebar: sidebar 
 keywords: iam, bucket policy, group policy, policy 
-summary: Aqui estão exemplos de políticas e permissões no StorageGRID S3. 
+summary: Políticas e permissões no StorageGRID . 
 ---
-= Exemplo de políticas de bucket e Group(IAM)
+= Políticas e permissões no StorageGRID
 :hardbreaks:
 :allow-uri-read: 
 :icons: font
@@ -24,7 +24,7 @@ As políticas de grupo são necessárias no StorageGRID. Um usuário com S3 chav
 
 As políticas de bucket e grupo compartilham a maioria dos mesmos elementos. As políticas são construídas no formato json e podem ser geradas usando o. https://awspolicygen.s3.amazonaws.com/policygen.html["Gerador de políticas da AWS"]
 
-Todas as políticas definirão o efeito, a(s) ação(ões) e o(s) recurso(s). Políticas de bucket também definirão um principal.
+Todas as políticas definirão o efeito, a(s) ação(ões) e o(s) recurso(s). As políticas de bucket também definirão um principal.
 
 O *efeito* será permitir ou negar o pedido.
 
