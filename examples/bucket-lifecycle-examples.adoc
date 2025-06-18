@@ -1,0 +1,296 @@
+---
+permalink: examples/bucket-lifecycle-examples.html 
+sidebar: sidebar 
+keywords: iam, bucket policy, lifecycle policy, policy, bucket 
+summary: Ciclo de vida do bucket no StorageGRID. 
+---
+= Ciclo de vida do bucket no StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode criar uma configuração de ciclo de vida do S3 para controlar quando objetos específicos são excluídos do sistema StorageGRID.
+
+
+
+== O que é uma configuração de ciclo de vida
+
+Uma configuração de ciclo de vida é um conjunto de regras que são aplicadas aos objetos em buckets específicos do S3. Cada regra especifica quais objetos são afetados e quando esses objetos expirarão (em uma data específica ou após algum número de dias).
+
+Cada objeto segue as configurações de retenção de um ciclo de vida do bucket do S3 ou de uma política de ILM. Quando um ciclo de vida do bucket do S3 é configurado, as ações de expiração do ciclo de vida substituem a política ILM para objetos que correspondam ao filtro do ciclo de vida do bucket. Os objetos que não correspondem ao filtro do ciclo de vida do bucket usam as configurações de retenção da política ILM. Se um objeto corresponder a um filtro do ciclo de vida do bucket e nenhuma ação de expiração for explicitamente especificada, as configurações de retenção da política ILM não serão usadas e está implícito que as versões do objeto serão mantidas para sempre.
+
+Como resultado, um objeto pode ser removido da grade, mesmo que as instruções de colocação em uma regra ILM ainda se apliquem ao objeto. Ou um objeto pode ser retido na grade mesmo depois que quaisquer instruções de posicionamento do ILM para o objeto tenham expirado
+
+O StorageGRID dá suporte a até 1.000 regras de ciclo de vida em uma configuração de ciclo de vida. Cada regra pode incluir os seguintes elementos XML:
+
+* Expiração: Exclua um objeto quando uma data especificada é atingida ou quando um número especificado de dias é atingido, a partir de quando o objeto foi ingerido.
+* NoncurrentVersionExpiration: Exclua um objeto quando um número especificado de dias é atingido, a partir de quando o objeto se tornou inatual.
+* Filtro (prefixo, Tag)
+* Status *ID
+
+
+O StorageGRID dá suporte ao uso das seguintes operações de bucket para gerenciar configurações do ciclo de vida:
+
+* DeleteBucketLifecycle
+* GetBucketLifecycleConfiguration
+* PutBucketLifecycleConfiguration
+
+
+
+
+== Estrutura de uma política de ciclo de vida
+
+Como primeira etapa na criação de uma configuração de ciclo de vida, você cria um arquivo JSON que inclui uma ou mais regras. Por exemplo, este arquivo JSON inclui três regras, como segue:
+
+. A *Regra 1* aplica-se apenas a objetos que correspondem ao prefixo category1/ e que têm um valor key2 de tag2. O parâmetro Expiration especifica que os objetos que correspondem ao filtro expirarão à meia-noite de 22 de agosto de 2020.
+. A *Regra 2* se aplica apenas a objetos que correspondem ao prefixo category2/. O parâmetro Expiration especifica que os objetos que correspondem ao filtro expirarão 100 dias após serem ingeridos.
++
+
+CAUTION: As regras que especificam um número de dias são relativas a quando o objeto foi ingerido. Se a data atual exceder a data de ingestão mais o número de dias, alguns objetos podem ser removidos do intervalo assim que a configuração do ciclo de vida for aplicada.
+
+. A *Regra 3* se aplica somente a objetos que correspondem ao prefixo category3/. O parâmetro Expiration especifica que quaisquer versões desatualizadas de objetos correspondentes expirarão 50 dias após se tornarem desatualizadas.
+
+
+[source, json]
+----
+{
+	"Rules": [
+        {
+		    "ID": "rule1",
+			"Filter": {
+                "And": {
+                    "Prefix": "category1/",
+                    "Tags": [
+                        {
+                            "Key": "key2",
+							"Value": "tag2"
+                        }
+                    ]
+                }
+            },
+			"Expiration": {
+                "Date": "2020-08-22T00:00:00Z"
+            },
+            "Status": "Enabled"
+        },
+		{
+            "ID": "rule2",
+			"Filter": {
+                "Prefix": "category2/"
+            },
+			"Expiration": {
+                "Days": 100
+            },
+            "Status": "Enabled"
+        },
+		{
+            "ID": "rule3",
+			"Filter": {
+                "Prefix": "category3/"
+            },
+			"NoncurrentVersionExpiration": {
+                "NoncurrentDays": 50
+            },
+            "Status": "Enabled"
+        }
+    ]
+}
+----
+
+
+== Aplique a configuração do ciclo de vida ao bucket
+
+Depois de criar o arquivo de configuração do ciclo de vida, você o aplica a um bucket emitindo uma solicitação PutBucketLifecycleConfiguration.
+
+Essa solicitação aplica a configuração do ciclo de vida no arquivo de exemplo a objetos em um bucket `testbucket` chamado .
+
+[listing]
+----
+aws s3api --endpoint-url <StorageGRID endpoint> put-bucket-lifecycle-configuration
+--bucket testbucket --lifecycle-configuration file://bktjson.json
+----
+Para validar que uma configuração de ciclo de vida foi aplicada com sucesso ao bucket, emita uma solicitação GetBucketLifecycleConfiguration. Por exemplo:
+
+[listing]
+----
+aws s3api --endpoint-url <StorageGRID endpoint> get-bucket-lifecycle-configuration
+ --bucket testbucket
+----
+
+
+== Exemplo de políticas de ciclo de vida para buckets padrão (sem versão)
+
+
+
+=== Excluir objetos após 90 dias
+
+Caso de uso: Esta política é ideal para gerenciar dados relevantes apenas por um tempo limitado, como arquivos temporários, logs ou dados de processamento intermediário. Benefício: Reduz os custos de armazenamento e garante que o bucket esteja organizado.
+
+[source, json]
+----
+{
+	"Rules": [
+	  {
+		"ID": "Delete after 90 day rule",
+		"Filter": {},
+		"Status": "Enabled"，
+		  "Expiration": {
+			  "Days": 90
+	    }
+	  }
+	]
+}
+----
+
+
+== Exemplo de políticas de ciclo de vida para buckets versionados
+
+
+
+=== Excluir versões não atuais após 10 dias
+
+Caso de uso: Esta política ajuda a gerenciar o armazenamento de objetos de versão desatualizada, que podem se acumular ao longo do tempo e consumir espaço significativo. Benefício: Otimize o uso do armazenamento mantendo apenas a versão mais recente.
+
+[source, json]
+----
+{
+	"Rules": [
+	        {
+		"ID": "NoncurrentVersionExpiration 10 day rule",
+		"Filter": {},
+		"Status": "Enabled"，
+		  "NoncurrentVersionExpiration": {
+			  "NoncurrentDays": 10
+	   	}
+    }
+	]
+}
+----
+
+
+=== Mantenha 5 versões não atuais
+
+Caso de uso: Útil quando você deseja manter um número limitado de versões anteriores para fins de recuperação ou auditoria. Benefício: Manter versões não atuais suficientes para garantir histórico e pontos de recuperação suficientes.
+
+[source, json]
+----
+{
+	"Rules": [
+	  {
+		"ID": "NewerNoncurrentVersions 5 version rule",
+		"Filter": {},
+		"Status": "Enabled"，
+		"NoncurrentVersionExpiration": {
+		  	"NewerNoncurrentVersions": 5
+	    }
+    }
+	]
+}
+----
+
+
+=== Remover marcadores de exclusão quando não houver outras versões
+
+Caso de uso: Esta política ajuda a gerenciar os marcadores de exclusão restantes após a remoção de todas as versões não atuais, que podem se acumular ao longo do tempo. Benefício: Reduz a desordem desnecessária.
+
+[source, json]
+----
+{
+	"Rules": [
+    {
+		"ID": "Delete marker cleanup rule",
+		"Filter": {},
+		"Status": "Enabled"，
+		"Expiration": {
+        "ExpiredObjectDeleteMarker": true
+	  	}
+    }
+	]
+}
+----
+
+
+=== Exclua as versões atuais após 30 dias, exclua as versões não atuais após 60 dias e remova os marcadores de exclusão criados pela exclusão da versão atual quando não houver mais outras versões.
+
+Caso de uso: Fornecer um ciclo de vida completo para versões atuais e não atuais, incluindo os marcadores de exclusão. Benefício: Reduzir os custos de armazenamento e garantir que o bucket esteja organizado, mantendo pontos de recuperação e histórico suficientes.
+
+[source, json]
+----
+{
+  "Rules": [
+    {
+      "ID": "Delete current version",
+      "Status": "Enabled",
+      "Expiration": {
+        "Days": 30
+      },
+    },
+    {
+      "ID": "noncurrent version retention",
+      "Status": "Enabled",
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 60
+      }
+    },
+    {
+      "ID": "Markers",
+      "Status": "Enabled",
+      "Expiration": {
+        "ExpiredObjectDeleteMarker": true
+      }
+    }
+  ]
+}
+----
+
+
+=== remova marcadores de exclusão que não tenham outras versões e existam há 5 dias, mantenha 4 versões não atuais e pelo menos 30 dias de histórico para objetos com o prefixo "accounts_" e mantenha 2 versões e pelo menos 10 dias de histórico para todas as outras versões de objetos.
+
+Caso de uso: Forneça regras exclusivas para objetos específicos, juntamente com outros objetos, para gerenciar o ciclo de vida completo das versões atuais e não atuais, incluindo os marcadores de exclusão. Benefício: Reduza os custos de armazenamento e garanta que o bucket esteja organizado, mantendo pontos de recuperação e histórico suficientes para atender a uma variedade de requisitos do cliente.
+
+[source, json]
+----
+{
+  "Rules": [
+    {
+      "ID": "Markers",
+      "Status": "Enabled",
+      "Expiration": {
+        "Days": 5,
+        "ExpiredObjectDeleteMarker": true
+      },
+    },
+    {
+      "ID": "accounts version retention",
+      "Status": "Enabled",
+      "NoncurrentVersionExpiration": {
+        "NewerNoncurrentVersions": 4,
+        "NoncurrentDays": 30
+      },
+      "Filter": {
+          "Prefix":"account_"
+      }
+    },
+    {
+      "ID": "noncurrent version retention",
+      "Status": "Enabled",
+      "NoncurrentVersionExpiration": {
+        "NewerNoncurrentVersions": 2,
+        "NoncurrentDays": 10
+      }
+    }
+  ]
+}
+----
+
+
+== Conclusão
+
+* Revise e atualize regularmente as políticas de ciclo de vida e alinhe-as com as metas de ILM e gerenciamento de dados.
+* Teste as políticas em um ambiente ou bucket não produtivo antes de aplicá-las amplamente para garantir que funcionem conforme o esperado
+* Use IDs descritivos para regras para torná-las mais intuitivas, pois a estrutura lógica pode ficar complexa
+* Monitore o impacto dessas políticas de ciclo de vida do bucket no uso e no desempenho do armazenamento para fazer os ajustes necessários.
+
