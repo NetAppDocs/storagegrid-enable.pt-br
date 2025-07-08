@@ -42,6 +42,7 @@ Estas soluções foram testadas em colaboração com os respetivos parceiros.
 * GitHub Enterprise Server
 * IBM FileNet
 * IBM Spectrum Protect Plus
+* IBM Storage Protect
 * Interica
 * Komprise
 * Clusters de Big Data do Microsoft SQL Server
@@ -87,6 +88,7 @@ Estas soluções foram testadas em colaboração com os respetivos parceiros.
 
 * Recurso CommVault 11 versão 26
 * IBM FileNet
+* IBM Storage Protect
 * OpenText Documentum 21,4
 * Rubrik
 * Veeam 12

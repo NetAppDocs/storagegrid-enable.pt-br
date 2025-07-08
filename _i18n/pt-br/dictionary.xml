@@ -3405,4 +3405,5 @@
   <block id="aae45e5681608077797f9b54c9787cc9" category="list-text">Metadados do sistema, incluindo um ID exclusivo para cada objeto, o nome do objeto, o nome do bucket do S3, o nome ou ID da conta do locatário, o tamanho lógico do objeto, a data e a hora em que o objeto foi criado pela primeira vez e a data e a hora em que o objeto foi modificado pela última vez.</block>
   <block id="cab3529168145fa0611750088f6b9294" category="sidebar">Exemplos de política de ciclo de vida de bucket</block>
   <block id="e506f81bec685a8d4212a723ed5e9d67" category="sidebar">Exemplos de políticas de ciclo de vida de bucket</block>
+  <block id="0be6d03a29c17471b0414e9b31482b15" category="list-text">IBM Storage Protect</block>
 </blocks>
