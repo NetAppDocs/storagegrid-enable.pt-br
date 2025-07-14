@@ -2080,47 +2080,6 @@
   <block id="36a89ed4836d3b5b5f59193e28776e5c" category="paragraph">Para melhorar o desempenho, você pode armazenar dados de gravação em buffer na memória antes de enviá-los para S3. Isso pode reduzir o número de pequenas gravações e melhorar a eficiência.</block>
   <block id="8ba2b9229934ee6fc64c293ea55c00cf" category="paragraph"><block ref="8ba2b9229934ee6fc64c293ea55c00cf" category="inline-image-macro-rx" type="image"></block></block>
   <block id="63d5657772886960693d8740023cf233" category="paragraph">Lembre-se de que o S3 e o HDFS funcionam de maneiras distintas. O ajuste cuidadoso/teste/experiência é necessário para fazer o uso mais eficiente dos recursos do S3.</block>
-  <block id="5a184c0363bb58450e6d7433581fd471" category="summary">Este relatório descreve a solução de proteção de dados fornecida em conjunto pela CommVault e NetApp.</block>
-  <block id="354a23ac01ef93911cb9256f86e06159" category="doc">TR-4871 - Backup e recuperação do CommVault Complete e NetApp StorageGRID</block>
-  <block id="cb2418c01859c7704da751aa5a7d2421" category="section-title">Visão geral da solução</block>
-  <block id="80a3f83141a9faa5b2c7cd8fe9d282e0" category="paragraph">A CommVault e a NetApp fizeram uma parceria para criar uma solução de proteção de dados conjunta que combina o software CommVault Complete Backup and Recovery for NetApp com o software NetApp StorageGRID para storage de nuvem. Muitas organizações querem migrar o storage para a nuvem, escalar os sistemas e automatizar a política para retenção de dados a longo prazo. O CommVault Complete Backup and Recovery e o NetApp StorageGRID oferecem soluções exclusivas e fáceis de usar que trabalham juntas para ajudar você a atender às demandas de crescimento rápido de dados e aumento das regulamentações no mundo todo. O storage de objetos baseado em nuvem é conhecido por sua resiliência, capacidade de escala e eficiências operacionais e de custo que o tornam uma escolha natural como destino para o seu backup. A CommVault e a NetApp juntas certificaram sua solução combinada em 2014 e, desde então, desenvolveram uma integração mais profunda entre suas duas soluções. Clientes de todos os tipos em todo o mundo adotaram a solução combinada de backup e recuperação CommVault Complete e StorageGRID.</block>
-  <block id="3764fc2dfa1c37293e979fb84f4d57e2" category="paragraph">A Tabela 1 lista os benefícios de cada opção de backup com o StorageGRID.</block>
-  <block id="b8487d84bdeead48dbf45470a4e20888" category="section-title">Tabela 1) backup primário para disco, além de uma cópia auxiliar, em comparação com o backup primário para StorageGRID.</block>
-  <block id="bf8dd94f74c5878ba969abeeef0286d1" category="section-title">Público-alvo</block>
-  <block id="749f48d6360a1ae4fb9b6967d682f7ab" category="paragraph">Este documento destina-se a administradores e arquitetos de dados que usam as soluções de backup e recuperação da CommVault e StorageGRID.</block>
-  <block id="8f4c7939e8a42e023939df947aba54f6" category="section-title">Tecnologia da solução</block>
-  <block id="56cc4502e343e76ad448ffe3a05fc18c" category="paragraph">Para obter detalhes sobre workloads compatíveis, visite<block ref="6c465f42cde4c9569daed31dc24f517e" category="inline-link-rx"></block>.</block>
-  <block id="b82ecf69498cda86864f62d82c7ccb6b" category="section-title">Configuração da solução</block>
-  <block id="2502d49022714233caf9bb360eed1259" category="paragraph">Na política de proteção de dados, o StorageGRID usa uma política de gerenciamento de ciclo de vida integrado (ILM) para gerenciar e proteger os dados. As regras do ILM são avaliadas em uma política de cima para baixo. Implementamos a política de ILM mostrada na Tabela 2.</block>
-  <block id="03b71896a803d1674387b9ace5509c97" category="section-title">Tabela 2) Política de ILM do StorageGRID.</block>
-  <block id="af628eae5a4bda33fe7f98b90dfd07ad" category="paragraph">Para obter detalhes técnicos sobre esse ambiente de teste, leia a seção Design da solução e práticas recomendadas no<block ref="42208ea06469332a89cb87f688663202" category="inline-link-rx"></block> relatório técnico.</block>
-  <block id="92672a7a2b909945fbfa9f44f057c7a1" category="section-title">Dimensionamento</block>
-  <block id="850723af1b528eaff214961e1477f7f2" category="section-title">Entradas de dimensionamento CommVault</block>
-  <block id="2d782d1c787a750e5ae7cdfbf33e0b65" category="section-title">Orientação de dimensionamento StorageGRID</block>
-  <block id="a0e738d4eef6a816ac737bf34e54a942" category="paragraph">A Tabela 3 lista os tamanhos médios de objetos por tipo de backup e descreve o que o processo de restauração lê do armazenamento de objetos.</block>
-  <block id="2333f85cd072d4d90857e142fd494184" category="section-title">Tabela 3) comportamento de restauração e tamanho do objeto do workload CommVault.</block>
-  <block id="39e0647405a456dbe0f327581e422077" category="section-title">Especificações de hardware da StorageGRID</block>
-  <block id="7ac8ba0d8d9d0dbf967afc44eebecee4" category="paragraph">A Tabela 4 descreve o hardware NetApp StorageGRID usado neste teste. O dispositivo StorageGRID SG5712 com rede 10Gbps é a opção de nível de entrada e representa uma configuração de linha de base. Opcionalmente, o SG5712 pode ser configurado para rede 25GbpsG.</block>
-  <block id="1c0a4a363a35650f52d2788c8c1e3340" category="section-title">Tabela 4) especificações de hardware do SG5712.</block>
-  <block id="cbf13ee4de3e188484a6f9e54ec774d4" category="section-title">Requisitos do software CommVault e StorageGRID</block>
-  <block id="9f06e1bbda93a5691f767c9a6bd5d5cc" category="paragraph">As tabelas 5 e 6 listam os requisitos de software para o software CommVault e NetApp StorageGRID instalados no software VMware para nossos testes. Quatro gerenciadores de transmissão de dados do MediaAgent e um servidor CommServe foram instalados. No teste, a rede 10GbpsG foi implementada para a infraestrutura VMware.</block>
-  <block id="24ab73c686b5112b49ce6f98750612b7" category="section-title">Tabela 5) requisitos totais do sistema do software CommVault.</block>
-  <block id="fd5ab623109855762f689a3b63d50d9d" category="paragraph">No ambiente de teste, um nó de administrador principal virtual e um nó de gateway virtual foram implantados no VMware em um storage array do NetApp e-Series E2812. Cada nó estava em um servidor separado com os requisitos mínimos de ambiente de produção descritos na Tabela 6:</block>
-  <block id="edfcb8c8756d94a5053287cc7c5bb985" category="section-title">Tabela 6) requisitos para nós de administração virtual e nós de gateway do StorageGRID.</block>
-  <block id="55d6f03ef9d28326ab829ca5d2678109" category="section-title">Executar um trabalho de proteção de dados com o CommVault Complete Backup and Recovery e NetApp StorageGRID</block>
-  <block id="624726d5ed2d940147c46600099b1b20" category="paragraph">Para configurar o NetApp StorageGRID com o CommVault Complete Backup and Recovery for NetApp, as etapas a seguir foram executadas para adicionar o StorageGRID como uma biblioteca de nuvem no software CommVault.</block>
-  <block id="98e8e1a08dff2be7e31ea4273d1252cf" category="section-title">Configurar o CommVault com NetApp StorageGRID</block>
-  <block id="43f16fcba150904a7bc15439308479cb" category="section-title">Crie um plano de backup com o NetApp StorageGRID como destino principal</block>
-  <block id="317c3634f6ad30cd0bc9e98a4725d400" category="section-title">Inicie um trabalho de backup para proteger seus workloads usando o software CommVault e o StorageGRID</block>
-  <block id="ba57deab107afb6c3808fe3a667bb7b5" category="paragraph">Para iniciar um trabalho de backup do CommVault Complete Backup and Recovery para o StorageGRID, siga estas etapas:</block>
-  <block id="23571a6157715a68dbc83017094ddb4f" category="section-title">Testes de desempenho da linha de base</block>
-  <block id="d448077c68c161f782d3bf423a865381" category="paragraph">A Tabela 7 mostra os resultados de nossos testes de desempenho de linha de base. Na operação de cópia Pausa, quatro MediaAgents do CommVault fizeram backup dos dados em um sistema NetApp AFF A300 e uma cópia auxiliar foi criada no NetApp StorageGRID. Para obter detalhes sobre o ambiente de configuração de teste, leia a seção Design da solução e melhores práticas no<block ref="42208ea06469332a89cb87f688663202" category="inline-link-rx"></block> relatório técnico.</block>
-  <block id="225de55f95e8814ef869602a34589cd7" category="paragraph">Os testes foram realizados com 100 VMs e 1000 VMs, ambos os testes com uma mistura de 50/50 VMs Windows e CentOS.</block>
-  <block id="229f4b7ae2ae04662d95b14f93a7ebe0" category="section-title">Tabela 7) testes de desempenho da linha de base.</block>
-  <block id="4c1a9a798859a7662d448a099c8f19c2" category="section-title">Figura 1) exclusão de 2,5 milhões (80TB) objetos em menos de 3 horas.</block>
-  <block id="18967e6af4f60b163c3348f6c5e180f0" category="section-title">Figura 2) liberando 80TB TB de storage em menos de 3 horas.</block>
-  <block id="a0b40e1fd7ca1cc5d222d54ea1d246cc" category="section-title">Recomendação de nível de consistência do balde</block>
-  <block id="3887d417240a72ab69f6d0301efd3b2b" category="section-title">Onde encontrar informações adicionais</block>
   <block id="034ae50adccad2698bbc81fb44360894" category="summary">Saiba como implementar configurações básicas para o StorageGRID 11,5 e o Veritas Enterprise Vault 14,1.</block>
   <block id="72eb1b8133e1520504346d36c5fac9d1" category="doc">Configure o StorageGRID e o veritas Enterprise Vault</block>
   <block id="ef4718392779b0750969af799ad151bb" category="paragraph">Saiba como implementar configurações básicas para o StorageGRID 11,5 ou superior e o Veritas Enterprise Vault 14,1 ou superior.</block>
@@ -3068,13 +3027,11 @@
   <block id="bce176eca00db60493e95c59f7b3f0e4" category="sidebar">Backup e recuperação do StorageGRID - usando o CommVault para armazenar e recuperar dados</block>
   <block id="ef4f50cfdab78eaa027ccf2feec613db" category="sidebar">TR-4626: Balanceadores de carga</block>
   <block id="9353b972c4e72ec79456feca60f654bd" category="sidebar">Balanceador de carga StorageGRID - balanceador de carga global e de terceiros</block>
-  <block id="9d652cf4eda8c8ac6073f606de32d361" category="sidebar">Recursos de segurança no StorageGRID 11,7 - protegendo seus dados e metadados em um armazenamento de objetos</block>
   <block id="03a7b4c156470d8fc2b690c3a1de4583" category="sidebar">Defesa contra ransomware com StorageGRID - protegendo seus objetos S3D.</block>
   <block id="5d2c0bd1227536451d2080f49e26d77a" category="sidebar">Monitore o StorageGRID usando aplicativos externos</block>
   <block id="70ca7442b81ada7ae57803224dad0c83" category="sidebar">Veja métricas usando Grafana no StorageGRID</block>
   <block id="57e828039531aa32aed96923380fee16" category="sidebar">Instale o StorageGRID em hosts bare metal</block>
   <block id="1d9276cf0fbeb5d3c213ee2bed5d0046" category="sidebar">Especifique os detalhes do servidor NTP para o StorageGRID</block>
-  <block id="81022eb5da399c3a2fd9f2b07db1afd3" category="sidebar">Recuperação de desastres do StorageGRID – Configurando o StorageGRID para failover de site usando o veritas Enterprise Vault</block>
   <block id="ae52e3c45bd713b4082b98c518149807" category="sidebar">Configurar o StorageGRID para storage WORM</block>
   <block id="654021875452c0979ec25d167125283d" category="sidebar">Configurar o StorageGRID para recuperação de desastres</block>
   <block id="024f3a8ba5709643c2f09c8eabccae87" category="sidebar">Soluções validadas de terceiros - Visão geral</block>
@@ -3406,4 +3363,6 @@
   <block id="cab3529168145fa0611750088f6b9294" category="sidebar">Exemplos de política de ciclo de vida de bucket</block>
   <block id="e506f81bec685a8d4212a723ed5e9d67" category="sidebar">Exemplos de políticas de ciclo de vida de bucket</block>
   <block id="0be6d03a29c17471b0414e9b31482b15" category="list-text">IBM Storage Protect</block>
+  <block id="0987bb97934aa3a8ea668bd0c91ce52d" category="sidebar">Recursos de segurança no StorageGRID - Protegendo seus dados e metadados em um armazenamento de objetos</block>
+  <block id="243c98f4ed7a2d56d634e9cc955fda88" category="sidebar">Recuperação de desastres do StorageGRID - Configurando o StorageGRID para failover de site usando o Veritas Enterprise Vault</block>
 </blocks>

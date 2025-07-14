@@ -1,0 +1,21 @@
+---
+permalink: technical-reports/monitor-audit-log-monitoring.html 
+sidebar: sidebar 
+keywords: audit logs, storagegrid 
+summary: Descubra como usar o log de auditoria do StorageGRID para obter informações detalhadas sobre a atividade do locatário e da grade e como usar ferramentas como o Splunk para análise de logs. 
+---
+= Use logs de auditoria para monitorar o StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como usar o log de auditoria do StorageGRID para obter informações detalhadas sobre as atividades do locatário e da grade e como usar ferramentas como o Splunk para análise de logs.
+
+O log de auditoria do StorageGRID permite que você colete informações detalhadas sobre a atividade do locatário e da grade. O log de auditoria pode ser exposto para análises por meio do NFS. Para obter instruções detalhadas sobre como exportar o log de auditoria, consulte o Guia do Administrador.
+
+Depois que a auditoria for exportada, você poderá usar ferramentas de análise de log, como Splunk ou Logstash Elasticsearch, para entender a atividade do locatário ou criar relatórios detalhados de cobrança e chargeback.
+
+Detalhes sobre mensagens de auditoria estão incluídos na documentação do StorageGRID.  https://docs.netapp.com/us-en/storagegrid-118/audit/audit-messages-main.html["Auditar mensagens"^]Consulte .

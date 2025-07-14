@@ -1,0 +1,44 @@
+---
+permalink: technical-reports/monitor-traffic-classification-policies.html 
+sidebar: sidebar 
+keywords: traffic classification policies, storagegrid 
+summary: Saiba como configurar e monitorar políticas de classificação de tráfego no StorageGRID 11,4 para gerenciamento eficiente de tráfego e otimização da largura de banda da rede. 
+---
+= Use políticas de classificação de tráfego no StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:experimental: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como configurar e configurar políticas de classificação de tráfego para gerenciar e otimizar o tráfego de rede no StorageGRID.
+
+As políticas de classificação de tráfego fornecem um método para monitorar e/ou limitar o tráfego com base em um locatário específico, buckets, sub-redes IP ou pontos de extremidade do balanceador de carga. A conetividade de rede e a largura de banda são métricas especialmente importantes para o StorageGRID.
+
+Para configurar uma Política de classificação de tráfego, siga estes passos:
+
+.Passos
+. No GMI, navegue para o menu:Configuration [System Settings > Traffic Classification] (Configuração do sistema > classificação de trânsito).
+. Clique em criar
+. Introduza um nome e uma descrição para a sua política.
+. Crie uma regra correspondente.
++
+image:monitor/monitor-matching-rule.png["regra de correspondência do monitor"]
+
+. Defina um limite (opcional).
++
+image:monitor/monitor-limit.png["limite do monitor"]
+
+. Guarde a sua política
++
+image:monitor/monitor-traffic-policy.png["monitorar-tráfego-política"]
+
++
+Para visualizar as métricas associadas à sua Política de classificação de tráfego, selecione a sua política e clique em métricas. Um painel do Grafana é gerado exibindo informações como tráfego de solicitação do Load Balancer e duração média da solicitação.
+
++
+image:monitor/monitor-dashboard-showing-metrics.png["monitore-dashboard-mostrando métricas"]
+
+

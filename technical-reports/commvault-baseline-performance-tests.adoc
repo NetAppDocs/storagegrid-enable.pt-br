@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/commvault-baseline-performance-tests.html 
+keywords: Backup, on-premises, commvault, storagegrid, object, S3, WORM 
+summary: Explore alguns casos de uso para configurações do StorageGRID implementadas pelos clientes e PELA TI DA NetApp. 
+---
+= Reveja os testes de desempenho da linha de base
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Na operação de cópia Pausa, quatro MediaAgents do CommVault fizeram backup dos dados em um sistema NetApp AFF A300 e uma cópia auxiliar foi criada no NetApp StorageGRID. Para obter detalhes sobre o ambiente de configuração de teste, leia a seção Design da solução e melhores práticas no https://www.netapp.com/us/media/tr-4831.pdf["Proteção de dados com escalabilidade horizontal do NetApp com o CommVault"] relatório técnico.
+
+Os testes foram realizados com 100 VMs e 1000 VMs, ambos os testes com uma mistura de 50/50 VMs Windows e CentOS. A tabela a seguir mostra os resultados de nossos testes de desempenho de linha de base:
+
+[cols="1a,1a,1a"]
+|===
+| Operação | Velocidade de cópia de segurança | Restaurar velocidade 
+
+
+ a| 
+Cópia AUX
+ a| 
+2 TB/hora
+ a| 
+1,27 TB/hora
+
+
+
+ a| 
+Direto de e para objeto (deduplicação ativada)
+ a| 
+2,2 TB/hora
+ a| 
+1,22 TB/hora
+
+|===
+Para testar o desempenho de idade, 2,5 milhões de objetos foram excluídos. Como mostrado nas Figuras 2 e 3, a execução de exclusão foi concluída em menos de 3 horas e libertou mais de 80TBMB de espaço. O processamento de exclusão começou às 10:30 AM.
+
+.Figura 1: Exclusão de 2,5 milhões (80TB) objetos em menos de 3 horas.
+image:commvault/obj-time.png["Objetos ao longo do tempo"]
+
+.Figura 2: Liberando 80TB TB de storage em menos de 3 horas.
+image:commvault/storage-time.png["Armazenamento ao longo do tempo"]

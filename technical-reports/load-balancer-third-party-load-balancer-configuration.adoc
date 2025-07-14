@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/load-balancer-third-party-load-balancer-configuration.html 
+keywords: third-party load balancer, storagegrid 
+summary: Saiba como configurar o balanceador de carga de terceiros confiável no StorageGRID. 
+---
+= Configure o balanceador de carga de terceiros confiável no StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como configurar o balanceador de carga de terceiros confiável no StorageGRID.
+
+Se você estiver usando um ou mais balanceadores de carga de camada 7 externos e um bucket S3 ou políticas de grupo baseadas em IP, o StorageGRID deverá determinar o endereço IP real do remetente. Ele faz isso olhando para o cabeçalho X-Forwarded-for (XFF), que é inserido na solicitação pelo balanceador de carga. Como o cabeçalho XFF pode ser facilmente falsificado em solicitações enviadas diretamente para os nós de armazenamento, o StorageGRID deve confirmar que cada solicitação está sendo roteada por um balanceador de carga confiável da camada 7. Se o StorageGRID não puder confiar na origem da solicitação, ele ignorará o cabeçalho XFF. Há uma API de gerenciamento de grade para permitir que uma lista de balanceadores de carga externos confiáveis da camada 7 seja configurada. Essa nova API é privada e está sujeita a alterações em futuras versões do StorageGRID. Para obter as informações mais atualizadas, consulte o artigo da KB, https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_configure_StorageGRID_to_work_with_third-party_Layer_7_load_balancers["Como configurar o StorageGRID para funcionar com balanceadores de carga de camada 7 de terceiros"^].

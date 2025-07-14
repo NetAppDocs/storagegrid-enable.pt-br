@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/bare-metal-grid-network-subnets-storagegrid.html 
+keywords: grid network, subnets ,storagegrid 
+summary: Saiba como configurar as sub-redes de rede de grade para StorageGRID. 
+---
+= Especifique sub-redes de rede de grade para StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como configurar as sub-redes de rede de grade para StorageGRID.
+
+Você deve especificar as sub-redes que são usadas na rede de grade.
+
+As entradas de sub-rede incluem as sub-redes para a rede de grade para cada site em seu sistema StorageGRID, além de quaisquer sub-redes que devem ser acessíveis através da rede de grade (por exemplo, as sub-redes que hospedam seus servidores NTP).
+
+Se você tiver várias sub-redes de grade, o gateway de rede de grade é necessário. Todas as sub-redes de grade especificadas devem ser acessíveis através deste gateway.
+
+Para especificar sub-redes de rede de grade, execute as seguintes etapas:
+
+.Passos
+. Na caixa de texto Subnet 1 , especifique o endereço de rede CIDR para pelo menos uma rede de grade.
+. Clique no sinal de mais ao lado da última entrada para adicionar uma entrada de rede adicional. Se você já implantou pelo menos um nó, clique em descobrir sub-redes de redes de Grade para preencher automaticamente a lista de sub-redes de rede de grade com as sub-redes relatadas pelos nós de grade que se registraram no Gerenciador de Grade.
++
+image:bare-metal/bare-metal-subnets-grid-network.png["bare-metal-sub-redes-rede-rede"]
+
+. Clique em seguinte.
+

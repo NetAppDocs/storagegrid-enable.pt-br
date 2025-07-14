@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/bare-metal-start-storagegrid-host-service.html 
+keywords: host service, storagegrid 
+summary: Saiba como iniciar o serviço de host do StorageGRID. 
+---
+= Inicie o serviço de host do StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como iniciar o serviço de host do StorageGRID.
+
+Para iniciar os nós do StorageGRID e garantir que eles sejam reiniciados após uma reinicialização do host, você deve ativar e iniciar o serviço de host do StorageGRID.
+
+Para iniciar o serviço de host StorageGRID, execute as etapas a seguir.
+
+.Passos
+. Execute os seguintes comandos em cada host:
++
+[listing]
+----
+sudo systemctl enable storagegrid
+sudo systemctl start storagegrid
+----
++
+
+NOTE: O processo de início pode demorar algum tempo na execução inicial.
+
+. Execute o seguinte comando para garantir que a implantação está em andamento:
++
+[listing]
+----
+sudo storagegrid node status node-name
+----
+. Para qualquer nó que retorna um status de `Not-Running` ou `Stopped`, execute o seguinte comando:
++
+[listing]
+----
+sudo storagegrid node start node-name
+----
++
+Por exemplo, dada a seguinte saída, você iniciaria o `dc1-adm1` nó:
+
++
+[listing]
+----
+[user@host1]# sudo storagegrid node status
+Name Config-State Run-State
+dc1-adm1 Configured Not-Running
+dc1-sn1 Configured Running
+----
+. Se você já ativou e iniciou o serviço de host do StorageGRID (ou se não tiver certeza se o serviço foi ativado e iniciado), execute também o seguinte comando:
++
+[listing]
+----
+sudo systemctl reload-or-restart storagegrid
+----
+

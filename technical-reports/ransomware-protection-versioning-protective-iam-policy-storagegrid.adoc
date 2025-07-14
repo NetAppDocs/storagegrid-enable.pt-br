@@ -1,0 +1,105 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/ransomware-protection-versioning-protective-iam-policy-storagegrid.html 
+keywords: versioning, iam policy, storagegrid 
+summary: Saiba como proteger seus dados habilitando o controle de versão no bucket e implementando políticas do IAM em grupos de segurança de usuários no StorageGRID. 
+---
+= Defesa contra ransomware usando o controle de versão com a política protetora do IAM
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como proteger seus dados habilitando o controle de versão no bucket e implementando políticas do IAM em grupos de segurança de usuários no StorageGRID.
+
+Um método para proteger seus dados sem usar bloqueio de objeto ou replicação é habilitar o controle de versão no bucket e implementar políticas do IAM nos grupos de segurança de usuários para limitar a capacidade dos usuários de gerenciar versões dos objetos. No caso de um ataque, novas versões ruins dos dados são criadas como a versão atual, e a versão não atual mais recente são os dados limpos e seguros. As contas comprometidas para obter acesso aos dados não têm acesso para excluir ou alterar a versão não atual, protegendo-os para operações de restauração posteriores. Assim como no cenário anterior, as regras do ILM gerenciam a retenção das versões não atuais com uma duração de sua escolha. A desvantagem é que ainda há a possibilidade de contas privilegiadas existentes para um ataque de ator ruim, mas todas as contas de serviço de aplicativos e usuários devem ser configurados com um acesso mais restritivo. A política de grupo restritiva deve permitir explicitamente que cada ação que você deseja que os usuários ou aplicativos sejam capazes e negar explicitamente quaisquer ações que você não deseja que eles sejam capazes. O NetApp não recomenda o uso de uma permissão curinga porque uma nova ação pode ser introduzida no futuro e você vai querer controlar se ela é permitida ou negada. Para essa solução, a lista Negar deve incluir DeleteObjectVersion, PutBucketPolicy, DeleteBucketPolicy, PutLifecycleConfiguration e PutBucketversionamento para proteger a configuração de controle de versão das versões do bucket e do objeto de alterações programáticas ou do usuário.
+
+No StorageGRID 11,7, uma nova opção de política de grupo S3 "mitigação de ransomware" foi introduzida para facilitar a implementação desta solução. Ao criar um grupo de usuários no locatário, depois de selecionar as permissões do grupo, você pode ver essa nova política opcional.
+
+image:ransomware/ransomware-protection-create-group.png["ransomware-proteção-criar-grupo"]
+
+A seguir está o conteúdo da política de grupo que inclui a maioria das operações disponíveis explicitamente permitidas e o mínimo necessário negado.
+
+[listing]
+----
+{
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:DeleteBucket",
+                "s3:DeleteReplicationConfiguration",
+"s3:DeleteBucketMetadataNotification",
+                "s3:GetBucketAcl",
+                "s3:GetBucketCompliance",
+                "s3:GetBucketConsistency",
+                "s3:GetBucketLastAccessTime",
+                "s3:GetBucketLocation",
+                "s3:GetBucketNotification"
+"s3:GetBucketObjectLockConfiguration",
+                "s3:GetBucketPolicy",
+                "s3:GetBucketMetadataNotification",
+                "s3:GetReplicationConfiguration",
+                "s3:GetBucketCORS",
+                "s3:GetBucketVersioning",
+                "s3:GetBucketTagging",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetLifecycleConfiguration",
+                "s3:ListBucket",
+                "s3:ListBucketVersions",
+                "s3:ListAllMyBuckets",
+                "s3:ListBucketMultipartUploads",
+                "s3:PutBucketConsistency",
+                "s3:PutBucketLastAccessTime",
+                "s3:PutBucketNotification",
+"s3:PutBucketObjectLockConfiguration",
+                "s3:PutReplicationConfiguration",
+                "s3:PutBucketCORS",
+                "s3:PutBucketMetadataNotification",
+                "s3:PutBucketTagging",
+                "s3:PutEncryptionConfiguration",
+                "s3:AbortMultipartUpload",
+                "s3:DeleteObject",
+                "s3:DeleteObjectTagging",
+                "s3:DeleteObjectVersionTagging",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:GetObjectLegalHold",
+                "s3:GetObjectRetention",
+                "s3:GetObjectTagging",
+                "s3:GetObjectVersion",
+                "s3:GetObjectVersionAcl",
+                "s3:GetObjectVersionTagging",
+                "s3:ListMultipartUploadParts",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:RestoreObject",
+                "s3:ValidateObject",
+                "s3:PutBucketCompliance",
+                "s3:PutObjectVersionAcl"
+            ],
+            "Resource": "arn:aws:s3:::*"
+        },
+        {
+            "Effect": "Deny",
+            "Action": [
+                "s3:DeleteObjectVersion",
+                "s3:DeleteBucketPolicy",
+                "s3:PutBucketPolicy",
+                "s3:PutLifecycleConfiguration",
+                "s3:PutBucketVersioning"
+            ],
+            "Resource": "arn:aws:s3:::*"
+        }
+    ]
+}
+----

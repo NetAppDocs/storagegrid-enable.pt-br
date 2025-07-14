@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/bare-metal-review-config-complete-storagegrid-install.html 
+keywords: summary page, storagegrid install 
+summary: Saiba como validar as informações de configuração da grade e concluir o processo de instalação do StorageGRID. 
+---
+= Revise a configuração e conclua a instalação do StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como validar as informações de configuração da grade e concluir o processo de instalação do StorageGRID.
+
+Para se certificar de que a instalação foi concluída com êxito, reveja cuidadosamente as informações de configuração que introduziu. Siga estes passos.
+
+.Passos
+. Veja a página Resumo.
++
+image:bare-metal/bare-metal-summary-page.png["bare-metal-summary-page"]
+
+. Verifique se todas as informações de configuração da grade estão corretas. Use os links Modificar na página Resumo para voltar e corrigir quaisquer erros.
+. Clique em Instalar.
++
+
+NOTE: Se um nó estiver configurado para usar a rede do cliente, o gateway padrão para esse nó alterna da rede de grade para a rede do cliente quando você clica em Instalar. Se você perder a conetividade, certifique-se de que você está acessando o nó de administração principal por meio de uma sub-rede acessível. Para obter mais informações, consulte "Instalação e provisionamento de rede".
+
+. Clique em Download Recovery Package.
++
+Quando a instalação progride até o ponto em que a topologia da grade é definida, você será solicitado a baixar o arquivo do Pacote de recuperação (`.zip`) e confirmar que você pode acessar o conteúdo desse arquivo. Você deve baixar o arquivo do pacote de recuperação para que você possa recuperar o sistema StorageGRID no caso de um ou mais nós de grade falharem.
+
++
+Verifique se você pode extrair o conteúdo do `.zip` arquivo e salvá-lo em dois locais seguros, seguros e separados.
+
++
+
+CAUTION: O arquivo do pacote de recuperação deve ser protegido porque contém chaves de criptografia e senhas que podem ser usadas para obter dados do sistema StorageGRID.
+
+. Selecione a opção Eu fiz o download e verifiquei com êxito o arquivo do pacote de recuperação e clique em Avançar.
++
+image:bare-metal/bare-metal-download-recovery-package.png["bare-metal-download-recovery-package"]
+
++
+Se a instalação ainda estiver em andamento, a página Status da instalação será aberta. Esta página indica o progresso da instalação para cada nó de grade.
+
++
+image:bare-metal/bare-metal-installation-status.png["estado-instalação-bare-metal"]
+
++
+Quando o estágio completo é alcançado para todos os nós de grade, a página de login do Gerenciador de Grade será aberta.
+
+. Inicie sessão no Grid Manager como utilizador raiz com a palavra-passe especificada durante a instalação.
+

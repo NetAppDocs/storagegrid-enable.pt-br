@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/commvault-s3-consistency-levels.html 
+keywords: Backup, on-premises, commvault, storagegrid, object, S3, WORM 
+summary: Explore alguns casos de uso para configurações do StorageGRID implementadas pelos clientes e PELA TI DA NetApp. 
+---
+= Recomendação de nível de consistência do balde
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp StorageGRID permite que o usuário final selecione o nível de consistência para operações executadas nos objetos nos buckets do Simple Storage Service (S3).
+
+Os CommVault MediaAgents são os migradores de dados em um ambiente CommVault. Na maioria dos casos, os MediaAgents são configurados para gravar localmente em um site StorageGRID primário. Por esse motivo, recomenda-se um alto nível de consistência dentro de um local primário. Use as diretrizes a seguir quando você definir o nível de consistência nos buckets do CommVault criados no StorageGRID.
+
+[NOTE]
+====
+Se você tem uma versão do CommVault anterior à 11.0.0 - Service Pack 16, considere atualizar o CommVault para a versão mais recente. Se essa não for uma opção, siga as diretrizes para sua versão.
+
+====
+* Versões do CommVault anteriores a 11.0.0 - Service Pack 16.* Em versões anteriores a 11.0.0 - Service Pack 16, a CommVault executa S3 CABEÇAS e OBTÉM operações em objetos inexistentes como parte do processo de restauração e eliminação. Defina o nível de consistência do balde para um local seguro para obter o nível de consistência ideal para backups da CommVault para StorageGRID.
+* CommVault versões 11.0.0 - Service Pack 16 e posteriores.* Nas versões 11.0.0 - Service Pack 16 e posteriores, o número de operações S3 HEAD e GET executadas em objetos inexistentes é minimizado. Defina o nível de consistência do bucket padrão como leitura após nova gravação para garantir alto nível de consistência no ambiente CommVault e StorageGRID.
+

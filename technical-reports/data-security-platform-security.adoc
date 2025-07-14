@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/data-security-platform-security.html 
+keywords: platform security, storagegrid 
+summary: Saiba mais sobre os recursos de segurança da plataforma no StorageGRID. 
+---
+= Recursos de segurança da plataforma
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba mais sobre os recursos de segurança da plataforma no StorageGRID.
+
+[cols="20,30a,30,20"]
+|===
+| Recurso | Função | Impacto | Conformidade regulamentar 
+
+
+| Infraestrutura de chave pública interna (PKI), certificados de nó e TLS  a| 
+O StorageGRID usa uma PKI interna e certificados de nó para autenticar e criptografar a comunicação entre nós. A comunicação entre nós é protegida por TLS.
+| Ajuda a proteger o tráfego do sistema pela LAN ou WAN, especialmente em uma implantação multisite. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Firewall de nó  a| 
+O StorageGRID configura automaticamente tabelas IP e regras de firewall para controlar o tráfego de rede de entrada e saída, bem como fechar portas não utilizadas.
+| Ajuda a proteger o sistema StorageGRID, os dados e os metadados contra o tráfego de rede não solicitado. | -- 
+
+
+| ENDURECIMENTO do SISTEMA OPERACIONAL  a| 
+O sistema operacional básico de dispositivos físicos e nós virtuais do StorageGRID é endurecido; pacotes de software não relacionados são removidos.
+| Ajuda a minimizar potenciais superfícies de ataque. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Atualizações periódicas de plataforma e software  a| 
+O StorageGRID fornece versões regulares de software que incluem sistema operacional, binários de aplicativos e atualizações de software.
+| Ajuda a manter o sistema StorageGRID atualizado com os binários atuais de software e aplicativos. | -- 
+
+
+| Login raiz desabilitado sobre Secure Shell (SSH)  a| 
+O login raiz sobre SSH está desativado em todos os nós do StorageGRID. O acesso SSH usa autenticação de certificado.
+| Ajuda os clientes a se protegerem contra possíveis quebras de senha remota do login raiz. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Sincronização automatizada de tempo  a| 
+O StorageGRID sincroniza automaticamente os relógios de sistema de cada nó com vários servidores de Protocolo de tempo de rede (NTP) externos. Pelo menos quatro servidores NTP do estrato 3 ou posterior são necessários.
+| Garante a mesma referência de tempo em todos os nós. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Redes separadas para o tráfego de rede de clientes, administradores e internos  a| 
+Os nós de software e dispositivos de hardware da StorageGRID suportam várias interfaces de rede virtuais e físicas, para que os clientes possam separar o tráfego de rede de clientes, administração e interna em diferentes redes.
+| Permitir que os administradores do Grid segregem o tráfego de rede interno e externo e forneçam tráfego através de redes com diferentes SLAs. | -- 
+
+
+| Várias interfaces de LAN virtual (VLAN)  a| 
+O StorageGRID suporta a configuração de interfaces VLAN em suas redes de cliente e grade StorageGRID.
+| Permita que os administradores do Grid particione e isole o tráfego do aplicativo para obter segurança, flexibilidade e desempenho. |  
+
+
+| Rede cliente não confiável  a| 
+A interface de rede cliente não confiável aceita conexões de entrada apenas em portas que foram explicitamente configuradas como endpoints de balanceador de carga.
+| Garante que as interfaces expostas a redes não confiáveis sejam protegidas. | -- 
+
+
+| Firewall configurável  a| 
+Gerencie portas abertas e fechadas para redes Admin, Grid e cliente.
+| Permitir que os administradores de grade controlem o acesso nas portas e gerenciem o acesso de dispositivo aprovado às portas. |  
+
+
+| Comportamento SSH aprimorado  a| 
+Novos certificados de host SSH e chaves de host são gerados ao atualizar um nó para o StorageGRID 11,5.
+| Melhora a proteção contra ataques homem-no-meio. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+
+
+| Criptografia de nó  a| 
+Como parte do novo recurso de criptografia do servidor host KMS, uma nova configuração de criptografia de nó é adicionada ao Instalador de dispositivos StorageGRID.
+| Esta definição tem de ser ativada durante a fase de configuração de hardware da instalação do dispositivo. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+|===

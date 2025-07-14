@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/bare-metal-ntp-server-storagegrid.html 
+keywords: ntp server , storagegrid 
+summary: Saiba como especificar as informações de configuração do NTP para o seu sistema StorageGRID para que as operações realizadas em servidores separados possam ser mantidas sincronizadas. 
+---
+= Especifique os detalhes do servidor NTP para o StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como especificar as informações de configuração do NTP para o seu sistema StorageGRID para que as operações realizadas em servidores separados possam ser mantidas sincronizadas.
+
+Para evitar problemas com o desvio de tempo, você deve especificar quatro referências externas de servidor NTP do estrato 3 ou superior.
+
+
+NOTE: Ao especificar a fonte NTP externa para uma instalação do StorageGRID em nível de produção, não use o serviço Windows Time (W32Time) em uma versão do Windows anterior ao Windows Server 2016. O serviço de tempo em versões anteriores do Windows não é suficientemente preciso e não é suportado pela Microsoft para uso em ambientes exigentes como o StorageGRID.
+
+Os servidores NTP externos são usados pelos nós aos quais você atribuiu anteriormente as funções NTP principais.
+
+
+CAUTION: A rede do cliente não está ativada cedo o suficiente no processo de instalação para ser a única fonte de servidores NTP. Certifique-se de que pelo menos um servidor NTP pode ser alcançado através da rede de grade ou da rede de administração.
+
+Para especificar informações do servidor NTP, execute as seguintes etapas:
+
+.Passos
+. Nas caixas de texto Server 1 to Server 4, especifique os endereços IP para pelo menos quatro servidores NTP.
+. Se necessário, clique no sinal de adição ao lado da última entrada para adicionar mais entradas de servidor.
++
+image:bare-metal/bare-metal-add-server-entries.png["entradas bare-metal-add-server"]
+
+. Clique em seguinte.
+

@@ -1,0 +1,31 @@
+---
+permalink: technical-reports/monitor-getting-started.html 
+sidebar: sidebar 
+keywords: get started, storagegrid 
+summary: Comece sua jornada de monitoramento do NetApp StorageGRID com o Painel GMI, fornecendo uma visão geral de alto nível da grade e seus componentes principais. 
+---
+= Use o painel do GMI para monitorar o StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+O dashboard da StorageGRID Grid Management Interface (GMI) fornece uma visão centralizada da infraestrutura do StorageGRID, permitindo que você supervisione a integridade, o desempenho e a capacidade de toda a grade.
+
+Use o painel do GMI para examinar cada componente principal da grade.
+
+image:monitor/monitor-storagegrid-gmi-dashboard.png["monitor-StorageGRID-gmi-dashboard"]
+
+
+
+== Informações que você deve monitorar regularmente
+
+Uma versão anterior deste relatório técnico listou as métricas para verificar periodicamente versus tendências. Essa informação está agora incluída no https://docs.netapp.com/us-en/storagegrid-118/landing-monitor-troubleshoot/index.html["Guia de monitorização e resolução de problemas"^].
+
+
+
+== Monitorar o armazenamento
+
+Uma versão anterior deste relatório técnico listou onde monitorar métricas importantes, como espaço de armazenamento de objetos, espaço de metadados, recursos de rede e assim por diante. Essa informação está agora incluída no https://docs.netapp.com/us-en/storagegrid-118/landing-monitor-troubleshoot/index.html["Guia de monitorização e resolução de problemas"^].

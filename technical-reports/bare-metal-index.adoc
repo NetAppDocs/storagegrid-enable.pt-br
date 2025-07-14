@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/bare-metal-index.html 
+keywords: install, storagegrid, deploy, bare metal 
+summary: Saiba como instalar o StorageGRID em uma grade de metal nua. 
+---
+= Introdução à instalação do StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como instalar o StorageGRID em hosts bare metal.
+
+TR-4882 fornece um prático conjunto de instruções passo a passo que produz uma instalação funcional do NetApp StorageGRID. A instalação pode ser em bare metal ou em máquinas virtuais (VMs) em execução no Red Hat Enterprise Linux (RHEL). A abordagem é executar uma instalação "opinativa" de seis serviços em contêiner do StorageGRID em três máquinas físicas (ou virtuais) em um layout sugerido e configuração de storage. Alguns clientes podem achar mais fácil entender o processo de implantação seguindo o exemplo de implantação neste TR.
+
+Para obter uma compreensão mais aprofundada sobre o StorageGRID e o processo de instalação, https://docs.netapp.com/us-en/storagegrid-118/landing-install-upgrade/index.html[] consulte [Instalar, atualizar e hotfix StorageGRID] na documentação do produto.
+
+Antes de iniciar a implantação, vamos examinar os requisitos de computação, storage e rede do software NetApp StorageGRID. O StorageGRID é executado como um serviço em contentor dentro do Podman ou do Docker. Neste modelo, alguns requisitos referem-se ao sistema operacional host (o SO que hospeda o Docker, que está executando o software StorageGRID). E alguns dos recursos são alocados diretamente para os contentores Docker em execução dentro de cada host. Nesta implantação, a fim de maximizar o uso de hardware, estamos implantando dois serviços por host físico. Para obter mais informações, continue para a próxima seção, link:prerequisites-install-storagegrid.html["Pré-requisitos para instalar o StorageGRID"].
+
+As etapas descritas neste TR resultam em uma instalação do StorageGRID em funcionamento em seis hosts de metal nu. Agora você tem uma rede de trabalho e uma rede de clientes, que são úteis na maioria dos cenários de teste.
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste TR, consulte os seguintes recursos de documentação:
+
+* Centro de Documentação do NetApp StorageGRID https://docs.netapp.com/us-en/storagegrid-118/[]
+* Capacitação NetApp StorageGRID https://docs.netapp.com/us-en/storagegrid-enable/[]
+* Documentação do produto NetApp https://www.netapp.com/support-and-training/documentation/[]
+

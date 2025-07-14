@@ -1,0 +1,61 @@
+---
+permalink: product-feature-guides/ontap-migrate-cutover.html 
+sidebar: sidebar 
+keywords: S3, ONTAP S3, ONTAP, StorageGRID, migration 
+summary: Migrar do ONTAP S3 para o StorageGRID. 
+---
+= Habilitação de nível empresarial S3 com a migração otimizada de storage baseado em objetos do ONTAP S3 para o StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Habilitação de nível empresarial S3 com a migração otimizada de storage baseado em objetos do ONTAP S3 para o StorageGRID
+
+
+
+== Migrar S3 chaves
+
+Para uma migração, na maioria das vezes você vai querer migrar as credenciais para os usuários em vez de gerar novas credenciais no lado do destino. O StorageGRID fornece apis para permitir que as chaves S3 sejam importadas para um usuário.
+
+Fazer login na IU de gerenciamento do StorageGRID (não na IU do gerenciador de locatários) abra a página do Swagger de Documentação da API.
+
+image:ontap-migrate/sg-api-swagger-link.png["Abra a Documentação da API"]
+
+Expanda a seção "Contas", selecione o "POST /grid/account-enable-S3-key-import", clique no botão "Experimente" e clique no botão executar.
+
+image:ontap-migrate/sg-import-enable.png["Ative a importação de chaves S3"]
+
+Agora role para baixo ainda em "Contas" para "POST /grid/accounts/"id"/Users/"user_id"/S3-access-keys"
+
+Aqui é onde vamos inserir o ID do locatário e o ID da conta de usuário que coletamos anteriormente. Preencha os campos e as chaves de nosso usuário do ONTAP na caixa json. Você pode definir a expiração das chaves ou remover o " , "expira": 123456789" e clique em executar.
+
+image:ontap-migrate/sg-import-key.png["Importe a tecla S3"]
+
+Depois de concluir todas as suas importações de chave de usuário, você deve desativar a função de importação de chave em "Contas" "POST /grid/account-disable-S3-key-import"
+
+image:ontap-migrate/sg-import-disable.png["Desative a importação de chave S3"]
+
+Se olharmos para a conta de usuário na IU do gerenciador de inquilinos, podemos ver a nova chave foi adicionada.
+
+image:ontap-migrate/sg-user-keys.png["Teclas do utilizador"]
+
+
+
+=== O corte final
+
+Se a intenção é ter um bucket de replicação perpetuamente de ONTAP para StorageGRID, você pode terminar aqui. Se esta é uma migração do ONTAP S3 para o StorageGRID, então é hora de acabar com isso e cortar.
+
+Dentro do gerenciador do sistema ONTAP, edite o grupo S3 e defina-o como "ReadOnlyAccess". Isso evitará mais que os usuários escrevam no bucket do ONTAP S3.
+
+image:ontap-migrate/ontap-edit-group.png["Defina o grupo ONTAP como somente leitura"]
+
+Tudo o que resta a fazer é configurar o DNS para apontar do cluster do ONTAP para o ponto de extremidade do StorageGRID. Certifique-se de que o seu certificado de endpoint está correto e, se você precisar de solicitações de estilo hospedadas virtuais, adicione os nomes de domínio de endpoint no StorageGRID
+
+image:ontap-migrate/sg-endpoint-domain.png["Defina o grupo ONTAP como somente leitura"]
+
+Seus clientes precisarão esperar que o TTL expire ou liberar DNS para resolver para o novo sistema para que você possa testar se tudo está funcionando. Tudo o que resta é limpar as chaves S3 temporárias iniciais que usamos para testar o acesso a dados StorageGRID (NÃO as chaves importadas), remover as relações SnapMirror e remover os dados ONTAP.
+
+_Por Rafael Guedes, e Aron Klein_

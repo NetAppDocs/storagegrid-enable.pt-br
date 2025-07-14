@@ -1,0 +1,61 @@
+---
+permalink: technical-reports/monitor-access-metrics-curl.html 
+sidebar: sidebar 
+keywords: access metrics, curl, storagegrid 
+summary: Saiba como acessar métricas por meio da CLI usando curl e tokens de autorização no NetApp StorageGRID para recuperação de dados eficiente. 
+---
+= Acesse métricas usando curl no StorageGRID
+:hardbreaks:
+:allow-uri-read: 
+:experimental: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba como acessar métricas por meio da CLI usando curl.
+
+Para executar esta operação, você deve primeiro obter um token de autorização. Para solicitar um token, siga estas etapas:
+
+.Passos
+. No GMI, selecione menu:Ajuda[Documentação da API].
+. Role para baixo até Auth para encontrar operações na autorização. A captura de tela a seguir mostra os parâmetros para o MÉTODO POST.
++
+image:monitor/monitor-post-method.png["monitor-pós-método"]
+
+. Clique em Experimente e edite o corpo com seu nome de usuário e senha do GMI.
+. Clique em Executar.
+. Copie o comando curl fornecido na seção curl e cole-o em uma janela de terminal. O comando se parece com o seguinte:
++
+[listing]
+----
+curl -X POST "https:// <Primary_Admin_IP>/api/v3/authorize" -H "accept: application/json" -H "Content-Type: application/json" -H "X-Csrf-Token: dc30b080e1ca9bc05ddb81104381d8c8" -d "{ \"username\": \"MyUsername\", \"password\": \"MyPassword\", \"cookie\": true, \"csrfToken\": false}" -k
+----
++
+
+NOTE: Se sua senha do GMI contiver carateres especiais, lembre-se de usar para escapar de carateres especiais. Por exemplo, substitua ! por!
+
+. Depois de executar o comando curl anterior, a saída fornece um token de autorização como o exemplo a seguir:
++
+[listing]
+----
+{"responseTime":"2020-06-03T00:12:17.031Z","status":"success","apiVersion":"3.2","data":"8a1e528d-18a7-4283-9a5e-b2e6d731e0b2"}
+----
++
+Agora você pode usar a string de token de autorização para acessar métricas por meio do curl. O processo de acesso às métricas é semelhante às etapas da link:advanced-monitor-storagegrid.html#export-metrics-through-the-api["Monitoramento avançado em StorageGRID"]seção . No entanto, para fins de demonstração, mostramos um exemplo com GET /grid/metric-labels/(label)/values selecionados na categoria Metrics.
+
+. Como exemplo, o seguinte comando curl com o token de autorização anterior listará os nomes de sites no StorageGRID.
++
+[listing]
+----
+curl -X GET "https://10.193.92.230/api/v3/grid/metric-labels/site_name/values" -H "accept: application/json" -H "Authorization: Bearer 8a1e528d-18a7-4283-9a5e-b2e6d731e0b2"
+----
++
+O comando curl gerará a seguinte saída:
+
++
+[listing]
+----
+{"responseTime":"2020-06-03T00:17:00.844Z","status":"success","apiVersion":"3.2","data":["us-east-fuse","us-west-fuse"]}
+----
+
