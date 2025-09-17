@@ -67,6 +67,8 @@ indexpage:
       url: "/tools-apps-guides/use-S3cmd-test-demonstrate-S3-access.html"
     - title: Use o Elasticsearch, o Logstash e o Kibana para análises de log
       url: "/tools-apps-guides/elk-instructions.html"
+    - title: Instruções para criar um repositório de snapshots do Elasticsearch
+      url: "/tools-apps-guides/elasticsearch-snapshot-configuration.html"
     - title: Use Prometheus e Grafana para estender a retenção de métricas
       url: "/tools-apps-guides/federate-prometheus.html"
     - title: Configure o Datadog para coletar métricas e traps do StorageGRID snmp
