@@ -44,13 +44,15 @@ Os administradores de grade podem atribuir permissões a funções e atribuir fu
 | Log de auditoria distribuído  a| 
 O StorageGRID fornece uma infraestrutura de log de auditoria distribuída e integrada, escalável para centenas de nós em até 16 locais. Os nós de software StorageGRID geram mensagens de auditoria, que são transmitidas por um sistema de reencaminhamento de auditoria redundante e, em última análise, capturadas em um ou mais repositórios de log de auditoria. As mensagens de auditoria capturam eventos em uma granularidade no nível do objeto, como operações de API S3 iniciadas pelo cliente, eventos de ciclo de vida do objeto pelo ILM, verificações de integridade do objeto em segundo plano e alterações de configuração feitas a partir da IU ou APIs de gerenciamento.
 
-Os logs de auditoria podem ser exportados de nós de administração por meio de CIFS ou NFS, permitindo que as mensagens de auditoria sejam minadas por ferramentas como Splunk e ELK. Existem quatro tipos de mensagens de auditoria:
+Os logs de auditoria podem ser exportados pelo syslog, permitindo que as mensagens de auditoria sejam exploradas por ferramentas como Splunk e ELK.  Existem quatro tipos de mensagens de auditoria:
 
 * Mensagens de auditoria do sistema
 * Mensagens de auditoria de armazenamento de objetos
 * Mensagens de auditoria do protocolo HTTP
 * Mensagens de auditoria de gerenciamento
 
+
+Os logs de auditoria podem ser armazenados em um bucket S3 para retenção de longo prazo e acesso ao aplicativo.
 | Fornece aos administradores do Grid um serviço de auditoria comprovado e escalável e permite que eles explorem dados de auditoria para vários objetivos. Tais objetivos incluem solução de problemas, auditoria do desempenho do SLA, operações da API de acesso a dados do cliente e alterações de configuração de gerenciamento. | -- 
 
 

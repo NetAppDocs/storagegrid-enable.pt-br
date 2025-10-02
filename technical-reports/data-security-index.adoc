@@ -16,11 +16,11 @@ summary: Descubra os recursos de segurança integrais da solução de storage de
 [role="lead"]
 Descubra os recursos de segurança integrais da solução de storage de objetos StorageGRID.
 
-Esta é uma visão geral dos muitos recursos de segurança do NetApp StorageGRID, abrangendo acesso a dados, objetos e metadados, acesso administrativo e segurança da plataforma. Ele foi atualizado para incluir os recursos mais recentes lançados com o StorageGRID 11,9.
+Esta é uma visão geral dos muitos recursos de segurança do NetApp® StorageGRID®, abrangendo acesso a dados, objetos e metadados, acesso administrativo e segurança da plataforma.  Ele foi atualizado para incluir os recursos mais recentes lançados com o StorageGRID 12.0.
 
 A segurança é parte integrante da solução de storage de objetos da NetApp StorageGRID. A segurança é particularmente importante porque muitos tipos de dados ricos em conteúdo que são adequados para armazenamento de objetos também são sensíveis por natureza e sujeitos a regulamentos e conformidade. À medida que os recursos do StorageGRID continuam a evoluir, o software disponibiliza muitos recursos de segurança que são inestimáveis para proteger a postura de segurança de uma organização e ajudar a organização a aderir às melhores práticas do setor.
 
-Este documento é uma visão geral dos muitos recursos de segurança do StorageGRID 11,9, divididos em cinco categorias:
+Este artigo é uma visão geral dos muitos recursos de segurança do StorageGRID 12.0, divididos em cinco categorias:
 
 * Recursos de segurança de acesso a dados
 * Recursos de segurança de objetos e metadados
@@ -29,7 +29,7 @@ Este documento é uma visão geral dos muitos recursos de segurança do StorageG
 * Integração com a nuvem
 
 
-Este documento destina-se a ser uma folha de dados de segurança. Ele não detalha como configurar o sistema para suportar os recursos de segurança enumerados dentro que não estão configurados por padrão. O https://docs.netapp.com/us-en/storagegrid-118/harden/index.html["Guia de endurecimento da StorageGRID"^] está disponível na página oficial https://docs.netapp.com/us-en/storagegrid-118/["Documentação do StorageGRID"^].
+Este documento pretende ser uma folha de dados de segurança; ele não detalha como configurar o sistema para oferecer suporte aos recursos de segurança enumerados que não são configurados por padrão.  O https://docs.netapp.com/us-en/storagegrid/harden/index.html["Guia de endurecimento da StorageGRID"^] está disponível no site oficial https://docs.netapp.com/us-en/storagegrid/["Documentação do StorageGRID"^] página.
 
 Além dos recursos descritos neste relatório, o StorageGRID segue o https://www.netapp.com/us/legal/vulnerability-response.aspx["Política de notificação e resposta a vulnerabilidades de Segurança do produto NetApp"^]. Vulnerabilidades relatadas são verificadas e respondidas de acordo com o processo de resposta a incidentes de segurança do produto.
 
@@ -42,7 +42,7 @@ O NetApp StorageGRID fornece recursos avançados de segurança para casos de uso
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
 
 * NetApp StorageGRID: SEC 17a-4(f), FINRA 4511(c) e CFTC 1,31(c)-(d) avaliação de conformidade https://www.netapp.com/media/9041-ar-cohasset-netapp-storagegrid-sec-assessment.pdf[]
-* Página de Documentação do StorageGRID 11,9 https://docs.netapp.com/us-en/storagegrid-119/[]
+* Página de documentação do StorageGRIDhttps://docs.netapp.com/us-en/storagegrid/[]
 * Documentação do produto NetApp https://www.netapp.com/support-and-training/documentation/[]
 
 

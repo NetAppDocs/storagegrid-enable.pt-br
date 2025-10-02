@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: technical-reports/ransomware-protection-investigate-branch-buckets.html 
+keywords: object lock, storagegrid 
+summary: Explore como os branch buckets podem ser usados para investigar e remediar um ataque de ransomware. 
+---
+= Investigação e correção de ransomware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Aprenda como investigar e remediar buckets após um possível ataque de ransomware com o StorageGRID.
+
+No StorageGRID 12.0, o novo recurso de branch bucket foi adicionado para estender a utilidade do controle de versão para defesa contra ransomware.  Um branch bucket fornece acesso a objetos em um bucket conforme eles existiam em um determinado momento, desde que ainda existam no bucket.  Os buckets de ramificação só podem ser criados para buckets base habilitados para controle de versão.
+
+Isso significa que, se você suspeitar que ocorreu um ataque de ransomware, você pode criar um branch bucket de leitura/gravação ou somente leitura contendo todos os objetos e versões que existiam antes do momento do ataque inicial.  Você pode usar esse bucket de ramificação para comparar com o conteúdo do bucket base para descobrir quais objetos foram alterados e se a alteração foi parte do ataque ou não.  Você também pode usar um branch bucket para continuar as operações do cliente usando o branch limpo enquanto investiga o ataque.
+
+
+
+== Criando um bucket de ramificação
+
+* Navegue até a página de detalhes do bucket base e a guia Branches para criar um bucket de branch.
+
+
+image:ransomware/ransomware-protection-branch-create.png["proteção contra ransomware-ramificação-criação"]
+
+* Depois que o botão Criar bucket de ramificação for clicado, um pop-up será aberto com detalhes pré-preenchidos da região associada ao bucket base.
+* forneça o nome do branch bucket, antes do tempo, e selecione que tipo de branch bucket será criado.
+
+
+image:ransomware/ransomware-protection-branch-define.png["definição de ramificação de proteção contra ransomware"]

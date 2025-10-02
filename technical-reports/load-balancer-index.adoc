@@ -46,32 +46,11 @@ Existem dois tipos de balanceadores de carga:
 
 
 
-=== Balanceador de carga do nó de gateway StorageGRID versus balanceador de carga de terceiros
-
-O StorageGRID é exclusivo entre os fornecedores de storage de objetos compatíveis com S3, pois fornece um balanceador de carga nativo disponível como um dispositivo, máquina virtual ou contêiner criado sob medida. O balanceador de carga fornecido pelo StorageGRID também é chamado de nó de gateway.
-
-Para clientes que ainda não possuem um balanceador de carga como F5, Citrix e assim por diante, a implementação de um balanceador de carga de terceiros pode ser muito complexa. O balanceador de carga StorageGRID simplifica bastante as operações do balanceador de carga.
-
-O Gateway Node é um balanceador de carga de nível empresarial, altamente disponível e de alta performance. Os clientes podem optar por implementar o Gateway Node, balanceador de carga de terceiros ou até mesmo ambos na mesma grade. O Gateway Node é um gerenciador de tráfego local versus um GSLB.
-
-O balanceador de carga StorageGRID oferece as seguintes vantagens:
-
-* *Simplicidade*. Configuração automática de pools de recursos, verificações de integridade, patches e manutenção, todos gerenciados pelo StorageGRID.
-* *Desempenho*. O balanceador de carga do StorageGRID é dedicado ao StorageGRID. Você não compete com outros aplicativos em termos de largura de banda.
-* *Custo*. As versões de máquina virtual (VM) e contentor são fornecidas sem custo adicional.
-* *Classificações de tráfego*. O recurso classificação avançada de tráfego permite regras de QoS específicas do StorageGRID, juntamente com análises de carga de trabalho.
-* *Recursos específicos do futuro StorageGRID*. A StorageGRID continuará a otimizar e adicionar recursos inovadores ao balanceador de carga em relação aos próximos lançamentos.
-
-
-Para obter detalhes sobre como implantar o nó de gateway StorageGRID, consulte https://docs.netapp.com/us-en/storagegrid-117/["Documentação do StorageGRID"^].
-
-
-
 == Onde encontrar informações adicionais
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
 
-* Centro de Documentação do NetApp StorageGRID https://docs.netapp.com/us-en/storagegrid-118/[]
+* Centro de documentação do NetApp StorageGRIDhttps://docs.netapp.com/us-en/storagegrid/[]
 * Capacitação NetApp StorageGRID https://docs.netapp.com/us-en/storagegrid-enable/[]
 * Considerações sobre o projeto do balanceador de carga StorageGRID F5 https://www.netapp.com/blog/storagegrid-f5-load-balancer-design-considerations/[]
 * Loadbalancer.org—Load equilibrando NetApp StorageGRID https://www.loadbalancer.org/applications/load-balancing-netapp-storagegrid/[]

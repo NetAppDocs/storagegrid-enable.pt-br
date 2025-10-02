@@ -44,7 +44,7 @@ O StorageGRID suporta os seguintes conjuntos de codificação para TLS:
 
 Suporte para TLS v1,2 e 1,3.
 
-SSLv3, TLS v1,1 e anteriores não são mais suportados.
+SSLv3, TLS v1.1 e anteriores não são suportados.
 | Permite que um cliente e o StorageGRID se identifiquem e autentiquem entre si e se comuniquem com confidencialidade e integridade de dados. Garante o uso de uma versão TLS recente. As cifras agora são configuráveis nas configurações de Configuração/Segurança | -- 
 
 
@@ -128,6 +128,27 @@ O StorageGRID permite que várias chaves de acesso sejam criadas e simultaneamen
 | S3 Política de acesso do IAM  a| 
 O StorageGRID oferece suporte a políticas do IAM S3, permitindo que os administradores de grade especifiquem o controle de acesso granular por locatário, bucket ou prefixo de objeto. O StorageGRID também suporta as condições e variáveis da política do IAM, permitindo políticas de controle de acesso mais dinâmicas.
 | Permite que os administradores de Grade especifiquem o controle de acesso por grupos de usuários para todo o locatário; também permite que os usuários do locatário especifiquem o controle de acesso para seus próprios buckets e objetos. | -- 
+
+
+| API do Serviço de Token de Segurança S3 AssumeRole  a| 
+O StorageGRID oferece suporte à API S3 STS AssumeRole para fornecer credenciais de segurança temporárias (ID da chave de acesso, chave de acesso secreta, token de sessão) com permissões reduzidas e duração limitada.  Políticas de sessão em linha para restringir ainda mais as permissões durante a sessão são suportadas como parte da API AssumeRole.
+| Permite que os administradores do Tenant forneçam acesso temporário seguro aos dados do objeto. | -- 
+
+
+| Serviço de Notificação Simples  a| 
+O StorageGRID suporta o envio de notificações sobre acesso a objetos. Os seguintes tipos de eventos são suportados:
+
+* s3:ObjetoCriado:
+* s3:ObjectCreated:Colocar
+* s3:ObjetoCriado:Post
+* s3:ObjetoCriado:Copiar
+* s3:ObjetoCriado:CompleteMultipartUpload
+* s3:ObjetoRemovido:
+* s3:ObjetoRemovido:Excluir
+* s3:ObjetoRemovido:ExcluirMarcadorCriado
+* s3:Restauração de Objeto:Postagem
+
+| Permite que os administradores do Tenant monitorem o acesso aos objetos | -- 
 
 
 | Criptografia no lado do servidor com chaves gerenciadas por StorageGRID (SSE)  a| 

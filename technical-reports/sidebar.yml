@@ -30,6 +30,8 @@ entries:
   entries:
   - title: Use balanceadores de carga de terceiros com o StorageGRID
     url: "/technical-reports/load-balancer-index.html"
+  - title: Saiba mais sobre a função dos balanceadores de carga do StorageGRID
+    url: "/technical-reports/load-balancer-storagegrid.html"
   - title: Saiba como implementar certificados SSL para HTTPS no StorageGRID
     url: "/technical-reports/load-balancer-ssl-certificates-storagegrid.html"
   - title: Configure o balanceador de carga de terceiros confiável no StorageGRID
@@ -71,6 +73,8 @@ entries:
   - title: Defesa contra ransomware usando o controle de versão com a política protetora
       do IAM
     url: "/technical-reports/ransomware-protection-versioning-protective-iam-policy-storagegrid.html"
+  - title: Investigação de defesa contra ransomware usando branch buckets
+    url: "/technical-reports/ransomware-protection-investigate-branch-buckets.html"
 - title: 'TR-4765: Monitor StorageGRID'
   pdf-filename: Monitore o StorageGRID usando aplicativos externos
   entries:

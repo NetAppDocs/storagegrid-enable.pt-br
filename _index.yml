@@ -51,8 +51,6 @@ indexpage:
       url: "/product-feature-guides/storagegrid-search-integration-service.html"
     - title: Considerações e performance sobre o clone de nó
       url: "/product-feature-guides/node-clone.html"
-    - title: Como utilizar o remapeamento de portas
-      url: "/product-feature-guides/port-remap.html"
     - title: Como realocar um site e alterar a rede
       url: "/product-feature-guides/site-relocation-and-network-change.html"
     - title: Migração de storage baseado em objetos do ONTAP S3 para o StorageGRID

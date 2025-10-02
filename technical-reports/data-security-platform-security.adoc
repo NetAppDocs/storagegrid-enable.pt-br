@@ -72,8 +72,8 @@ Gerencie portas abertas e fechadas para redes Admin, Grid e cliente.
 
 
 | Comportamento SSH aprimorado  a| 
-Novos certificados de host SSH e chaves de host são gerados ao atualizar um nó para o StorageGRID 11,5.
-| Melhora a proteção contra ataques homem-no-meio. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
+desabilitar o SSH por padrão antes da instalação.  No estado padrão, o acesso SSH é habilitado somente no endereço das portas de gerenciamento do link-local.  As senhas do usuário administrador e root são definidas para o número de série do controlador de computação do dispositivo.  O login só é permitido no console serial e no console gráfico (BMC KVM).  O SSH em qualquer porta de rede está desabilitado.
+| Melhora a proteção do acesso à rede. | Regra DO SEC 17a-4(f) CTFC 1,31(c)-(d) (FINRA) regra 4511(c) 
 
 
 | Criptografia de nó  a| 
