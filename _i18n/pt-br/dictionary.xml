@@ -3326,4 +3326,5 @@
   <block id="2abc8e3d38a540d69dd7d82668037370" category="list-text"><block ref="2abc8e3d38a540d69dd7d82668037370" category="inline-link-macro-rx"></block></block>
   <block id="f7dcf34d77dc4c11838f7765c7dcd650" category="sidebar">Saiba mais sobre a função dos balanceadores de carga do StorageGRID</block>
   <block id="afe2571f5b9a6df9bd38c515313c5337" category="sidebar">Investigação de defesa contra ransomware usando branch buckets</block>
+  <block id="1b0f701303c9287515b1ad814889dfbb" category="sidebar">StorageGRID 12.0</block>
 </blocks>
