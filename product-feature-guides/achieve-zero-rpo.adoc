@@ -12,7 +12,7 @@ summary: 'Este relatório técnico descreve a implementação das estratégias d
 
 
 [role="lead"]
-Este relatório técnico fornece um guia abrangente para implementar estratégias de replicação do StorageGRID para alcançar um objetivo de ponto de restauração (RPO) zero no caso de uma falha do local. O documento detalha várias opções de implantação para o StorageGRID, incluindo replicação síncrona de vários sites e replicação assíncrona de várias grades. Ele explica como as políticas de Gerenciamento do ciclo de vida das informações (ILM) da StorageGRID podem ser configuradas para garantir a durabilidade e a disponibilidade dos dados em vários locais. Além disso, o relatório abrange considerações de desempenho, cenários de falha e processos de recuperação para manter operações ininterruptas do cliente. O objetivo deste documento é fornecer as informações para garantir que os dados permaneçam acessíveis e consistentes, mesmo em caso de falha completa do local, utilizando técnicas de replicação síncrona e assíncrona.
+Este relatório técnico fornece um guia completo para a implementação de estratégias de replicação do StorageGRID , visando atingir um Objetivo de Ponto de Recuperação (RPO) de zero em caso de falha do site. O documento detalha várias opções de implantação para o StorageGRID, incluindo replicação síncrona em vários locais e replicação assíncrona em várias grades. Este documento explica como as políticas de Gerenciamento do Ciclo de Vida da Informação (ILM) do StorageGRID podem ser configuradas para garantir a durabilidade e a disponibilidade dos dados em vários locais. Além disso, o relatório aborda considerações de desempenho, cenários de falha e processos de recuperação para manter as operações do cliente ininterruptas. O objetivo deste documento é fornecer informações para garantir que os dados permaneçam acessíveis e consistentes, mesmo em caso de falha total do site, utilizando técnicas de replicação síncrona e assíncrona.
 
 
 
@@ -28,13 +28,13 @@ O StorageGRID permite durabilidade e disponibilidade configuráveis de seus dado
 
 === StorageGRID Scale
 
-Uma implantação mínima do StorageGRID consiste em um nó de administração e três nós de armazenamento em um único site.  Uma única grade pode ter até 220 nós.  O StorageGRID pode ser implantado como um único site ou estendido para 16 sites.
+Uma implementação mínima do StorageGRID consiste em um nó de administração e 3 nós de armazenamento em um único local. Uma única grade pode crescer até 220 nós. O StorageGRID pode ser implementado em um único local ou expandido para até 16 locais.
 
 O nó Admin contém a interface de gerenciamento, um ponto central para métricas e registros, e mantém a configuração dos componentes do StorageGRID .  O nó Admin também contém um balanceador de carga integrado para acesso à API S3.
 
 O StorageGRID pode ser implantado somente como software, como dispositivos de máquina virtual VMware ou como dispositivos desenvolvidos especificamente para esse fim.
 
-Um nó StorageGRID pode ser implantado como:
+Um nó de armazenamento pode ser implantado da seguinte forma:
 
 * Um nó somente de metadados que maximiza a contagem de objetos
 * Um nó de armazenamento de objetos apenas maximizando o espaço do objeto
@@ -67,7 +67,7 @@ Com o armazenamento de objetos, a unidade de armazenamento é um objeto, em vez 
 
 Cada objeto em um sistema de storage baseado em objeto tem duas partes: Dados de objeto e metadados de objeto.
 
-* Os dados do objeto representam os dados subjacentes reais, por exemplo, uma fotografia, um filme ou um registo médico.
+* Os dados de objeto representam os dados subjacentes reais, por exemplo, uma fotografia, um filme ou um registro médico.
 * Metadados de objetos são qualquer informação que descreva um objeto.
 
 
@@ -76,7 +76,7 @@ O StorageGRID usa metadados de objetos para rastrear os locais de todos os objet
 Os metadados de objeto incluem informações como as seguintes:
 
 * Metadados do sistema, incluindo um ID exclusivo para cada objeto, o nome do objeto, o nome do bucket do S3, o nome ou ID da conta do locatário, o tamanho lógico do objeto, a data e a hora em que o objeto foi criado pela primeira vez e a data e a hora em que o objeto foi modificado pela última vez.
-* O local de storage atual de cada réplica de objeto ou fragmento codificado de apagamento.
+* Local de armazenamento atual da cópia replicada ou do fragmento codificado por apagamento de cada objeto.
 * Quaisquer pares de valor-chave de metadados de usuário personalizados associados ao objeto.
 * Para objetos S3D, qualquer par de chave-valor de marca de objeto associado ao objeto
 * Para objetos segmentados e objetos multipartes, identificadores de segmento e tamanhos de dados.
@@ -94,7 +94,7 @@ O StorageGRID oferece a capacidade de apagar dados de código no nível do nó e
 
 Além disso, os dispositivos StorageGRID usam esquemas de codificação de eliminação para armazenar dados de objetos nos nós de um site ou distribuídos em três ou mais sites no sistema StorageGRID , por meio das regras de ILM do StorageGRID, que protegem contra falhas de nós.
 
-A codificação de eliminação fornece um layout de armazenamento resiliente a falhas de nó e site com baixa sobrecarga, enquanto a replicação pode fazer a mesma coisa, com mais sobrecarga.  Todos os esquemas de codificação de eliminação do StorageGRID podem ser implantados em um único site, desde que o número mínimo de nós necessários para armazenar os blocos de dados seja atendido.  Isso significa que para um esquema EC de 4+2 é necessário haver um mínimo de 6 nós disponíveis para receber os dados.
+A codificação de apagamento fornece um layout de armazenamento resiliente a falhas de nós e sites, com uma sobrecarga menor do que a replicação. Todos os esquemas de codificação de apagamento do StorageGRID podem ser implementados em um único local, desde que o número mínimo de nós necessários para armazenar os blocos de dados seja atendido. Isso significa que, para um esquema EC de 4+2, é necessário haver no mínimo 6 nós disponíveis para receber os dados.
 
 image:zero-rpo/ec-schemes.png["Esquemas de codificação de apagamento disponíveis do StorageGRID para objetos"]
 
@@ -109,11 +109,20 @@ A consistência padrão é definida em um nível amplo de grade. Os usuários po
 As opções de consistência de bucket disponíveis no StorageGRID são:
 
 * *Todos*: Fornece o mais alto nível de consistência. Todos os nós na grade recebem os dados imediatamente, ou a solicitação falhará.
-* *Strong-global*: Garante consistência de leitura após gravação para todas as solicitações de clientes em todos os sites.
-* *Quorum Strong-global*: Garante consistência de leitura após gravação para todas as solicitações de clientes em todos os sites.  Oferece consistência para vários nós ou até mesmo uma falha de site se o quorum de réplica de metadados for alcançável.
+* *Forte-global*:
 +
-** A consistência do QUORUM é definida como um quorum de réplicas de metadados do nó de armazenamento, onde cada site tem 3 réplicas de metadados.  Pode ser calculado da seguinte forma: 1+((N*3)/2) onde N é o número total de sites
-** Por exemplo, um mínimo de 5 réplicas devem ser feitas a partir de uma grade de 3 sites, com um máximo de 3 réplicas dentro de um site.
+** *Legado Global Robusto*: Garante consistência de leitura após gravação para todas as solicitações do cliente em todos os sites.
++
+*** Este é o comportamento padrão para todos os sistemas atualizados da versão 11.9 ou anterior para a versão 12.0 sem a alteração manual para o novo Quorum Strong Global.
+
+
+** *Quorum Strong-global*: Garante consistência de leitura após gravação para todas as solicitações de clientes em todos os sites.  Oferece consistência para vários nós ou até mesmo uma falha de site se o quorum de réplica de metadados for alcançável.
++
+*** Este é o comportamento padrão para todos os sistemas recém-instalados na versão 12.0 ou superior.
+*** A consistência do QUORUM é definida como um quorum de réplicas de metadados do nó de armazenamento, onde cada site tem 3 réplicas de metadados.  Pode ser calculado da seguinte forma: 1+((N*3)/2) onde N é o número total de sites
+*** Por exemplo, um mínimo de 5 réplicas devem ser feitas a partir de uma grade de 3 sites, com um máximo de 3 réplicas dentro de um site.
+
+
 
 
 * * Strong-site*: Garante consistência de leitura-após-gravação para todas as solicitações de clientes dentro de um site.
@@ -129,11 +138,11 @@ Embora os metadados sejam replicados automaticamente dentro e entre locais, cabe
 
 Cada regra de ILM será configurada com um dos três comportamentos de ingestão para proteger objetos: Commit duplo, balanceado ou rigoroso.
 
-A opção de confirmação dupla fará duas cópias em quaisquer dois nós de storage diferentes na grade imediatamente e retornará a solicitação com êxito ao cliente. A seleção do nó tentará dentro do site da solicitação, mas pode usar nós de outro site em algumas circunstâncias. O objeto é adicionado à fila ILM para ser avaliado e colocado de acordo com as regras ILM.
+A opção de confirmação dupla criará duas cópias em quaisquer dois nós de armazenamento diferentes na grade imediatamente e retornará a solicitação como bem-sucedida ao cliente. A seleção do nó será tentada dentro do site da solicitação, mas poderá usar nós de outro site em algumas circunstâncias. O objeto é adicionado à fila ILM para ser avaliado e posicionado de acordo com as regras do ILM.
 
-A opção Balanced avalia o objeto em relação à política ILM imediatamente e coloca o objeto de forma síncrona antes de retornar a solicitação é bem-sucedida para o cliente. Se a regra de ILM não puder ser atendida imediatamente devido a uma interrupção ou storage inadequado para atender aos requisitos de posicionamento, a confirmação dupla será usada. Quando o problema for resolvido, o ILM colocará automaticamente o objeto com base na regra definida.
+A opção balanceada avalia o objeto em relação à política ILM imediatamente e o coloca de forma síncrona antes de retornar a solicitação como bem-sucedida ao cliente. Caso a regra ILM não possa ser atendida imediatamente devido a uma interrupção ou armazenamento inadequado para atender aos requisitos de alocação, o protocolo de confirmação dupla será utilizado em seu lugar. Assim que o problema for resolvido, o ILM posicionará automaticamente o objeto com base na regra definida.
 
-A opção strict avalia o objeto em relação à política ILM imediatamente e coloca o objeto de forma síncrona antes de retornar a solicitação é bem-sucedida para o cliente. Se a regra ILM não puder ser atendida imediatamente devido a uma interrupção ou armazenamento inadequado para atender aos requisitos de colocação, a solicitação falhará e o cliente precisará tentar novamente.
+A opção estrita avalia o objeto em relação à política ILM imediatamente e o coloca de forma síncrona antes de retornar a solicitação como bem-sucedida ao cliente. Se a regra ILM não puder ser atendida imediatamente devido a uma interrupção ou armazenamento inadequado para atender aos requisitos de posicionamento, a solicitação falhará e o cliente precisará tentar novamente.
 
 
 
@@ -141,9 +150,9 @@ A opção strict avalia o objeto em relação à política ILM imediatamente e c
 
 StorageGRID pode ser implantado com acesso de cliente através de nós de gateway integrado, um balanceador de carga externo de 3 a de terceiros, round robin DNS ou diretamente para um nó de storage. Vários nós de gateway podem ser implantados em um local e configurados em grupos de alta disponibilidade, fornecendo failover automatizado e failback no caso de uma interrupção do nó de gateway. Você pode combinar métodos de balanceamento de carga em uma solução para fornecer um único ponto de acesso para todos os sites em uma solução.
 
-Os nós de gateway equilibrarão a carga entre os nós de storage no local onde o nó de gateway reside por padrão. O StorageGRID pode ser configurado para permitir que os nós de gateway equilibrem a carga usando nós de vários locais. Essa configuração adicionaria a latência entre esses sites à latência de resposta às solicitações do cliente. Isso só deve ser configurado se a latência total for aceitável para os clientes.
+Por padrão, os nós de gateway irão balancear a carga entre os nós de armazenamento no site onde o nó de gateway reside. O StorageGRID pode ser configurado para permitir que os nós de gateway equilibrem a carga usando nós de vários locais. Essa configuração adicionaria a latência entre esses sites à latência de resposta das solicitações do cliente. Essa configuração só deve ser feita se a latência total for aceitável para os clientes.
 
-Garantir que um RTO de zero pode ser alcançado com uma combinação de balanceamento de carga local e global.  Garantir o acesso ininterrupto do cliente requer balanceamento de carga das solicitações do cliente.  Uma solução StorageGRID pode conter muitos nós de gateway e grupos de alta disponibilidade em cada site.  Para fornecer acesso ininterrupto aos clientes em qualquer site, mesmo em caso de falha, você deve configurar uma solução de balanceamento de carga externa em combinação com nós de gateway do StorageGRID .  Configure grupos de alta disponibilidade do nó de gateway que gerenciam a carga dentro de cada site e use o balanceador de carga externo para balancear a carga entre os grupos de alta disponibilidade.  O balanceador de carga externo deve ser configurado para executar uma verificação de integridade para garantir que as solicitações sejam enviadas apenas para sites operacionais.  Para obter mais informações sobre balanceamento de carga com StorageGRID , consulte o https://www.netapp.com/media/17068-tr4626.pdf["Relatório técnico do balanceador de carga StorageGRID"] .
+Garantir um RTO (tempo de resposta) igual a zero pode ser alcançado com uma combinação de balanceamento de carga local e global. Garantir o acesso ininterrupto do cliente requer balanceamento de carga das solicitações do cliente. Uma solução StorageGRID pode conter vários nós de gateway e grupos de alta disponibilidade em cada local. Para garantir acesso ininterrupto aos clientes em qualquer local, mesmo em caso de falha de um dos locais, você deve configurar uma solução externa de balanceamento de carga em conjunto com os nós do StorageGRID Gateway. Configure grupos de alta disponibilidade para os nós de gateway, que gerenciam a carga em cada site, e utilize o balanceador de carga externo para distribuir a carga entre os grupos de alta disponibilidade. O balanceador de carga externo deve ser configurado para realizar uma verificação de integridade, garantindo que as solicitações sejam enviadas apenas para sites operacionais. Para obter mais informações sobre balanceamento de carga com StorageGRID, consulte o seguinte: https://www.netapp.com/media/17068-tr4626.pdf["Relatório técnico do balanceador de carga StorageGRID"].
 
 
 
@@ -157,7 +166,7 @@ Para alcançar o objetivo do ponto de restauração (RPO) zero em um sistema de 
 
 Para uma implantação em vários sites, o Quorum Strong Global é o modelo de consistência preferido para garantir que os metadados sejam sincronizados em todos os sites, o que o torna essencial para atender ao requisito de RPO zero.
 
-Os objetos no sistema de storage são armazenados com base nas regras do Information Lifecycle Management (ILM), que determinam como e onde os dados são armazenados durante todo o ciclo de vida. Para replicação síncrona, pode-se considerar entre execução estrita ou execução equilibrada.
+Os objetos no sistema de armazenamento são armazenados com base em regras de Gerenciamento do Ciclo de Vida da Informação (ILM, na sigla em inglês), que ditam como e onde os dados são armazenados ao longo de seu ciclo de vida. Para replicação síncrona, pode-se optar entre execução estrita ou execução balanceada.
 
 * A execução estrita dessas regras ILM é necessária para RPO zero, pois garante que os objetos sejam colocados nos locais definidos sem qualquer atraso ou retorno, mantendo a disponibilidade e a consistência dos dados.
 * O comportamento de ingestão de equilíbrio de ILM da StorageGRID fornece um equilíbrio entre alta disponibilidade e resiliência, permitindo que os usuários continuem ingerindo dados mesmo em caso de falha do site.
@@ -183,13 +192,17 @@ Uma vez que a falha é resolvida, não são necessários esforços de failback m
 
 == Uma implantação de Multi-site de Grade única
 
-Nos cenários a seguir, as soluções StorageGRID são configuradas com um balanceador de carga externo opcional gerenciando solicitações para os grupos de alta disponibilidade do balanceador de carga integrado.  Isso alcançará um RTO de zero, além de um RPO de zero.  O ILM é configurado com proteção de ingestão balanceada para posicionamento síncrono.  Cada bucket é configurado com o modelo de consistência global forte do Quorum para grades de 3 ou mais sites e consistência global forte para menos de 3 sites.
+Nos cenários a seguir, as soluções StorageGRID são configuradas com um balanceador de carga externo opcional, que gerencia as solicitações para os grupos de alta disponibilidade do balanceador de carga integrado. Isso resultará em um RTO de zero, além de um RPO de zero. O ILM está configurado com proteção de ingestão balanceada para posicionamento síncrono. Cada bucket é configurado com a versão Quorum do modelo de consistência global forte para grids de 3 ou mais sites e com a versão Legacy do modelo de consistência global forte para 2 sites.
 
-Em uma solução StorageGRID de dois sites há pelo menos duas réplicas ou 3 blocos EC de cada objeto e 6 réplicas de todos os metadados. Após a recuperação da falha, as atualizações da interrupção serão sincronizadas automaticamente com o local/nós recuperados. Com apenas 2 locais, é provável que não alcance RPO zero em cenários de falha além de uma perda total no local.
+*Cenário 1:*
+
+Em uma solução StorageGRID com dois sites, existem pelo menos duas réplicas de cada objeto e seis réplicas de todos os metadados. Após a recuperação da falha, as atualizações da interrupção serão sincronizadas automaticamente com o site/nós recuperados. Com apenas 2 sites, é improvável que se alcance um RPO zero em cenários de falha que ultrapassem a perda total de um dos sites.
 
 image:zero-rpo/2-site.png["Sistema StorageGRID de dois locais"]
 
-Em uma solução StorageGRID de três ou mais sites, há pelo menos 3 réplicas ou 3 blocos EC de cada objeto e 9 réplicas de todos os metadados. Após a recuperação da falha, as atualizações da interrupção serão sincronizadas automaticamente com o local/nós recuperados. Com três ou mais locais, é possível alcançar um RPO zero.
+*Cenário 2:*
+
+Em uma solução StorageGRID com três ou mais sites, existem pelo menos 3 réplicas ou 3 blocos EC de cada objeto e 9 réplicas de todos os metadados. Após a recuperação da falha, as atualizações da interrupção serão sincronizadas automaticamente com o site/nós recuperados. Com três ou mais locais, é possível atingir um RPO zero.
 
 image:zero-rpo/3-site.png["Sistema StorageGRID de três locais"]
 
@@ -197,7 +210,7 @@ Cenários de falha em vários locais
 
 [cols="34%,33%,33%"]
 |===
-| Falha | Resultado de 2 locais | resultado de 3 ou mais sites 
+| Falha | Resultado em 2 locais + Legado Forte Global | Resultado em 3 ou mais locais + Quorum Strong Global 
 
 
 | Falha da unidade de nó único | Cada dispositivo usa vários grupos de discos e pode sustentar uma falha de pelo menos 1 unidade por grupo sem interrupção ou perda de dados. | Cada dispositivo usa vários grupos de discos e pode sustentar uma falha de pelo menos 1 unidade por grupo sem interrupção ou perda de dados. 
@@ -216,47 +229,43 @@ As operações direcionadas para o outro site permanecem ininterruptas e sem per
 | Falha de nó único em vários locais  a| 
 Sem interrupção ou perda de dados se:
 
-* Pelo menos uma única réplica existe na grade
+* Existe pelo menos uma cópia idêntica na grade.
 * Existem pedaços suficientes de EC na grade
 
 
 Operações interrompidas e risco de perda de dados se:
 
-* Não existem réplicas
+* Não existem cópias duplicadas.
 * Existem mandris CE insuficientes
 
  a| 
 Sem interrupção ou perda de dados se:
 
-* Pelo menos uma única réplica existe na grade
+* Existe pelo menos uma única cópia replicada na grade.
 * Existem pedaços suficientes de EC na grade
 
 
 Operações interrompidas e risco de perda de dados se:
 
-* Não existem réplicas
+* Não existem cópias duplicadas.
 * Existem pedaços de EC insuficientes para recuperar o objeto
 
 
 
 
-| Falha única de local | as operações do cliente serão interrompidas até que a falha seja resolvida, ou a consistência do bucket seja reduzida para um local forte ou menor para permitir que as operações tenham sucesso, mas sem perda de dados. | Nenhuma interrupção das operações ou perda de dados. 
+| Falha única de local | Algumas operações do cliente serão interrompidas até que a falha seja resolvida. As operações GET e HEAD continuarão sem interrupção. Reduza a consistência do bucket para leitura após nova gravação ou um nível inferior para continuar as operações sem interrupção nesse estado de falha. | Nenhuma interrupção das operações ou perda de dados. 
 
 
-| Um único local e falhas de nó único | as operações do cliente serão interrompidas até que a falha seja resolvida ou a consistência do bucket seja reduzida para leitura após nova gravação ou menor para permitir que as operações tenham sucesso e possível perda de dados. | Nenhuma interrupção das operações ou perda de dados. 
+| Um único local e falhas de nó único | Algumas operações do cliente serão interrompidas até que a falha seja resolvida. As operações da HEAD continuarão sem interrupção. As operações GET continuarão sem interrupção se existir uma cópia replicada ou blocos EC suficientes. Reduza a consistência do bucket para leitura após nova gravação ou um nível inferior para continuar as operações sem interrupção nesse estado de falha. | Sem interrupção das operações ou perda de dados. Possível perda de dados dependendo do número de cópias replicadas. A codificação de apagamento local pode prevenir a perda de dados. 
 
 
-| Um único local mais um nó de cada local restante | as operações do cliente serão interrompidas até que a falha seja resolvida ou a consistência do bucket seja reduzida para leitura após nova gravação ou menor para permitir que as operações tenham sucesso e possível perda de dados. | As operações serão interrompidas se o quórum de réplica de metadados não puder ser atendido e possível perda de dados. 
+| Um único local mais um nó de cada local restante | Existem apenas dois locais. Veja: Site único mais um nó único. | As operações serão interrompidas se o quórum de réplicas de metadados não puder ser atingido. Reduza a consistência do bucket para leitura após nova gravação ou um nível inferior para continuar as operações sem interrupção nesse estado de falha. Possível perda de dados em caso de falha permanente, dependendo do número de cópias replicadas. A codificação de apagamento local pode prevenir a perda de dados. 
 
 
-| Falha em vários locais | Nenhum local de operações permanece os dados serão perdidos se pelo menos 1 local não puder ser recuperado em sua totalidade. | As operações serão interrompidas se o quórum de réplica de metadados não puder ser atendido. Sem perda de dados, desde que pelo menos 1 local permaneça. 
+| Falha em vários locais | Não restam locais operacionais. Os dados serão perdidos se pelo menos um dos sites não puder ser recuperado em sua totalidade. | As operações serão interrompidas se o quórum de réplicas de metadados não puder ser atingido. Reduza a consistência do bucket para leitura após nova gravação ou um nível inferior para continuar as operações sem interrupção nesse estado de falha. Possível perda de dados em caso de falha permanente se não restarem blocos codificados de apagamento suficientes. A codificação de apagamento local ou cópias replicadas podem evitar a perda de dados. 
 
 
-| Isolamento de rede de um site | as operações do cliente serão interrompidas até que a falha seja resolvida, ou a consistência do bucket seja reduzida para um local forte ou menor para permitir que as operações tenham sucesso, mas sem perda de dados  a| 
-As operações serão interrompidas para o local isolado, mas sem perda de dados
-
-Sem interrupção das operações nos locais restantes e sem perda de dados
-
+| Isolamento de rede de um site | As operações do cliente serão interrompidas até que a falha seja resolvida. Reduza a consistência do bucket para leitura após nova gravação ou um nível inferior para continuar as operações sem interrupção nesse estado de falha. Sem perda de dados | As operações serão interrompidas no local isolado, mas não haverá perda de dados. Reduza a consistência do bucket para leitura após nova gravação ou um nível inferior para continuar as operações sem interrupção nesse estado de falha. Não houve interrupção nas operações nos locais restantes nem perda de dados. 
 |===
 
 
