@@ -1,0 +1,205 @@
+---
+permalink: tools-apps-guides/f5-dns.html 
+sidebar: sidebar 
+keywords: gslb,f5, multi-site,storagegrid,ha,high-availability,load balancer,load balancing,DNS,BIG-IP 
+summary: Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID com os serviços DNS da F5 para balanceamento de carga global. 
+---
+= Use o DNS da F5 para balancear a carga globalmente no StorageGRID.
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+_Por Steve Gorman (F5)_
+
+Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID com os serviços DNS da F5 para balanceamento de carga global, visando oferecer melhor disponibilidade de dados, maior consistência de dados e otimizar o roteamento de transações do S3 quando sua grade estiver distribuída em vários sites e/ou grupos de alta disponibilidade.
+
+
+
+== Introdução
+
+A solução F5 BIG-IP DNS, anteriormente chamada de BIG-IP GTM (Global Traffic Manager) e informalmente conhecida como GSLB (Global Server Load Balancing), permite o acesso contínuo em vários grupos HA ativo-ativo e a implementação eficaz de soluções StorageGRID multi-site ativo-ativo.
+
+
+
+== Configuração F5 BIG-IP StorageGRID em vários locais
+
+Independentemente do número de sites StorageGRID a serem suportados, no mínimo dois dispositivos BIG-IP, físicos ou virtuais, devem ter o módulo BIG-IP DNS habilitado e configurado. Quanto mais dispositivos DNS forem instalados, maior será o grau de redundância do qual uma empresa se beneficiará.
+
+
+
+=== BIG-IP DNS - Primeiros passos na configuração inicial
+
+Após o dispositivo BIG-IP ter passado pelo menos pelo provisionamento inicial, use um navegador da web para acessar a interface TMUI (GUI do BIG-IP) e selecione Sistema -> Provisionamento de Recursos. Conforme destacado, certifique-se de que o módulo “Tráfego Global (DNS)” esteja marcado e licenciado. Observe que, como mostra a imagem, é comum que o "Tráfego Local (LTM)" possa ser provisionado no mesmo dispositivo.
+
+image:f5-dns/global-traffic.png["Serviço de Tráfego Global (DNS) ativado"]
+
+
+
+=== Configurar os elementos fundamentais do protocolo DNS
+
+O primeiro passo para o gerenciamento de tráfego global para sites StorageGRID é selecionar a guia DNS, onde praticamente todo o direcionamento de tráfego global será configurado, e escolher Configurações -> GLSB. Ative as duas opções de sincronização e escolha um nome de grupo DNS que será compartilhado entre os dispositivos BIG-IP participantes.
+
+image:f5-dns/dns-group-name.png["Nome do grupo DNS"]
+
+Em seguida, navegue até DNS > Entrega > Perfis > DNS: Criar e crie um perfil que irá controlar os recursos de DNS que você deseja ativar ou desativar. Consulte o link anterior para o guia de sala de aula sobre DNS, caso tenha interesse em gerar registros DNS específicos. Aqui está um exemplo de um perfil DNS funcional; observe os quatro destaques que representam configurações com valores importantes. Para sua informação, cada configuração possível é explicada no seguinte artigo da Base de Conhecimento (KB) da F5. https://my.f5.com/manage/s/article/K21520582["aqui"^].
+
+image:f5-dns/dns-profile.png["Configurações de perfil DNS"]
+
+Neste ponto, podemos ajustar as características dos protocolos UDP e TCP, através da criação de "perfis", que podem transportar tráfego DNS envolvendo o BIG-IP. Basta criar um novo perfil para UDP e outro para TCP. Partindo do pressuposto de que o tráfego DNS irá atravessar links WAN, uma boa prática é simplesmente herdar as características do UDP e do TCP que comprovadamente apresentam bom desempenho em ambientes WAN. Para adicionar cada um, basta clicar no ícone “+” ao lado de cada protocolo e definir o perfil principal da seguinte forma:
+
+UDP -> usar o perfil “pai” “udp_gtm_dns”
+
+TCP -> usar o perfil “pai” “f5-tcp-wan”
+
+image:f5-dns/dns-protocol.png["Protocolo DNS"]
+
+Agora, basta atribuirmos um endereço IP para o tráfego UDP e TCP que envolve o DNS do BIG-IP. Para quem está familiarizado com o BIG-IP LTM, isso é essencialmente a criação de servidores DNS virtuais, e servidores virtuais precisam de endereços IP de "escuta". Como mostra a captura de tela, siga as setas para criar servidores virtuais/de escuta para DNS/UDP e DNS/TCP.
+
+image:f5-dns/listener-list1.png["Adicionar IP do ouvinte"]
+
+Segue abaixo um exemplo de um servidor DNS BIG-IP em funcionamento, onde podemos ver as configurações do ouvinte do servidor virtual TCP e como ele integra muitas das etapas anteriores. Isso inclui referenciar o perfil DNS e o perfil de protocolo (TCP), bem como configurar um endereço IP válido para o DNS usar. Assim como ocorre com todos os objetos criados com o BIG-IP, é útil usar um nome significativo que sirva para identificar o objeto, como dns/siteb/TCP53 no exemplo de nome atribuído.
+
+image:f5-dns/listener-list2.png["Adicionar informações do ouvinte"]
+
+Isso conclui as etapas preliminares de configuração, geralmente realizadas "uma única vez", de um dispositivo BIG-IP com o módulo DNS ativado. Neste momento, estamos prontos para abordar os detalhes da configuração de uma solução global de gerenciamento de tráfego com nossos dispositivos, que, naturalmente, estará vinculada às características dos sites da StorageGRID .
+
+
+
+=== Configuração de Data Centers e estabelecimento de comunicação entre BIG-IPs em quatro etapas
+
+
+
+==== Primeiro passo: Criar centros de dados
+
+Cada site que irá hospedar clusters de nós para serem balanceados localmente pelo BIG-IP LTM deve ser inserido no BIG-IP DNS. Isso precisa ser feito em apenas um servidor DNS BIG-IP, pois estamos criando um grupo DNS sincronizado para dar suporte ao gerenciamento de tráfego; portanto, essa configuração será compartilhada entre os servidores DNS membros do grupo.
+
+Através da interface gráfica do usuário (GUI) do TMUI, selecione DNS > GSLB > Data Centers > Lista de Data Centers e crie uma entrada para cada um dos sites do StorageGRID . Se estiver usando uma configuração de rede alinhada com a Figura 1, com o dispositivo DNS localizado em outros sites que não sejam StorageGRID , adicione Data Centers para esses sites, além dos sites de armazenamento. Neste exemplo, os sites a e b são criados em Ohio e Oregon, e os dispositivos BIG-IP são de uso duplo, com DNS e LTM.
+
+image:f5-dns/datacenters.png["criar centros de dados"]
+
+
+
+==== Etapa dois: Criar servidores (Lista de todos os dispositivos BIG-IP na solução)
+
+Agora estamos prontos para conectar os clusters individuais do StorageGRID à configuração de DNS do BIG-IP. Lembre-se, o dispositivo BIG-IP em cada local fará o balanceamento de carga do tráfego S3, por meio da configuração de servidores virtuais que vinculam um endereço IP/porta acessível de "front-end" a um conjunto de dispositivos Storage Node de "back-end", usando endereços IP/portas de "back-end".
+
+Caso, por exemplo, todos os nós de armazenamento em um pool sejam desativados administrativamente, talvez devido à desativação de um site, ou inesperadamente por meio de falhas em verificações de integridade em tempo real, o tráfego será direcionado para outros sites alterando as respostas às consultas de DNS.
+
+Para integrar os sites do StorageGrid, especificamente os servidores virtuais locais, à configuração de DNS do BIG-IP em cada dispositivo, a configuração precisa ser feita apenas uma vez. Em uma etapa futura, todas as configurações do grupo de dispositivos BIG-IP DNS serão sincronizadas.
+
+Em termos simples, criaremos uma lista, denominada lista de servidores, de todos os nossos dispositivos BIG-IP, independentemente de estarem licenciados para DNS, LTM ou ambos. Esta lista principal será sincronizada com todos os dispositivos BIG-IP DNS após a conclusão do processo.
+
+Em um dispositivo BIG-IP DNS licenciado, escolha DNS > GSLB > Servidores > Lista de servidores e clique no botão adicionar (+).
+
+image:f5-dns/gslb-server-list.png["criar servidores"]
+
+Os quatro elementos-chave ao adicionar cada BIG-IP incluem: * Selecionar o BIG-IP na lista suspensa de produtos; outros balanceadores de carga são possíveis, mas geralmente não possuem a capacidade de resposta e visibilidade em tempo real quando a integridade do nó de backend se deteriora em cada site. * Adicione o endereço IP do dispositivo BIG-IP DNS. Provavelmente, na primeira vez que um dispositivo BIG-IP DNS for adicionado, o endereço será o do dispositivo acessado pela GUI; em aplicações futuras, serão os endereços dos outros dispositivos na solução. * Escolha um monitor de integridade; use sempre “BIG-IP” quando o balanceador de carga adicionado for um appliance BIG-IP, para avaliação da integridade do nó StorageGRID de back-end. * Opcionalmente, solicite a descoberta automática do servidor virtual se o dispositivo for um dispositivo DNS/LTM duplo.
+
+image:f5-dns/new-server.png["Configurar novos servidores"]
+
+Em algumas situações, como problemas transitórios de rede ou regras de ACL de firewall entre locais de rede, ao adicionar um dispositivo remoto nesta etapa, a descoberta de servidores virtuais pode não exibir entradas para dispositivos remotos com LTM configurado. Nesses casos, após adicionar o novo dispositivo ("servidor"), é possível adicionar manualmente os servidores virtuais, conforme indicado abaixo. Ao adicionar um dispositivo BIG-IP somente para DNS, não haverá servidores virtuais a serem descobertos ou adicionados a esse dispositivo.
+
+image:f5-dns/virtual-server.png["Adicionar servidores"]
+
+Precisamos adicionar essas entradas de servidor para cada dispositivo em nossa solução em todos os sites, incluindo dispositivos BIG-IP DNS, dispositivos BIG-IP LTM e quaisquer dispositivos que desempenhem as funções duplas de unidades DNS e LTM.
+
+
+
+==== Etapa três: Estabelecer confiança entre todos os dispositivos BIG-IP
+
+No exemplo a seguir, quatro dispositivos foram adicionados como servidores e estão distribuídos em dois locais. Observe que cada site possui um BIG-IP DNS e um BIG-IP LTM dedicados. No entanto, todos os dispositivos, exceto aquele em que o usuário está conectado no momento, exibem ícones azuis na coluna "Status". Isso significa que ainda não foi estabelecida uma relação de confiança com os outros dispositivos BIG-IP.
+
+image:f5-dns/trust1.png["Estabelecer confiança certificada"]
+
+Para adicionar confiança, acesse o BIG-IP via SSH, onde os detalhes de configuração foram inseridos pela interface gráfica, e utilize a conta "root" para acessar a interface de linha de comando do BIG-IP. Execute o seguinte comando único no prompt: _bigip_add_
+
+O comando "bigip_add" extrai o certificado de gerenciamento dos dispositivos BIG-IP de destino para uso durante a configuração do canal criptografado "iQuery" entre os servidores GSLB no cluster. O iQuery, por padrão, é executado usando a porta TCP 4353 e é o mecanismo de pulsação que permite que os membros DNS do BOG-IP permaneçam sincronizados. Ele utiliza XML e gzip no canal criptografado. Ao executar "bigip_add" sem nenhuma opção, o comando será executado em todos os dispositivos BIGIP na lista do servidor GSLB, usando o nome de usuário atual para se conectar aos endpoints. Para verificar rapidamente se tudo correu bem, basta retornar à interface gráfica do BIG-IP e confirmar se todos os servidores agora possuem certificados listados no menu suspenso exibido.
+
+image:f5-dns/big-ip-add.png["Verificar a confiança do certificado"]
+
+
+
+==== Passo quatro: Sincronize todos os dispositivos BIG-IP DNS com o grupo DNS.
+
+A etapa final permitirá que todos os dispositivos BIG-IP DNS sejam totalmente configurados usando apenas a interface gráfica do usuário (GUI) do TMUI em uma única unidade. Em um exemplo hipotético, onde existem dois sites StorageGRID , isso significa usar SSH para acessar a linha de comando do DNS BIG-IP do *outro* site. Após conectar-se como root e garantir que as políticas/ACLs do firewall permitam que os dois dispositivos BIG-IP DNS se comuniquem nas portas TCP 22 (SSH), 443 (HTTPS) e 4354 (protocolo F5 iQuery), execute o seguinte comando no prompt: `_gtm_add <endereço IP do primeiro dispositivo BIG-IP DNS, onde todas as etapas da GUI foram realizadas anteriormente>`.
+
+A partir deste ponto, todas as configurações adicionais de DNS podem ser realizadas em qualquer dispositivo BIG-IP DNS que tenha sido adicionado ao grupo. O comando acima, gtm_add, não precisa ser aplicado a membros de dispositivo que sejam somente LTM. Somente dispositivos com suporte a DNS precisam deste comando para fazer parte do grupo DNS sincronizado.
+
+
+
+=== Configuração de Data Centers e estabelecimento de comunicação entre dispositivos BIG-IP
+
+Neste ponto, todas as etapas para criar o grupo de dispositivos BIG-IP DNS subjacente e íntegro estão concluídas. Agora podemos prosseguir com a criação de nomes, FQDNs, que apontem para nossos serviços web/S3 distribuídos, expostos em cada datacenter do StorageGRID .
+
+Esses nomes são chamados de "Wide IPs", ou WIPs, e são FQDNs DNS normais com registros de recursos DNS A. No entanto, em vez de apontar para um servidor como um registro de recurso A tradicional, eles apontam internamente para conjuntos de servidores virtuais BIG-IP. Cada pool, individualmente, pode ser composto por um ou mais servidores virtuais. Um cliente S3 que solicita um endereço IP para resolução de nomes receberá o endereço do servidor virtual S3 no site StorageGRID ideal, selecionado pela política.
+
+
+
+==== IPs amplos, pools e servidores virtuais em poucas palavras
+
+Para dar um exemplo simples e fictício, um projeto em andamento para o nome *storage.quantumvault.com* poderia ver a solução DNS BIG-IP vinculada a dois conjuntos de servidores virtuais potenciais. O primeiro grupo pode ser composto por 4 locais na América do Norte; o segundo grupo pode ser composto por 3 locais na Europa.
+
+O conjunto de dispositivos selecionados pode ser definido a partir de uma série de decisões políticas; talvez uma proporção simples de 5:1 possa ser usada para direcionar a maior parte do tráfego para os sites StorageGRID da América do Norte. Talvez seja mais provável uma escolha baseada na topologia, onde o pool é escolhido de forma que, por exemplo, todo o tráfego S3 originado na Europa seja direcionado para sites europeus, e o restante do tráfego S3 mundial seja direcionado para data centers norte-americanos.
+
+Uma vez que o BIG-IP DNS determine um pool, supondo que o pool da América do Norte tenha sido selecionado, o registro DNS A retornado para resolver storage.quantumvault.com pode ser qualquer um dos 4 servidores virtuais suportados pelo BIG-IP LTM em qualquer um dos 4 sites da América do Norte. Novamente, a escolha é orientada por políticas; existem abordagens "estáticas" simples, como o Round-Robin, enquanto seleções "dinâmicas" mais avançadas, como sondagens de desempenho para medir a latência de cada site a partir de resolvedores DNS locais, são mantidas e usadas como critérios para a seleção do site.
+
+Para configurar um pool de servidores virtuais em um BIG-IP DNS, siga o caminho do menu *DNS > GSLB > Pools > Lista de Pools > Adicionar (+)*. Neste exemplo, podemos ver que vários servidores virtuais norte-americanos são adicionados a um pool e a abordagem preferencial para balanceamento de carga, quando este pool é selecionado, é escolhida de forma hierárquica.
+
+image:f5-dns/new-pool.png["Nova piscina"]
+
+Adicionamos o WIP (Wide IP), o nome do nosso serviço que será resolvido pelo DNS, a uma implantação seguindo o caminho DNS > GSLB > Wide IPs > Lista de Wide IPs > Criar (+). No exemplo a seguir, fornecemos um exemplo de trabalho em andamento (WIP) para um serviço de armazenamento habilitado para S3.
+
+image:f5-dns/wip-config.png["Configurar WIP"]
+
+
+
+=== Ajuste o DNS para suportar o gerenciamento de tráfego global.
+
+Neste ponto, todos os nossos dispositivos BIG-IP subjacentes estão prontos para executar o GSLB (balanceamento de carga global do servidor). Basta ajustarmos e atribuirmos os nomes usados para os fluxos de tráfego do S3 para aproveitarmos a solução. A abordagem geral consiste em delegar parte de um domínio DNS existente de uma empresa ao controle do BIG-IP DNS. Isso significa "reservar" uma seção do espaço de nomes, um subdomínio, e delegar o controle desse subdomínio aos dispositivos BIG-IP DNS. Tecnicamente, isso é feito garantindo que os dispositivos BIG-IP DNS tenham registros de recursos DNS (RRs) do tipo A no DNS corporativo e, em seguida, transformando esses nomes/endereços em registros de recursos DNS de servidor de nomes (NS) para o domínio delegado.
+
+Existem várias maneiras pelas quais as empresas mantêm o DNS atualmente, sendo um método uma solução totalmente hospedada. Um exemplo disso seria operar e gerenciar o DNS por meio do Windows Server 2025. Uma abordagem alternativa para uma empresa seria utilizar provedores de DNS em nuvem, como o AWS Route53 ou o Squarespace.
+
+Segue um exemplo fictício para fins ilustrativos. Temos o StorageGRID com suporte para leitura e gravação de objetos via protocolo S3, com um domínio existente gerenciado pelo AWS Route53. O domínio de exemplo existente é f5demo.net.
+
+Gostaríamos de atribuir o subdomínio engineering.f5demo.net aos dispositivos BIG-IP DNS para gerenciamento de tráfego global. Para isso, criamos um novo registro de recurso NS (servidor de nomes) para engineering.f5demo.net e o direcionamos para a lista de nomes de dispositivos DNS do BIG-IP. Em nosso exemplo, temos dois dispositivos BIG-IP DNS e, portanto, criamos dois registros de recursos A para eles.
+
+image:f5-dns/sub-domain.png["registros de recurso A"]
+
+Agora, como exemplo, vamos configurar um Wide IP (WIP) em nosso DNS BIG-IP. Como o DNS usa sincronização de grupo, precisamos ajustar apenas a interface gráfica de um dos dispositivos. Na GUI do BIG-IP DNS, vá para *DNS > GSLB > Wide IPs > Wide IP List (+)*. Lembre-se que, em uma configuração tradicional de DNS com FQDN, seria necessário inserir um ou mais endereços IPv4; em nosso caso, simplesmente apontamos para um ou mais conjuntos de servidores virtuais do StorageGRID .
+
+image:f5-dns/wide-ip-list.png["Lista extensa de IPs"]
+
+Em nosso exemplo, temos servidores web HTTPS genéricos localizados em sites de Ohio e Oregon. Com uma abordagem simples de "round robin", devemos conseguir ver o DNS global respondendo às consultas para os mapeamentos de registro de recurso A para _www.wip.engineering.f5demo.net_ com ambos os IPs do servidor virtual.
+
+image:f5-dns/traffic-rr.png["rotativo de tráfego"]
+
+Um teste simples pode ser feito com navegadores da web ou, no caso do S3 usando o StorageGRID, talvez com ferramentas gráficas como o S3Browser. Cada consulta DNS terá como destino o próximo site do data center no pool, devido à nossa escolha de Round Robin dentro do pool.
+
+Em nossa configuração de exemplo, podemos usar o dig ou o nslookup para gerar rapidamente uma série de duas consultas DNS e garantir que o BIG-IP DNS esteja realmente realizando um balanceamento de carga round robin, resultando no recebimento de tráfego por ambos os sites ao longo do tempo.
+
+image:f5-dns/nslookup.png["Exemplo de nslookup"]
+
+
+
+==== Sugestão de exploração para técnicas mais avançadas.
+
+Uma das muitas abordagens possíveis seria usar o modo de "Disponibilidade Global" em vez do exemplo simples de "Round Robin" dado acima. Com a Disponibilidade Global, o tráfego pode ser direcionado para a sequência de pools ou servidores virtuais dentro de um único pool. Dessa forma, todo o tráfego do S3 poderia, por padrão, ser direcionado, por exemplo, para um site na cidade de Nova York.
+
+Se as verificações de integridade indicarem um problema com a disponibilidade do nó StorageGRID neste local, o tráfego poderá ser direcionado para St. Louis. Caso St. Louis enfrente problemas de saúde, um local em Frankfurt poderia, por sua vez, começar a receber transações de leitura ou gravação S3. Assim, a disponibilidade global é uma das abordagens para a resiliência geral da solução S3 StorageGRID . Outra abordagem consiste em combinar diferentes métodos de balanceamento de carga, utilizando uma abordagem em camadas.
+
+image:f5-dns/lb-method.png["Método de balanceamento de carga"]
+
+Neste exemplo, a opção “dinâmica” é a primeira escolha de balanceamento de carga para os sites no pool configurado. No exemplo apresentado, uma abordagem de medição contínua, utilizando a sondagem ativa do desempenho do resolvedor DNS local, é mantida e serve como catalisador para a seleção do site. Caso essa abordagem não esteja disponível, os locais individuais podem ser selecionados pela proporção atribuída a cada um. Com essa proporção, sites StorageGRID maiores e com maior largura de banda podem receber mais transações S3 do que sites menores. Por fim, como possível cenário de recuperação de desastres, caso todos os sites no pool fiquem indisponíveis, o IP de fallback especificado é usado como último recurso. Um dos métodos de balanceamento de carga mais interessantes do BIG-IP DNS é o "Topology", no qual a fonte de entrada das consultas DNS, o resolvedor DNS local do usuário S3, é observada e, usando informações de topologia da Internet, o site aparentemente mais "próximo" é selecionado do conjunto.
+
+Por fim, se os sites abrangerem o mundo inteiro, pode valer a pena considerar o uso da tecnologia de "sondagem" dinâmica, discutida em detalhes no manual do F5 BIG-IP DNS. Com sondagens, é possível monitorar fontes frequentes de consultas DNS, como por exemplo, um parceiro de negócios B2B cujo tráfego geralmente utiliza o mesmo resolvedor DNS local. As sondagens DNS do BIG-IP podem ser iniciadas a partir do BIG-IP LTM em cada local ao redor do mundo, para determinar, de forma geral, qual local em potencial provavelmente ofereceria a menor latência para transações S3. Assim sendo, o tráfego proveniente da Ásia pode ser melhor atendido por sites StorageGRID asiáticos do que por sites localizados na América do Norte ou na Europa.
+
+
+
+== Conclusão
+
+A integração do F5 BIG-IP com o NetApp StorageGRID resolve desafios técnicos relacionados à disponibilidade e consistência de dados em vários locais e à otimização do roteamento de transações S3. A implementação dessa solução aprimora a resiliência, o desempenho e a confiabilidade do armazenamento, tornando-a ideal para empresas que buscam uma infraestrutura de armazenamento robusta, escalável e flexível.
+
+Para saber mais, a documentação oficial da F5 para BIG-IP DNS pode ser encontrada aqui. https://techdocs.f5.com/kb/en-us/products/big-ip-dns/manuals/product/bigip-dns-concepts-12-0-0.html["link"^]. Também é possível encontrar um guia prático para sala de aula que fornece instruções passo a passo para uma configuração de exemplo. https://clouddocs.f5.com/training/community/dns/html/class1/class1.html["aqui"^].

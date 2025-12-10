@@ -2,7 +2,7 @@
 permalink: tools-apps-guides/federate-prometheus.html 
 sidebar: sidebar 
 keywords: prometheus, on-premises, grafana, metrics 
-summary: Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID 11,6 com serviços externos do Prometheus e Grafana. 
+summary: Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID com serviços externos Prometheus e Grafana. 
 ---
 = Use Prometheus e Grafana para estender a retenção de métricas
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: Este relatório técnico fornece instruções detalhadas para configura
 [role="lead"]
 _Por Aron Klein_
 
-Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID 11,6 com serviços externos do Prometheus e Grafana.
+Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID com serviços externos Prometheus e Grafana.
 
 
 
