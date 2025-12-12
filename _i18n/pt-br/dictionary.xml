@@ -3431,4 +3431,7 @@
   <block id="2a304a1348456ccd2234cd71a81bd338" category="inline-link">link</block>
   <block id="e7231390c57dc37d5702b1a1f744ae19" category="paragraph">Para saber mais, a documentação oficial da F5 para BIG-IP DNS pode ser encontrada aqui.<block ref="98041f95ee22116ad4e8461c85d3aab4" category="inline-link-rx"></block>. Também é possível encontrar um guia prático para sala de aula que fornece instruções passo a passo para uma configuração de exemplo.<block ref="93a629078016876f75dc8c57122e621c" category="inline-link-rx"></block>.</block>
   <block id="3589fb6a3746ade58489c4cf348140dc" category="summary">Este relatório técnico fornece instruções detalhadas para configurar o NetApp StorageGRID com serviços externos Prometheus e Grafana.</block>
+  <block id="c3cbbc5200045db15e74e5cd91bc3f5c" category="list-text">Certificação de criptografia de kernel NetApp StorageGRID NIST FIPS 140-3 <block ref="07269b03af49e81fce537f0040aa007d" category="inline-link-rx"></block></block>
+  <block id="170420c360dbd78303a11b0a7cbdbe0f" category="list-text">Certificação de Entropia NetApp StorageGRID NIST SP 800-90B <block ref="459857fb7709b7e2d73edb78f17869ea" category="inline-link-rx"></block></block>
+  <block id="c7a996558a05f3b352c4ed7d96e209f6" category="list-text">NetApp StorageGRID - Certificação de Critérios Comuns do Centro Canadense de Segurança Cibernética <block ref="af4723441da5d2d8888b51d6ccd71fe3" category="inline-link-rx"></block></block>
 </blocks>
