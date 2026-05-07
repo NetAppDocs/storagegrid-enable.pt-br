@@ -41,6 +41,7 @@ Estas soluções foram testadas em colaboração com os respetivos parceiros.
 * EMAM
 * Fujifilm Object Archive
 * GitHub Enterprise Server
+* IBM Storage Deep Archive 1.3
 * IBM FileNet
 * IBM Storage Protect
 * Interica

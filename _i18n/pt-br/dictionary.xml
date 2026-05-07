@@ -3435,4 +3435,5 @@
   <block id="c7a996558a05f3b352c4ed7d96e209f6" category="list-text">NetApp StorageGRID - Certificação de Critérios Comuns do Centro Canadense de Segurança Cibernética <block ref="af4723441da5d2d8888b51d6ccd71fe3" category="inline-link-rx"></block></block>
   <block id="61826214d6f329493990f2d79416585b" category="section-title">Mantenha 5 versões não atuais e exclua após 90 dias</block>
   <block id="d05c8031e45ddabc741886852f07058f" category="admonition">Você deve usar *NoncurrentDays* com *NewerNoncurrentVersions*.</block>
+  <block id="86d838f00c97c2ca905dc97a413d1ea7" category="list-text">IBM Storage Deep Archive 1.3</block>
 </blocks>
