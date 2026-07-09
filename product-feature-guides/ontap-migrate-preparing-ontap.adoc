@@ -16,6 +16,7 @@ Habilitação de nível empresarial S3 com a migração otimizada de storage bas
 
 
 
+[[preparing-ontap]]
 == Preparando o ONTAP
 
 Para fins de demonstração, criaremos um servidor de armazenamento de objetos SVM, usuário, grupo, política de grupo e buckets.

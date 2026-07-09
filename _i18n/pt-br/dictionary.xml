@@ -475,7 +475,6 @@
   <block id="c8d25296b6242f878bcc65b3463a9213" category="paragraph"><block ref="c8d25296b6242f878bcc65b3463a9213" category="inline-image-macro-rx" type="image"></block></block>
   <block id="91ecbe84c3a3b51ceb6c3c1c46fe828e" category="section-title">Procedimento para alterar o endereço IP da grade antes da realocação do local</block>
   <block id="7ce3d8dcf98150ca295b4e8b4a175d28" category="inline-link-macro">Adicione a sub-rede à lista de sub-rede da rede Grid</block>
-  <block id="ef79c64bf374a8f7d8f11ddac8bac6ea" category="list-text">Se a nova sub-rede da rede Grid for usada no novo local, <block ref="a48adf12485e7e1fabf51f229ceb57fd" category="inline-link-macro-rx"></block></block>
   <block id="a27c73113b9f8b1c8936231a5c6b72db" category="list-text">Faça login no nó de administração principal, use o Change-ip para fazer a alteração de IP de grade, deve *stage* a alteração antes de desligar o nó para realocação.</block>
   <block id="e8ebed2710314532bd7421c291775f7a" category="list-text">Selecione 2 e, em seguida, 1 para a alteração de IP de Grade</block>
   <block id="0fc35f100f57d71f3d04d75f8e34db7a" category="list-text">selecione 5 para mostrar as alterações</block>
@@ -708,20 +707,12 @@
   <block id="bbe6f3db45c1fda11072f0bdaf823ba8" category="paragraph">Configurar a grade e concluir a instalação envolve as seguintes tarefas:</block>
   <block id="65fab22305d638277fe08fef3e3b4d40" category="list-text"><block ref="4843c82971df81e97aef3855873b7087" category="inline-xref-macro-rx"></block></block>
   <block id="b2d5dc59664ac0d21bcbd5dded69a0fb" category="inline-link-macro">Especifique as informações da licença do StorageGRID</block>
-  <block id="dc62a6bae0942d98774fbcedfe04d566" category="list-text"><block ref="dc62a6bae0942d98774fbcedfe04d566" category="inline-link-macro-rx"></block></block>
-  <block id="1a5870eb36e857189f184d5f320d0181" category="list-text"><block ref="1a5870eb36e857189f184d5f320d0181" category="inline-link-macro-rx"></block></block>
   <block id="abe15e0952653cec6327bae5b3790c92" category="inline-link-macro">Especifique sub-redes de rede de grade</block>
-  <block id="3071b864ee51f7743885151b146d1382" category="list-text"><block ref="3071b864ee51f7743885151b146d1382" category="inline-link-macro-rx"></block></block>
   <block id="f0f514dbb09f4d2c0f2f9870207e96c6" category="inline-link-macro">Aprovar nós de grade pendentes</block>
-  <block id="445d704adaa37eeca0880c16cf11c040" category="list-text"><block ref="445d704adaa37eeca0880c16cf11c040" category="inline-link-macro-rx"></block></block>
   <block id="346b0f799d5824e6ef646274dd79d1fb" category="inline-link-macro">Especifique as informações do servidor NTP</block>
-  <block id="92aab28741bfbfe48d3fc128eec45691" category="list-text"><block ref="92aab28741bfbfe48d3fc128eec45691" category="inline-link-macro-rx"></block></block>
   <block id="40f40c958ca771e7e2179dfe775df77a" category="inline-link-macro">Especifique as informações do servidor do sistema de nomes de domínio</block>
-  <block id="32461cb1ffaecdbafa915e26f11613aa" category="list-text"><block ref="32461cb1ffaecdbafa915e26f11613aa" category="inline-link-macro-rx"></block></block>
   <block id="b681141cbe056ed6a1df3d88efd6f872" category="inline-link-macro">Especifique as senhas do sistema StorageGRID</block>
-  <block id="a4f57a2832f1ed9a4d6b154ee41a87c7" category="list-text"><block ref="a4f57a2832f1ed9a4d6b154ee41a87c7" category="inline-link-macro-rx"></block></block>
   <block id="9d6fe38c7ad959d5754500d24c1a8ecc" category="inline-link-macro">Revise sua configuração e conclua a instalação</block>
-  <block id="6ddb52602061bc71bd9227b0e708c9a3" category="list-text"><block ref="6ddb52602061bc71bd9227b0e708c9a3" category="inline-link-macro-rx"></block></block>
   <block id="b9b271fd480a768b1af9a1c33cd4a85b" category="section-title">Navegue até Grid Manager</block>
   <block id="42b1b6d90a33a9440dc019fd997cd7b4" category="paragraph">Use o Gerenciador de Grade para definir todas as informações necessárias para configurar seu sistema StorageGRID.</block>
   <block id="9fade4bc71a9b26db45e715f017d00c2" category="paragraph">Antes de começar, o nó Admin principal deve ser implantado e ter concluído a sequência inicial de inicialização.</block>
@@ -757,7 +748,6 @@
   <block id="dbf88cfc0b0d656a966a6413296090cd" category="paragraph">TR-4882 fornece um prático conjunto de instruções passo a passo que produz uma instalação funcional do NetApp StorageGRID. A instalação pode ser em bare metal ou em máquinas virtuais (VMs) em execução no Red Hat Enterprise Linux (RHEL). A abordagem é executar uma instalação "opinativa" de seis serviços em contêiner do StorageGRID em três máquinas físicas (ou virtuais) em um layout sugerido e configuração de storage. Alguns clientes podem achar mais fácil entender o processo de implantação seguindo o exemplo de implantação neste TR.</block>
   <block id="53721259d4f70a6e22df4cf50cb6a007" category="paragraph">Para obter uma compreensão mais aprofundada sobre o StorageGRID e o processo de instalação,<block ref="138cb63445270d21525dcce6de5e7942" category="inline-link-rx"></block> consulte [Instalar, atualizar e hotfix StorageGRID] na documentação do produto.</block>
   <block id="a65c073029a2585f51e608ca137bdfa6" category="inline-link-macro">Pré-requisitos para instalar o StorageGRID</block>
-  <block id="ee6027960e010f4085d66014d7765ecd" category="paragraph">Antes de iniciar a implantação, vamos examinar os requisitos de computação, storage e rede do software NetApp StorageGRID. O StorageGRID é executado como um serviço em contentor dentro do Podman ou do Docker. Neste modelo, alguns requisitos referem-se ao sistema operacional host (o SO que hospeda o Docker, que está executando o software StorageGRID). E alguns dos recursos são alocados diretamente para os contentores Docker em execução dentro de cada host. Nesta implantação, a fim de maximizar o uso de hardware, estamos implantando dois serviços por host físico. Para obter mais informações, continue para a próxima seção, <block ref="dbd241ef02e4fbb756d3e4613e476d0c" category="inline-link-macro-rx"></block>.</block>
   <block id="ce29edc154956369d79ff8276cf747b1" category="paragraph">As etapas descritas neste TR resultam em uma instalação do StorageGRID em funcionamento em seis hosts de metal nu. Agora você tem uma rede de trabalho e uma rede de clientes, que são úteis na maioria dos cenários de teste.</block>
   <block id="e3581082ba2aa18febff247afdaf6344" category="paragraph">Para saber mais sobre as informações descritas neste TR, consulte os seguintes recursos de documentação:</block>
   <block id="d794ca6edf18a97bedb2ad1af37d0c71" category="list-text">Centro de Documentação do NetApp StorageGRID <block ref="47ea1c2d0f136bec8b3e66c2121bf70f" category="inline-link-rx"></block></block>
@@ -832,7 +822,6 @@
   <block id="41b36522e1e1020bad35b072e2f4caeb" category="section-title">Requisitos de storage</block>
   <block id="caf25f834fd33813cb804fde9406ddf4" category="paragraph">Cada um dos nós requer dispositivos de disco locais ou baseados em SAN dos tamanhos mostrados na tabela a seguir.</block>
   <block id="4491ed1f1284f730663a34bc001e9d82" category="inline-link-macro">Layout e requisitos físicos do host</block>
-  <block id="755122cb8b85d1b9d1d35543370e43b4" category="admonition">Os números na tabela são para cada tipo de serviço StorageGRID, não para a grade inteira ou cada host físico. Com base nas opções de implantação, calcularemos os números para cada host físico no <block ref="010aeaa454c3e87113c61b2c557145c0" category="inline-link-macro-rx"></block>, mais adiante neste documento. Os caminhos ou sistemas de arquivos marcados com um asterisco serão criados no próprio contentor StorageGRID pelo instalador. Nenhuma configuração manual ou criação do sistema de arquivos é exigida pelo administrador, mas os hosts precisam de dispositivos de bloco para satisfazer esses requisitos. Em outras palavras, o dispositivo de bloco deve aparecer usando o comando<block ref="9d3de2981a7628c02076a5a69f0d0007" prefix=" " category="inline-code"></block>, mas não ser formatado ou montado dentro do sistema operacional do host. Mais uma vez</block>
   <block id="95363aa90e372ebfaf3970380516572f" category="cell">Tipo de nó</block>
   <block id="553ce76e41b15044745c302f9ec38760" category="cell">Finalidade do LUN</block>
   <block id="0af38a14209cc9bc1b292891a3e005da" category="cell">Número de LUNs</block>
@@ -861,7 +850,6 @@
   <block id="9cdde8629f3f819484f7c5b58e83930b" category="cell">Três para cada contêiner de storage</block>
   <block id="357015f8d2535e72e491b099c91834f8" category="cell">4000 GB</block>
   <block id="950e2aab71ade2dc91b16bb393adcc5f" category="cell"><block ref="d0974677d2a5b3fe1667da308c12469e" prefix="" category="inline-code"></block></block>
-  <block id="171a11a3a2ace52e1a9680ec72263a41" category="paragraph">Neste exemplo, os tamanhos de disco mostrados na tabela a seguir são necessários por tipo de contentor. Os requisitos por host físico são descritos em <block ref="010aeaa454c3e87113c61b2c557145c0" category="inline-link-macro-rx"></block>, mais adiante neste documento.</block>
   <block id="6f4a8f20fa0947e6bb3d27cc47c04327" category="section-title">Tamanhos de disco por tipo de contentor</block>
   <block id="97deb65a12dea6a246eb4c828e56f81f" category="section-title">Contêiner de administração</block>
   <block id="49ee3087348e8d44e1feda1917443987" category="cell">Nome</block>
@@ -912,11 +900,9 @@
   <block id="9b27d9e9f79842f85553a61769a1a94f" category="paragraph">Se você precisar usar uma tag VLAN na interface de rede de grade, sua configuração deve ter dois arquivos no<block ref="c2cf612c92facc5f4b080c83ed51c2bf" prefix=" " category="inline-code"></block> seguinte formato:</block>
   <block id="d1b8b08b5c4160c1393cad2570dee70f" category="paragraph">Este exemplo assume que o dispositivo de rede física para a rede de grade é enp67s0. Ele também pode ser um dispositivo ligado, como bond0. Se você estiver usando a ligação ou uma interface de rede padrão, você deve usar a interface VLAN-tagged em seu arquivo de configuração de nó se sua porta de rede não tiver uma VLAN padrão ou se a VLAN padrão não estiver associada à rede de grade. O contentor StorageGRID em si não desmarca quadros Ethernet, portanto, ele deve ser Tratado pelo sistema operacional pai.</block>
   <block id="82c43a9353f8eb3d67bb2fa843431d9c" category="section-title">Configuração de armazenamento opcional com iSCSI</block>
-  <block id="e14b9c03f9cc5e502bd12475b5f4271c" category="paragraph">Se não estiver a utilizar armazenamento iSCSI, tem de garantir que o host1, o host2 e o host3 contêm dispositivos de bloco de tamanho suficiente para satisfazer os seus requisitos. <block ref="3ee5a0cacaa11ad486947ccabaf35f08" category="inline-link-macro-rx"></block>Consulte para obter informações sobre os requisitos de armazenamento host1, host2 e host3.</block>
   <block id="b39c8876d75a7ff82cd7d801fc50615a" category="paragraph">Para configurar o armazenamento com iSCSI, execute as seguintes etapas:</block>
   <block id="a22fa689c8174cfc9a1ca77de9134e9e" category="list-text">Se você estiver usando armazenamento iSCSI externo, como o software de gerenciamento de dados NetApp e-Series ou NetApp ONTAP, instale os seguintes pacotes:</block>
   <block id="befe75f3c360b54481aaca87a16ea6b1" category="list-text">Encontre o ID do iniciador em cada host.</block>
-  <block id="70ffd3788b6da8ce47eff9a3038a3669" category="list-text">Usando o nome do iniciador da etapa 2, mapeie LUNs no dispositivo de armazenamento (do número e tamanho mostrados na <block ref="b931fdace7da701b108de4525e5832b6" category="inline-link-macro-rx"></block> tabela) para cada nó de armazenamento.</block>
   <block id="19279b693608729771b2f460a14af491" category="list-text">Descubra os LUNs recém-criados com<block ref="f88921f58beaaae5bcb9dffac54bf5ad" prefix=" " category="inline-code"></block> e inicie sessão neles.</block>
   <block id="c0ee487fb85ee9bf09fcbe0e0d7e2337" category="inline-link">Criando um iniciador iSCSI</block>
   <block id="e296dadeb4bfa1168294b7371b696946" category="admonition">Para obter detalhes, consulte<block ref="7faa6525557fc7fd919d1d5540c263b0" category="inline-link-rx"></block> no Portal do Cliente Red Hat.</block>
@@ -1006,8 +992,6 @@
   <block id="6cfd96f46e0c61db4b057de9b2f02787" category="paragraph"><block ref="6cfd96f46e0c61db4b057de9b2f02787" category="inline-image-macro-rx" type="image"></block></block>
   <block id="040c89d37bea72830f915c730c54a323" category="summary">Explore alguns casos de uso para configurações do StorageGRID implementadas pelos clientes e PELA TI DA NetApp.</block>
   <block id="6b3cea9a64792ec5d7e688de3ba29ba0" category="doc">Reveja os testes de desempenho da linha de base</block>
-  <block id="9fd2a44a56a109ab7ff40317cdd4cc9b" category="inline-link">Proteção de dados com escalabilidade horizontal do NetApp com o CommVault</block>
-  <block id="d49b79b5786df5b1f9fed49f0ba0061f" category="paragraph">Na operação de cópia Pausa, quatro MediaAgents do CommVault fizeram backup dos dados em um sistema NetApp AFF A300 e uma cópia auxiliar foi criada no NetApp StorageGRID. Para obter detalhes sobre o ambiente de configuração de teste, leia a seção Design da solução e melhores práticas no<block ref="03ce17f8b5e1206a493f3bd56ef5953d" category="inline-link-rx"></block> relatório técnico.</block>
   <block id="56e8d1153024dce00f7f403984ee3961" category="paragraph">Os testes foram realizados com 100 VMs e 1000 VMs, ambos os testes com uma mistura de 50/50 VMs Windows e CentOS. A tabela a seguir mostra os resultados de nossos testes de desempenho de linha de base:</block>
   <block id="2a78ed76450c3cb42320882b3e055b31" category="cell">Operação</block>
   <block id="7e1474aa3c4832c1061cf4839e5d5d40" category="cell">Velocidade de cópia de segurança</block>
@@ -1107,7 +1091,6 @@
   <block id="eaa4dc5078017a5c5bebf383ab6f5124" category="paragraph">Suportado</block>
   <block id="aa7f77e663b832d5b0e544c5511e680c" category="paragraph">Não suportado</block>
   <block id="a1b241b7e61d12e641e864fa7e3c7a8e" category="list-text">Documentação do produto NetApp <block ref="fa4af55c3fdbce23e96d2cf73261fa5b" category="inline-link-rx"></block></block>
-  <block id="748e9574a05efa0e0738de58c2ff670b" category="list-text">Documentação do CommVault <block ref="27eb3a3d6ca60f8dbf05e2df1f7e4644" category="inline-link-rx"></block></block>
   <block id="e8fd0bdde5a4bfaf79b96c31ae019951" category="doc">Recomendação de nível de consistência do balde</block>
   <block id="8230e2a5dfbb7d3dc9d7837f464a94f4" category="paragraph">O NetApp StorageGRID permite que o usuário final selecione o nível de consistência para operações executadas nos objetos nos buckets do Simple Storage Service (S3).</block>
   <block id="eb668bdb2b4d4ac34c6ad7523c133230" category="paragraph">Os CommVault MediaAgents são os migradores de dados em um ambiente CommVault. Na maioria dos casos, os MediaAgents são configurados para gravar localmente em um site StorageGRID primário. Por esse motivo, recomenda-se um alto nível de consistência dentro de um local primário. Use as diretrizes a seguir quando você definir o nível de consistência nos buckets do CommVault criados no StorageGRID.</block>
@@ -1177,7 +1160,6 @@
   <block id="3e6defd685231cdd12065add41996c89" category="paragraph">Todos os objetos</block>
   <block id="dcd8a20c909a5d0bbf6f852d688309cb" category="paragraph">Commit duplo</block>
   <block id="f2382f08b2b3ae5b16fd3e6a7f6fe40c" category="paragraph">A regra de cópia ILM 2 é a regra padrão. A regra de codificação de apagamento 2-1 foi aplicada para este teste a qualquer objeto 200KB ou maior. A regra padrão foi aplicada a objetos menores que 200KB. A aplicação das regras desta forma é uma melhor prática do StorageGRID.</block>
-  <block id="f7d7cdf329bd5cf1893317ad3732d1f7" category="paragraph">Para obter detalhes técnicos sobre esse ambiente de teste, leia a seção Design da solução e práticas recomendadas no<block ref="03ce17f8b5e1206a493f3bd56ef5953d" category="inline-link-rx"></block> relatório técnico.</block>
   <block id="fabdad0ed11dbcf22ebcc439b13c8b39" category="section-title">Especificações de hardware da StorageGRID</block>
   <block id="9b937818d08afa5201fb28d96b471ef4" category="paragraph">A tabela a seguir descreve o hardware NetApp StorageGRID usado neste teste. O dispositivo StorageGRID SG5712 com rede 10Gbps é a opção de nível de entrada e representa uma configuração de linha de base. Opcionalmente, o SG5712 pode ser configurado para rede 25GbpsG.</block>
   <block id="3c02a379965ab0dfcd77b1c484450433" category="cell">Hardware</block>
@@ -1482,7 +1464,6 @@
   <block id="2a60f08787dc9ecba98a9ffc064b7ed8" category="paragraph"><block ref="2a60f08787dc9ecba98a9ffc064b7ed8" category="inline-image-macro-rx" type="image"></block></block>
   <block id="7c648110d8b752889f98cd2d87517c0f" category="section-title">Benchmarking Data Warehouses e Lakehouses com armazenamento de objetos S3: Um estudo comparativo</block>
   <block id="f5fb5a608581154f9f31a7efeaf26b22" category="inline-link">Apache Iceberg: O Guia definitivo</block>
-  <block id="3f7d606956bcb4f8b565d2799da4a4e3" category="paragraph">este artigo apresenta uma referência abrangente de vários ecossistemas de armazenamento de dados e lakehouse usando o NetApp StorageGRID. O objetivo é determinar qual sistema tem melhor desempenho com o storage de objetos S3. Consulte isso <block ref="ca1f374596a7de7e13cf95753411f6e0" category="inline-link-rx"></block> para saber mais sobre as arquiteturas datawarehous/lakehouse e o formato de tabela (Parquet e Iceberg).</block>
   <block id="d74100f8d86dca0577d39ba1e04a17a6" category="list-text">Ferramenta de benchmark - TPC-DS -<block ref="d703b8825e30c09e87a04e77b042a1a8" category="inline-link-rx"></block></block>
   <block id="d30ec88779257c0b31627ba4c551888a" category="list-text">Ecossistemas de Big Data</block>
   <block id="39b5836a4532001dfbe7e05fb49461e4" category="list-text">Cluster de VMs, cada uma com 128G GB de RAM e 24 vCPU, armazenamento SSD para disco do sistema</block>
@@ -1632,7 +1613,6 @@
   <block id="38c8ceefadaf4e89ae919f5a807ea085" category="list-text">*Recursos específicos do futuro StorageGRID*. A StorageGRID continuará a otimizar e adicionar recursos inovadores ao balanceador de carga em relação aos próximos lançamentos.</block>
   <block id="3778f3873debfe11e2ace6bb6af1e417" category="inline-link">Documentação do StorageGRID</block>
   <block id="84005d607f0a93e852033c0b519062be" category="list-text">Considerações sobre o projeto do balanceador de carga StorageGRID F5 <block ref="d95e85e5d4376a35e480ee8024e749b5" category="inline-link-rx"></block></block>
-  <block id="5846f1f21b96d1c9adc26d24e614abde" category="list-text">Loadbalancer.org—Load equilibrando NetApp StorageGRID <block ref="dd7f3d493284188c8c1493c8c18338b0" category="inline-link-rx"></block></block>
   <block id="af8fdca32c51642ca8690dcf5f1416f5" category="list-text">Kemp – NetApp StorageGRID de balanceamento de carga <block ref="fb965c799555a65bc346633ea438a59b" category="inline-link-rx"></block></block>
   <block id="c8516ee2c182bb804cdaf1cef683a7c5" category="summary">Explore as orientações para balanceadores de carga do gerenciador de tráfego local e determine a configuração ideal.</block>
   <block id="5cb57a8e98262e7f15746e1841dbbae5" category="doc">Saiba mais sobre balanceadores de carga do gerenciador de tráfego local</block>
@@ -1719,7 +1699,6 @@
   <block id="a2050b63d73bc4aa8080dc5a78e9df9e" category="admonition">Se sua senha do GMI contiver carateres especiais, lembre-se de usar para escapar de carateres especiais. Por exemplo, substitua ! por!</block>
   <block id="d0091ffabd8a5951ade89029dee45269" category="list-text">Depois de executar o comando curl anterior, a saída fornece um token de autorização como o exemplo a seguir:</block>
   <block id="c4c0bac50c4fd5e17677cabb1fe78a5b" category="inline-link-macro">Monitoramento avançado em StorageGRID</block>
-  <block id="a6b1960b13e563d852f0a623a6a4b50e" category="paragraph">Agora você pode usar a string de token de autorização para acessar métricas por meio do curl. O processo de acesso às métricas é semelhante às etapas da <block ref="e252bc019813f3e66a7ae7f9c0ce4e99" category="inline-link-macro-rx"></block>seção . No entanto, para fins de demonstração, mostramos um exemplo com GET /grid/metric-labels/(label)/values selecionados na categoria Metrics.</block>
   <block id="cdc100e5f716cb082e925903180eaafe" category="list-text">Como exemplo, o seguinte comando curl com o token de autorização anterior listará os nomes de sites no StorageGRID.</block>
   <block id="6100a428d2b7ee39cb431e0e5ea5306f" category="paragraph">O comando curl gerará a seguinte saída:</block>
   <block id="5204e8903c6bcc04b3dd578223392ce0" category="summary">Saiba como monitorar o StorageGRID usando a API de métricas.</block>
@@ -1999,24 +1978,13 @@
   <block id="8c870accaec595079cdf496f1793a55e" category="section-title">Configurar a retenção padrão do bucket do bloqueio de objetos do StorageGRID S3</block>
   <block id="30db1e0d890f9510d7b8712976fcb137" category="paragraph">Para configurar a retenção padrão do bucket do bloqueio de objetos do StorageGRID S3, execute as seguintes etapas:</block>
   <block id="d24937db40b8a84dc942039cba3a9100" category="list-text">No Gerenciador do Locatário do StorageGRID, crie um bucket e clique em continuar</block>
-  <block id="3eebf8254fde4e8d2c6a816c4320f21e" category="inline-image-macro">perguntas/veritas-create-bucket.png</block>
-  <block id="95291b4cdd19db828a0d045364518fbd" category="paragraph"><block ref="95291b4cdd19db828a0d045364518fbd" category="inline-image-macro-rx" type="image"></block></block>
   <block id="a626ce66e7eaf62b35b215d06cb11fcd" category="list-text">Selecione a opção Ativar bloqueio de objetos S3D e clique em criar balde.</block>
-  <block id="094b5581d50a9ae9dfef7ab77a3db688" category="inline-image-macro">perguntas/veritas-create-bucket-2.png</block>
-  <block id="380edd7a9cba0915b0ad9309b0db539c" category="paragraph"><block ref="380edd7a9cba0915b0ad9309b0db539c" category="inline-image-macro-rx" type="image"></block></block>
   <block id="6caf33ef1cee8f3afaaf1c820d8f1299" category="list-text">Depois que o balde for criado, selecione o balde para visualizar as opções do balde. Expanda a opção suspensa S3 Object Lock.</block>
-  <block id="dbfd501fb101bf802a7ee81a1fac837d" category="inline-image-macro">perguntas/veritas-overview.png</block>
-  <block id="df94ba3f30910a83d6bd5b670f112e3b" category="paragraph"><block ref="df94ba3f30910a83d6bd5b670f112e3b" category="inline-image-macro-rx" type="image"></block></block>
   <block id="6e2728e25476dcd5ed065f06fa9da3a9" category="list-text">Em retenção padrão, selecione Ativar e defina um período de retenção padrão de 1 dia. Clique em Salvar alterações.</block>
-  <block id="c921c13e8cd3cb94aadeb8c25da58859" category="inline-image-macro">versões/veritas-s3-object-lock</block>
-  <block id="2c5ae5790fe14e007a8ce6ef21272460" category="paragraph"><block ref="2c5ae5790fe14e007a8ce6ef21272460" category="inline-image-macro-rx" type="image"></block></block>
   <block id="7d3ee9eb31d48b068ee9afc974c6688e" category="paragraph">O bucket agora está pronto para ser usado pelo Enterprise Vault para armazenar dados WORM.</block>
   <block id="cdf294cdb11d58c4a1cf6c6b989f7ac0" category="section-title">Configure o Enterprise Vault</block>
   <block id="2b8482f3259b54a252e32e6c77841bea" category="paragraph">Para configurar o Enterprise Vault, execute as seguintes etapas:</block>
   <block id="416206518e27ed2ec8b8e0876078af35" category="inline-link-macro">Configuração básica</block>
-  <block id="0fdd01b1b915af6ef0310b3ded5842a9" category="list-text">Repita as etapas 1-3 na <block ref="b0733c8485b73f6326917495c59e375f" category="inline-link-macro-rx"></block> seção, mas desta vez selecione a opção armazenar dados no modo WORM usando o bloqueio de objeto S3. Clique em seguinte.</block>
-  <block id="305ed56e9cc761a6928f149d8a7fed68" category="inline-image-macro">versões/veritas-new-partition-8</block>
-  <block id="d42aa79a11be13d3f0d5a09babb765cb" category="paragraph"><block ref="d42aa79a11be13d3f0d5a09babb765cb" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0b5abcc8070dd573f1f60f2342e139a1" category="list-text">Ao inserir as configurações de conexão do bucket S3, verifique se você está inserindo o nome de um bucket S3 que tem a retenção padrão do bloqueio de objetos S3 ativada.</block>
   <block id="9a5b0fcd0b1275de30e89b6c94f15569" category="list-text">Teste a conexão para verificar as configurações.</block>
   <block id="b37ab6844ec455af7b65aaae53986022" category="summary">Saiba como configurar o failover de site do StorageGRID em um cenário de recuperação de desastres.</block>
@@ -2030,22 +1998,12 @@
   <block id="6e7ba5fe6520e0b407ab10ee11b1d696" category="section-title">Configurar failover de site do StorageGRID</block>
   <block id="308d28d08b7f81ec7b11883d6d4f9102" category="paragraph">Para configurar o failover do site do StorageGRID, execute as seguintes etapas:</block>
   <block id="921a4d863daf068a5f614c53c331ed7a" category="list-text">Para garantir a conetividade com o StorageGRID durante falhas no local, configure um grupo de alta disponibilidade (HA). Na interface do Gerenciador de Grade do StorageGRID (GMI), clique em Configuração, grupos de alta disponibilidade e criar.</block>
-  <block id="568f836336942515cf2ad370aa171e55" category="inline-image-macro">perguntas/veritas-create-high-availability-group</block>
-  <block id="97b5b099aca023f024fd3ca7169b6e8e" category="paragraph"><block ref="97b5b099aca023f024fd3ca7169b6e8e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="bf2e77e2f5492ada5768dcb61171ca77" category="list-text">Introduza as informações necessárias. Clique em Selecionar interfaces e inclua as interfaces de rede DO site1 e DO site2 em que O site1 (o site principal) é o mestre preferido. Atribua um endereço IP virtual dentro da mesma sub-rede. Clique em Guardar.</block>
-  <block id="6a856baab30258bd4bf6b3c8e997af43" category="inline-image-macro">perguntas/veritas-edit-high-availability-group</block>
-  <block id="d921e5624986d96c28deaf8b0b782be3" category="paragraph"><block ref="d921e5624986d96c28deaf8b0b782be3" category="inline-image-macro-rx" type="image"></block></block>
   <block id="e17fb1e3d997076f324b7246b7f7dff3" category="list-text">Esse endereço IP virtual (VIP) deve ser associado ao nome de host S3 usado durante a configuração de partição do veritas Enterprise Vault. O endereço VIP resolve o tráfego para O site1 e, durante A falha DO site1, o endereço VIP redireciona o tráfego para O site2 de forma transparente.</block>
   <block id="b7f012b6955d2acff12a09570fab346e" category="list-text">Certifique-se de que os dados sejam replicados para site1 e site2. Dessa forma, se O site1 falhar, os dados do objeto ainda estarão disponíveis em site2. Isso é feito configurando primeiro os pools de armazenamento.</block>
   <block id="2f8cd206e8f11440f6d566a145683d88" category="paragraph">No StorageGRID GMI, clique em ILM, pools de armazenamento e, em seguida, crie. Siga o assistente para criar dois pools de armazenamento: Um para site1 e outro para site2.</block>
   <block id="569b553d1a29238d3f49a97309bb7e7f" category="paragraph">Os pools de storage são agrupamentos lógicos de nós usados para definir o posicionamento do objeto</block>
-  <block id="0def3d0da889c0e13e06d8e1ff2af9dd" category="inline-image-macro">versões/veritas-storage-pool-details-site-1</block>
-  <block id="43ad61add042d6d64a01afe1db28f05c" category="paragraph"><block ref="43ad61add042d6d64a01afe1db28f05c" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="1c4cb0eddc44a68196819920f522f16a" category="inline-image-macro">versões/veritas-storage-pool-details-site-2</block>
-  <block id="f4d48050c229a4cd522d6ca91d710a64" category="paragraph"><block ref="f4d48050c229a4cd522d6ca91d710a64" category="inline-image-macro-rx" type="image"></block></block>
   <block id="08576c5d4b4ca78ca9766ffe2b9fa81f" category="list-text">No StorageGRID GMI, clique em ILM, regras e, em seguida, criar. Siga o assistente para criar uma regra ILM especificando uma cópia a ser armazenada por local com um comportamento de ingestão de balanceado.</block>
-  <block id="75381ece1664fa46e0387e8b6436f7ea" category="inline-image-macro">versões/veritas-storage-pool-details-site-3</block>
-  <block id="3e2cf841de27a979e1d058590ff5e98e" category="paragraph"><block ref="3e2cf841de27a979e1d058590ff5e98e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="457cde276ecbe36449d34f4da631a90d" category="list-text">Adicione a regra ILM a uma política ILM e ative a política.</block>
   <block id="f2633f86de73d147465e5df7ca640192" category="paragraph">Esta configuração resulta no seguinte resultado:</block>
   <block id="457068c4a125d38f71a7790879029a8f" category="list-text">Um IP de endpoint virtual S3 onde site1 é o primário e site2 é o endpoint secundário. Se site1 falhar, o VIP falhará para site2.</block>
@@ -2254,8 +2212,6 @@
   <block id="43b4ce193ce75a7c51a41a392da0e953" category="list-text"><block ref="43b4ce193ce75a7c51a41a392da0e953" category="inline-link-rx"></block></block>
   <block id="36df17c33644048e4c07c17be01b2524" category="inline-link">O que é a pilha ELK</block>
   <block id="2403480f61f37fce13a75f67d092ed18" category="list-text"><block ref="2403480f61f37fce13a75f67d092ed18" category="inline-link-rx"></block></block>
-  <block id="19d3c10a857b63064e06411baf1285b1" category="inline-link">Lista de padrões Grok</block>
-  <block id="7c6102b1302815b75a46740d436c93fc" category="list-text"><block ref="7c6102b1302815b75a46740d436c93fc" category="inline-link-rx"></block></block>
   <block id="13fc1087c795f112d8979eb5e2780e5c" category="inline-link">Um guia para iniciantes para Logstash: Grok</block>
   <block id="a39eed6135a0acdcad49fe799eb1bd27" category="list-text"><block ref="a39eed6135a0acdcad49fe799eb1bd27" category="inline-link-rx"></block></block>
   <block id="1482da3b9a25b116ee5827795ac8fbbd" category="inline-link">Um guia prático para o Logstash: Syslog Deep Dive</block>
@@ -2419,7 +2375,6 @@
   <block id="0f00c0e9578f0ff277a08d08ef376836" category="paragraph">Em abril de 2022, o Java 11.0.14 com Cloudera 7.1.7 foi testado contra o StorageGRID 11,5 e 11,6. No entanto, o número da versão Java pode ser diferente no momento de uma nova instalação.</block>
   <block id="4064bf12468c8bc6d21b4c1c947f9ed1" category="section-title">Instale o pacote Java</block>
   <block id="3408188787a55fb9708798cddbce37b0" category="inline-link">Matriz de suporte Cloudera</block>
-  <block id="e9be8954eba184e4880371339e422a20" category="list-text">Verifique<block ref="31da88a07df8e391e811822caa135aca" category="inline-link-rx"></block> se há a versão do JDK suportada.</block>
   <block id="162479463df046cb4a74da2008354eed" category="inline-link">Pacote Java 11.x</block>
   <block id="4c2d03bf2e98573fa9436705b37a57a1" category="list-text">Faça o download do<block ref="60b96115cb33d167b5449475d0ab85e0" category="inline-link-rx"></block> que corresponde ao sistema operacional do cluster Cloudera. Copie este pacote para cada host no cluster. Neste exemplo, o pacote rpm é usado para o CentOS.</block>
   <block id="149f40ea9f9ffb02d7eeba792298fe1e" category="list-text">Faça login em cada host como root ou usando uma conta com permissão sudo. Execute as seguintes etapas em cada host:</block>
@@ -2896,7 +2851,6 @@
   <block id="024f3a8ba5709643c2f09c8eabccae87" category="sidebar">Soluções validadas de terceiros - Visão geral</block>
   <block id="454255deb718c7d2b26df2342f80d3d3" category="list-text">Fev. 2 2024: <block ref="890e1ea9b3a6310b9da56310b581c035" category="inline-link-rx"></block></block>
   <block id="038f39e88db40cdb4f2702538c9f7cac" category="inline-link">StorageGRID 11,9</block>
-  <block id="c0ffd7598ab1538e87530f78e30ee7a5" category="list-text">Centro de Documentação do StorageGRID 11,9 <block ref="8cd5d43b808eac3380916fd8a7010bbf" category="inline-link-rx"></block></block>
   <block id="023074507079b61efa6f2839e5f70a91" category="inline-link">Guia de expansão do StorageGRID 11,9</block>
   <block id="f4940e01170c039d45c3e66e940623ae" category="paragraph">Para obter mais informações sobre como expandir o sistema StorageGRID,<block ref="383fbf920d7819c777fd14de7ab5c076" category="inline-link-rx"></block> consulte .</block>
   <block id="7519ba71db8577a641b71a19274cb841" category="paragraph">Os dispositivos StorageGRID SG5812, SG5860, SG6160 e SGF6024 oferecem a opção de discos de criptografia compatíveis com FIPS 140-2. As chaves de criptografia para os discos podem ser gerenciadas, como opção, por um servidor KMIP externo.</block>
@@ -3436,4 +3390,48 @@
   <block id="61826214d6f329493990f2d79416585b" category="section-title">Mantenha 5 versões não atuais e exclua após 90 dias</block>
   <block id="d05c8031e45ddabc741886852f07058f" category="admonition">Você deve usar *NoncurrentDays* com *NewerNoncurrentVersions*.</block>
   <block id="86d838f00c97c2ca905dc97a413d1ea7" category="list-text">IBM Storage Deep Archive 1.3</block>
+  <block id="c6bf43b8e3878138ca807f5a012a7f8f" category="list-text">Caso uma nova sub-rede de rede Grid seja utilizada na nova localização, <block ref="20625f7d4a19c0d62d7c0d2f15cb46ea" category="inline-link-macro-rx"></block></block>
+  <block id="709822c3fe8a896fbbbde856d4a8c511" category="list-text"><block ref="709822c3fe8a896fbbbde856d4a8c511" category="inline-link-macro-rx"></block></block>
+  <block id="0d3f7dd7ceb1738d8c6755cac25e6129" category="list-text"><block ref="0d3f7dd7ceb1738d8c6755cac25e6129" category="inline-link-macro-rx"></block></block>
+  <block id="edbb87ee4d966bfd0e53f7ee76a20edf" category="list-text"><block ref="edbb87ee4d966bfd0e53f7ee76a20edf" category="inline-link-macro-rx"></block></block>
+  <block id="c05d96eb8789000e6ee7e4a9af0b9ab8" category="list-text"><block ref="c05d96eb8789000e6ee7e4a9af0b9ab8" category="inline-link-macro-rx"></block></block>
+  <block id="d9a90afafa882a13b70649b568c6088d" category="list-text"><block ref="d9a90afafa882a13b70649b568c6088d" category="inline-link-macro-rx"></block></block>
+  <block id="87a729ea1697dbdb380b42e6f5486a48" category="list-text"><block ref="87a729ea1697dbdb380b42e6f5486a48" category="inline-link-macro-rx"></block></block>
+  <block id="b7266e1336a7e560f84b0e59cf34a708" category="list-text"><block ref="b7266e1336a7e560f84b0e59cf34a708" category="inline-link-macro-rx"></block></block>
+  <block id="6856cda392381358080a0cb4d3e0f99b" category="list-text"><block ref="6856cda392381358080a0cb4d3e0f99b" category="inline-link-macro-rx"></block></block>
+  <block id="d3b0d4c5bc1c075d95609a741d0d465a" category="paragraph">Antes de iniciar sua implantação, vamos examinar os requisitos de computação, armazenamento e rede para o software NetApp StorageGRID. O StorageGRID é executado como um serviço conteinerizado dentro do Podman ou Docker. Nesse modelo, alguns requisitos se referem ao sistema operacional do host (o SO que hospeda o Docker, que executa o software StorageGRID). E alguns recursos são alocados diretamente aos contêineres Docker em execução em cada host. Nesta implantação, para maximizar o uso do hardware, estamos implantando dois serviços por host físico. Para mais informações, continue para a próxima seção <block ref="5df9866ae8d578b01efcbc8f3c8e96d4" category="inline-link-macro-rx"></block>.</block>
+  <block id="705111bc6c853544ae6d9e2beaeeed7c" category="admonition">Os números na tabela referem-se a cada tipo de serviço StorageGRID, não à grade inteira ou a cada host físico. Com base nas opções de implantação, calcularemos os números para cada host físico em <block ref="4ddf418e2c006c7428da34b533dc1387" category="inline-link-macro-rx"></block>, posteriormente neste documento. ++ ++ Os caminhos ou sistemas de arquivos marcados com um asterisco serão criados no próprio contêiner StorageGRID pelo instalador. Nenhuma configuração manual ou criação de sistema de arquivos é necessária por parte do administrador, mas os hosts precisam de dispositivos de bloco para atender a esses requisitos. Em outras palavras, o dispositivo de bloco deve aparecer usando o comando <block ref="9d3de2981a7628c02076a5a69f0d0007" prefix=" " category="inline-code"></block>, mas não deve estar formatado ou montado no sistema operacional do host. ++ ++</block>
+  <block id="99e95c56ffec1a95040e8724ae1ce355" category="paragraph">Neste exemplo, os tamanhos de disco mostrados na tabela a seguir são necessários por tipo de contêiner. Os requisitos por host físico são descritos em <block ref="4ddf418e2c006c7428da34b533dc1387" category="inline-link-macro-rx"></block>, mais adiante neste documento.</block>
+  <block id="b1aef9fb23ab7bbf0adedd264d4d7fce" category="paragraph">Se você não estiver usando storage iSCSI, é necessário garantir que host1, host2 e host3 contenham dispositivos de bloco com tamanho suficiente para atender aos seus requisitos. Consulte <block ref="cf0eb65dc73481fac8bfe3bbd069a721" category="inline-link-macro-rx"></block> para os requisitos de storage de host1, host2 e host3.</block>
+  <block id="ef6138cdfd088835ff40ee41b8e6ed37" category="list-text">Usando o nome do iniciador da etapa 2, mapeie os LUNs em seu dispositivo de storage (no número e tamanho mostrados na <block ref="7e4b187db3f6670860d98f3596b3fdcb" category="inline-link-macro-rx"></block> tabela) para cada nó de storage.</block>
+  <block id="8ead8a33d3bc467a3ea00b73b214f500" category="paragraph">Na operação de Cópia Auxiliar, quatro MediaAgents Commvault fizeram backup dos dados para um sistema NetApp AFF A300 e uma cópia auxiliar foi criada no NetApp StorageGRID.</block>
+  <block id="7b066a53382b883fd1eff6ef0b6ba8ed" category="list-text">StorageGRID 11.9 Central de Documentação + <block ref="6a57442f297e8ec0c1048139bce9d672" category="inline-link-rx"></block></block>
+  <block id="30002530dd9d601ecfd25a0f9db45aac" category="list-text">Documentação do Commvault + <block ref="e95efabe50ab92e4e6c01005628c651c" category="inline-link-rx"></block></block>
+  <block id="c595219c0ed8ec59057d33c30bc5dc10" category="paragraph">Este artigo apresenta um benchmark abrangente de vários ecossistemas de data warehouse e lakehouse utilizando NetApp StorageGRID. O objetivo é determinar qual sistema apresenta o melhor desempenho com S3 object storage. Consulte este <block ref="c3c3137daa53bef038cd79c515f7a456" category="inline-link-rx"></block> para saber mais sobre arquiteturas de data warehouse/lakehouse e formatos de tabela (Parquet e Iceberg).</block>
+  <block id="895e351c0837e8e1603831896d6eff24" category="list-text">Loadbalancer.org—Balanceamento de carga NetApp StorageGRID <block ref="0daf5e2b69f614a44c5f349c4458af38" category="inline-link-rx"></block></block>
+  <block id="4e9aec4caf563076c3e5a362fb3ffa9c" category="paragraph">Agora você pode usar a string do token de autorização para acessar métricas por meio do cURL. O processo para acessar métricas é semelhante às etapas da seção <block ref="370a8c788bfc0d36ebdde42d5a0e61ed" category="inline-link-macro-rx"></block>. No entanto, para fins de demonstração, mostramos um exemplo com GET /grid/metric-labels/{label}/values selecionado na categoria Métricas.</block>
+  <block id="bba97812b5b364c799918082c0382688" category="inline-image-macro">veritas/veritas-create-bucket.png</block>
+  <block id="5478aec58cd50a76fe7b0ac2dc424663" category="paragraph"><block ref="5478aec58cd50a76fe7b0ac2dc424663" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3af07c1332ec0aab0ab6da0d4d2d723f" category="inline-image-macro">veritas/veritas-create-bucket-2.png</block>
+  <block id="f58437cdc1aaeca345f639ae65f7cb23" category="paragraph"><block ref="f58437cdc1aaeca345f639ae65f7cb23" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b47b12ef2b509779a75e657d45b63ea9" category="inline-image-macro">veritas/veritas-overview.png</block>
+  <block id="288a7d7e6e21cabf0543d55ccfbe1114" category="paragraph"><block ref="288a7d7e6e21cabf0543d55ccfbe1114" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3f0a3f283f988102d45aca2522cb89d1" category="inline-image-macro">veritas/veritas-s3-object-lock</block>
+  <block id="0583733b7d6246ae5d47ec1a2e4c1f31" category="paragraph"><block ref="0583733b7d6246ae5d47ec1a2e4c1f31" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ad840a8e919810d635e77fa47810bd24" category="list-text">Repita os passos 1 a 3 na <block ref="f3b70564fd788b01ce68413d8d426d59" category="inline-link-macro-rx"></block> seção, mas desta vez selecione a opção Armazenar dados no modo WORM usando S3 Object Lock. Clique em Avançar.</block>
+  <block id="a67cc23c648b2fb6f549d6e1045f865a" category="inline-image-macro">veritas/veritas-new-partition-8</block>
+  <block id="092d07a7856c1ea2f502eabe489c1f58" category="paragraph"><block ref="092d07a7856c1ea2f502eabe489c1f58" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="21ef9da97ba98f947cbe7aa2fbc41291" category="inline-image-macro">veritas/veritas-create-high-availability-group</block>
+  <block id="48f85c57c79af0f59e7ff051172c2e60" category="paragraph"><block ref="48f85c57c79af0f59e7ff051172c2e60" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="603d4f6f10337aacf1c98717c87c8529" category="inline-image-macro">veritas/veritas-edit-high-availability-group</block>
+  <block id="50a1f4d0589db23fc3168f427581845f" category="paragraph"><block ref="50a1f4d0589db23fc3168f427581845f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="261c5485d002b582ff949d08a9b5bb78" category="inline-image-macro">veritas/veritas-storage-pool-details-site-1</block>
+  <block id="7fc86c8fe93a9509f0fb971e5f53850f" category="paragraph"><block ref="7fc86c8fe93a9509f0fb971e5f53850f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="80e28232182a336f895806a362b7e6c2" category="inline-image-macro">veritas/veritas-storage-pool-details-site-2</block>
+  <block id="fbb8ad7ecf708634cfcf4a975518dc2c" category="paragraph"><block ref="fbb8ad7ecf708634cfcf4a975518dc2c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="aa9e51529c8ac5c2f32b35f355d26fd5" category="inline-image-macro">veritas/veritas-storage-pool-details-site-3</block>
+  <block id="d6a0fcf55dacc59635ca11a700f5260a" category="paragraph"><block ref="d6a0fcf55dacc59635ca11a700f5260a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="752f1428ccb77ac410289e9262b0f4bf" category="inline-link">Padrões Grok</block>
+  <block id="dfa155e02e6c42536eddd788adeb1c4b" category="list-text"><block ref="dfa155e02e6c42536eddd788adeb1c4b" category="inline-link-rx"></block></block>
+  <block id="84a0efed1747839817563f400c91817f" category="list-text">Verifique a <block ref="fcf7e9838328c10505637416c290aabd" category="inline-link-rx"></block>para a versão do JDK compatível.</block>
 </blocks>

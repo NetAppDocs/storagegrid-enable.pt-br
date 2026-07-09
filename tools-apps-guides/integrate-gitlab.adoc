@@ -18,6 +18,7 @@ A NetApp testou o StorageGRID com o GitLab. Veja exemplo de configuração do Gi
 
 
 
+[[object-storage-connection-example]]
 == Exemplo de conexão de armazenamento de objetos
 
 Para instalações do pacote Linux, este é um exemplo `connection` da configuração na forma consolidada. Edite `/etc/gitlab/gitlab.rb` e adicione as seguintes linhas, substituindo os valores desejados:

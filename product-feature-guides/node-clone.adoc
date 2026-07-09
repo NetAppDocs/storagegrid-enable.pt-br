@@ -16,6 +16,7 @@ Considerações e performance sobre o clone de nó.
 
 
 
+[[node-clone-considerations]]
 == Considerações sobre o clone de nó
 
 O clone de nó pode ser um método mais rápido para substituir os nós de dispositivo existentes para uma atualização técnica, aumentar a capacidade ou aumentar a performance do seu sistema StorageGRID. O clone de nó também pode ser útil para converter para criptografia de nó com um KMS ou alterar um nó de storage de DDP8 para DDP16.
@@ -41,12 +42,14 @@ O clone de nó pode ser um método mais rápido para substituir os nós de dispo
 
 
 
+[[node-clone-performance-estimates]]
 == Estimativas de performance do clone de nó
 
 As tabelas a seguir contêm estimativas calculadas para a duração do clone do nó. As condições variam assim, as entradas em *BOLD* podem correr o risco de exceder o limite de 15 dias para um nó para baixo.
 
 
 
+[[ddp8]]
 === DDP8
 
 
@@ -327,6 +330,7 @@ As tabelas a seguir contêm estimativas calculadas para a duração do clone do 
 |===
 
 
+[[ddp16]]
 === DDP16
 
 

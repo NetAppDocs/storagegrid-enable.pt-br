@@ -18,18 +18,21 @@ Este relatório técnico fornece instruções detalhadas para configurar o NetAp
 
 
 
+[[introduction]]
 == Introdução
 
 A solução F5 BIG-IP DNS, anteriormente chamada de BIG-IP GTM (Global Traffic Manager) e informalmente conhecida como GSLB (Global Server Load Balancing), permite o acesso contínuo em vários grupos HA ativo-ativo e a implementação eficaz de soluções StorageGRID multi-site ativo-ativo.
 
 
 
+[[f5-big-ip-multi-site-storagegrid-configuration]]
 == Configuração F5 BIG-IP StorageGRID em vários locais
 
 Independentemente do número de sites StorageGRID a serem suportados, no mínimo dois dispositivos BIG-IP, físicos ou virtuais, devem ter o módulo BIG-IP DNS habilitado e configurado. Quanto mais dispositivos DNS forem instalados, maior será o grau de redundância do qual uma empresa se beneficiará.
 
 
 
+[[big-ip-dns-first-steps-in-initial-set-up]]
 === BIG-IP DNS - Primeiros passos na configuração inicial
 
 Após o dispositivo BIG-IP ter passado pelo menos pelo provisionamento inicial, use um navegador da web para acessar a interface TMUI (GUI do BIG-IP) e selecione Sistema -> Provisionamento de Recursos. Conforme destacado, certifique-se de que o módulo “Tráfego Global (DNS)” esteja marcado e licenciado. Observe que, como mostra a imagem, é comum que o "Tráfego Local (LTM)" possa ser provisionado no mesmo dispositivo.
@@ -38,6 +41,7 @@ image:f5-dns/global-traffic.png["Serviço de Tráfego Global (DNS) ativado"]
 
 
 
+[[configure-dns-protocol-foundational-elements]]
 === Configurar os elementos fundamentais do protocolo DNS
 
 O primeiro passo para o gerenciamento de tráfego global para sites StorageGRID é selecionar a guia DNS, onde praticamente todo o direcionamento de tráfego global será configurado, e escolher Configurações -> GLSB. Ative as duas opções de sincronização e escolha um nome de grupo DNS que será compartilhado entre os dispositivos BIG-IP participantes.
@@ -68,6 +72,7 @@ Isso conclui as etapas preliminares de configuração, geralmente realizadas "um
 
 
 
+[[setting-up-data-center-sites-and-establishing-inter-big-ip-communications-in-four-steps]]
 === Configuração de Data Centers e estabelecimento de comunicação entre BIG-IPs em quatro etapas
 
 
@@ -130,6 +135,7 @@ A partir deste ponto, todas as configurações adicionais de DNS podem ser reali
 
 
 
+[[setting-up-data-center-sites-and-establishing-inter-big-ip-communications]]
 === Configuração de Data Centers e estabelecimento de comunicação entre dispositivos BIG-IP
 
 Neste ponto, todas as etapas para criar o grupo de dispositivos BIG-IP DNS subjacente e íntegro estão concluídas. Agora podemos prosseguir com a criação de nomes, FQDNs, que apontem para nossos serviços web/S3 distribuídos, expostos em cada datacenter do StorageGRID .
@@ -156,6 +162,7 @@ image:f5-dns/wip-config.png["Configurar WIP"]
 
 
 
+[[adjust-dns-to-support-global-traffic-management]]
 === Ajuste o DNS para suportar o gerenciamento de tráfego global.
 
 Neste ponto, todos os nossos dispositivos BIG-IP subjacentes estão prontos para executar o GSLB (balanceamento de carga global do servidor). Basta ajustarmos e atribuirmos os nomes usados para os fluxos de tráfego do S3 para aproveitarmos a solução. A abordagem geral consiste em delegar parte de um domínio DNS existente de uma empresa ao controle do BIG-IP DNS. Isso significa "reservar" uma seção do espaço de nomes, um subdomínio, e delegar o controle desse subdomínio aos dispositivos BIG-IP DNS. Tecnicamente, isso é feito garantindo que os dispositivos BIG-IP DNS tenham registros de recursos DNS (RRs) do tipo A no DNS corporativo e, em seguida, transformando esses nomes/endereços em registros de recursos DNS de servidor de nomes (NS) para o domínio delegado.
@@ -198,6 +205,7 @@ Por fim, se os sites abrangerem o mundo inteiro, pode valer a pena considerar o 
 
 
 
+[[conclusion]]
 == Conclusão
 
 A integração do F5 BIG-IP com o NetApp StorageGRID resolve desafios técnicos relacionados à disponibilidade e consistência de dados em vários locais e à otimização do roteamento de transações S3. A implementação dessa solução aprimora a resiliência, o desempenho e a confiabilidade do armazenamento, tornando-a ideal para empresas que buscam uma infraestrutura de armazenamento robusta, escalável e flexível.

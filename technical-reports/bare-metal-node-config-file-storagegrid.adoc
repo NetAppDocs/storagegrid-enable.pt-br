@@ -49,6 +49,7 @@ NOTE: O nome do arquivo define o nome do nó real para instalação. Por exemplo
 
 
 
+[[preparing-the-node-config-files]]
 == Preparando os arquivos de configuração do nó
 
 Os exemplos a seguir usam o `/dev/disk/by-path` formato. Você pode verificar os caminhos corretos executando os seguintes comandos:
@@ -94,6 +95,7 @@ lrwxrwxrwx 1 root root 9 Dec 21 16:42 pci-0000:03:00.0-scsi-0:0:9:0 -> ../../sdi
 ----
 
 
+[[example-for-primary-admin-node]]
 == Exemplo para nó Admin principal
 
 Exemplo de nome de arquivo:
@@ -127,6 +129,7 @@ CLIENT_NETWORK_GATEWAY = 10.193.205.1
 ----
 
 
+[[example-for-a-storage-node]]
 == Exemplo para um nó de storage
 
 Exemplo de nome de arquivo:
@@ -154,6 +157,7 @@ GRID_NETWORK_GATEWAY = 10.193.204.1
 ----
 
 
+[[example-for-gateway-node]]
 == Exemplo para nó de gateway
 
 Exemplo de nome de arquivo:

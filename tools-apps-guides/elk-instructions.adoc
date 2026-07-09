@@ -18,6 +18,7 @@ Com o recurso de encaminhamento de syslog do StorageGRID, você pode configurar 
 
 
 
+[[requirements]]
 == Requisitos
 
 * StorageGRID 11.6.0.2 ou superior
@@ -26,6 +27,7 @@ Com o recurso de encaminhamento de syslog do StorageGRID, você pode configurar 
 
 
 
+[[sample-files]]
 == Arquivos de exemplo
 
 * link:../media/elk-config/elk7-sample.zip["Faça o download do pacote de arquivos de amostra Logstash 7.x"] *md5 checksum* 148c23d0021d9a4bb4a6c0287464deab e *sha256 checksum* f51ec9e2e3f842d5a7861566b167a561b4373038b4e7bb3c8b8be3d522adf2d6
@@ -35,12 +37,14 @@ Com o recurso de encaminhamento de syslog do StorageGRID, você pode configurar 
 
 
 
+[[assumption]]
 == Suposição
 
 Os leitores estão familiarizados com a terminologia e operações do StorageGRID e ELK.
 
 
 
+[[instruction]]
 == Instrução
 
 Duas versões de amostra são fornecidas devido a diferenças nos nomes definidos pelos padrões de grok. Por exemplo, o padrão de grok SYSLOGBASE no arquivo de configuração Logstash define nomes de campo de forma diferente, dependendo da versão instalada do Logstash.
@@ -119,11 +123,12 @@ Agora você está pronto para executar a análise de log do StorageGRID usando o
 
 
 
+[[additional-resources]]
 == Recursos adicionais
 
 * https://coralogix.com/blog/syslog-101-everything-you-need-to-know-to-get-started/["syslog101"]
 * https://www.elastic.co/what-is/elk-stack["O que é a pilha ELK"]
-* https://github.com/hpcugent/logstash-patterns/blob/master/files/grok-patterns["Lista de padrões Grok"]
+* https://github.com/hpcugent/logstash-patterns/["Padrões Grok"]
 * https://logz.io/blog/logstash-grok/["Um guia para iniciantes para Logstash: Grok"]
 * https://coralogix.com/blog/a-practical-guide-to-logstash-syslog-deep-dive/["Um guia prático para o Logstash: Syslog Deep Dive"]
 * https://www.elastic.co/guide/en/kibana/master/document-explorer.html["Guia Kibana – explore o documento"]

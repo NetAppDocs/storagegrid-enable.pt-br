@@ -20,12 +20,14 @@ Este guia demonstrará os métodos de criptografia da API S3.
 
 
 
+[[server-side-encryption-sse]]
 == Criptografia do lado do servidor (SSE)
 
 O SSE permite que o cliente armazene um objeto e criptografe-o com uma chave única que é gerenciada pelo StorageGRID. Quando o objeto é solicitado, o objeto é descriptografado pela chave armazenada no StorageGRID.
 
 
 
+[[sse-example]]
 === Exemplo SSE
 
 * COLOQUE um objeto com SSE
@@ -63,12 +65,14 @@ aws s3api get-object --bucket <bucket>  --key <file> <file> --endpoint-url https
 
 
 
+[[server-side-encryption-with-customer-provided-keys-sse-c]]
 == Criptografia do lado do servidor com chaves fornecidas pelo cliente (SSE-C)
 
 SSE permite que o cliente armazene um objeto e criptografe-o com uma chave única que é fornecida pelo cliente com o objeto. Quando o objeto é solicitado, a mesma chave deve ser fornecida para descriptografar e retornar o objeto.
 
 
 
+[[sse-c-example]]
 === Exemplo SSE-C.
 
 * Para fins de teste ou demonstração, você pode criar uma chave de criptografia
@@ -132,12 +136,14 @@ NOTE: Se você não fornecer a chave de criptografia, você receberá um erro "o
 
 
 
+[[bucket-server-side-encryption-sse-s3]]
 == Criptografia do lado do servidor do bucket (SSE-S3)
 
 O SSE-S3 permite que o cliente defina um comportamento de criptografia padrão para todos os objetos armazenados em um bucket. Os objetos são criptografados com uma chave exclusiva que é gerenciada pelo StorageGRID. Quando o objeto é solicitado, o objeto é descriptografado pela chave armazenada no StorageGRID.
 
 
 
+[[bucket-sse-s3-example]]
 === Exemplo SSE-S3 do bucket
 
 * Crie um novo intervalo e defina uma política de criptografia padrão

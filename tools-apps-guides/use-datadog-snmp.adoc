@@ -18,12 +18,14 @@ Configure o Datadog para coletar métricas e traps do StorageGRID snmp.
 
 
 
+[[configure-datadog]]
 == Configurar Datadog
 
 O Datadog é uma solução de monitoramento que fornece métricas, visualizações e alertas. A seguinte configuração foi implementada com o agente linux versão 7.43.1 em um host Ubuntu 22.04.1 implantado local no sistema StorageGRID.
 
 
 
+[[datadog-profile-and-trap-files-generated-from-storagegrid-mib-file]]
 === Arquivos de Perfil e Trap gerados a partir do arquivo MIB do StorageGRID
 
 O Datadog fornece um método para converter arquivos MIB do produto em arquivos de referência de datadog necessários para mapear as mensagens SNMP.
@@ -50,6 +52,7 @@ Este arquivo yaml de perfil do StorageGRID para mapeamento de métricas do Datad
 
 
 
+[[snmp-datadog-configuration-for-metrics]]
 === Configuração de dados SNMP para métricas
 
 A configuração do SNMP para métricas pode ser gerenciada de duas maneiras. Você pode configurar para deteção automática fornecendo um intervalo de endereços de rede contendo o(s) sistema(s) StorageGRID ou definir os IP dos dispositivos individuais. A localização da configuração é diferente com base na decisão tomada. A descoberta automática é definida no arquivo yaml do agente de dados. Definições explícitas de dispositivo são configuradas no arquivo yaml de configuração snmp. Abaixo estão exemplos de cada um para o mesmo sistema StorageGRID.
@@ -103,6 +106,7 @@ instances:
 ----
 
 
+[[snmp-configuration-for-traps]]
 === Configuração SNMP para traps
 
 A configuração para traps SNMP é definida no arquivo yaml de configuração de dados /etc/datadog-Agent/datadog.yaml
@@ -119,6 +123,7 @@ network_devices:
 ----
 
 
+[[example-storagegrid-snmp-configuration]]
 === Exemplo de configuração StorageGRID SNMP
 
 O agente SNMP no seu sistema StorageGRID está localizado na guia configuração, coluna Monitoramento. Ative o SNMP e introduza as informações pretendidas. Se você deseja configurar traps, selecione "traps Destinations" e crie um destino para o host do agente Datadog que contém a configuração de traps.

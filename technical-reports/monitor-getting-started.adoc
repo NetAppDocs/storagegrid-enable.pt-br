@@ -20,12 +20,14 @@ image:monitor/monitor-storagegrid-gmi-dashboard.png["monitor-StorageGRID-gmi-das
 
 
 
+[[information-that-you-should-monitor-regularly]]
 == Informações que você deve monitorar regularmente
 
 Uma versão anterior deste relatório técnico listou as métricas para verificar periodicamente versus tendências. Essa informação está agora incluída no https://docs.netapp.com/us-en/storagegrid-118/landing-monitor-troubleshoot/index.html["Guia de monitorização e resolução de problemas"^].
 
 
 
+[[monitor-storage]]
 == Monitorar o armazenamento
 
 Uma versão anterior deste relatório técnico listou onde monitorar métricas importantes, como espaço de armazenamento de objetos, espaço de metadados, recursos de rede e assim por diante. Essa informação está agora incluída no https://docs.netapp.com/us-en/storagegrid-118/landing-monitor-troubleshoot/index.html["Guia de monitorização e resolução de problemas"^].

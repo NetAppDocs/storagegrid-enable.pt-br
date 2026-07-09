@@ -14,7 +14,7 @@ summary: Explore alguns casos de uso para configurações do StorageGRID impleme
 
 
 [role="lead"]
-Na operação de cópia Pausa, quatro MediaAgents do CommVault fizeram backup dos dados em um sistema NetApp AFF A300 e uma cópia auxiliar foi criada no NetApp StorageGRID. Para obter detalhes sobre o ambiente de configuração de teste, leia a seção Design da solução e melhores práticas no https://www.netapp.com/us/media/tr-4831.pdf["Proteção de dados com escalabilidade horizontal do NetApp com o CommVault"] relatório técnico.
+Na operação de Cópia Auxiliar, quatro MediaAgents Commvault fizeram backup dos dados para um sistema NetApp AFF A300 e uma cópia auxiliar foi criada no NetApp StorageGRID.
 
 Os testes foram realizados com 100 VMs e 1000 VMs, ambos os testes com uma mistura de 50/50 VMs Windows e CentOS. A tabela a seguir mostra os resultados de nossos testes de desempenho de linha de base:
 

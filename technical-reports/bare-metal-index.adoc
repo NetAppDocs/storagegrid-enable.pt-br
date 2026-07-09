@@ -20,12 +20,13 @@ TR-4882 fornece um prático conjunto de instruções passo a passo que produz um
 
 Para obter uma compreensão mais aprofundada sobre o StorageGRID e o processo de instalação, https://docs.netapp.com/us-en/storagegrid-118/landing-install-upgrade/index.html[] consulte [Instalar, atualizar e hotfix StorageGRID] na documentação do produto.
 
-Antes de iniciar a implantação, vamos examinar os requisitos de computação, storage e rede do software NetApp StorageGRID. O StorageGRID é executado como um serviço em contentor dentro do Podman ou do Docker. Neste modelo, alguns requisitos referem-se ao sistema operacional host (o SO que hospeda o Docker, que está executando o software StorageGRID). E alguns dos recursos são alocados diretamente para os contentores Docker em execução dentro de cada host. Nesta implantação, a fim de maximizar o uso de hardware, estamos implantando dois serviços por host físico. Para obter mais informações, continue para a próxima seção, link:prerequisites-install-storagegrid.html["Pré-requisitos para instalar o StorageGRID"].
+Antes de iniciar sua implantação, vamos examinar os requisitos de computação, armazenamento e rede para o software NetApp StorageGRID. O StorageGRID é executado como um serviço conteinerizado dentro do Podman ou Docker. Nesse modelo, alguns requisitos se referem ao sistema operacional do host (o SO que hospeda o Docker, que executa o software StorageGRID). E alguns recursos são alocados diretamente aos contêineres Docker em execução em cada host. Nesta implantação, para maximizar o uso do hardware, estamos implantando dois serviços por host físico. Para mais informações, continue para a próxima seção link:bare-metal-prerequisites-install-storagegrid.html["Pré-requisitos para instalar o StorageGRID"].
 
 As etapas descritas neste TR resultam em uma instalação do StorageGRID em funcionamento em seis hosts de metal nu. Agora você tem uma rede de trabalho e uma rede de clientes, que são úteis na maioria dos cenários de teste.
 
 
 
+[[where-to-find-additional-information]]
 == Onde encontrar informações adicionais
 
 Para saber mais sobre as informações descritas neste TR, consulte os seguintes recursos de documentação:

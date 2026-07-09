@@ -20,24 +20,26 @@ Conclua a instalação configurando o sistema StorageGRID a partir da interface 
 
 
 
+[[high-level-steps]]
 == Degraus de alto nível
 
 Configurar a grade e concluir a instalação envolve as seguintes tarefas:
 
 .Passos
 . <<Navegue até Grid Manager>>
-. link:storagegrid-license.html["Especifique as informações da licença do StorageGRID"]
-. link:add-sites-storagegrid.html["Adicione sites ao StorageGRID"]
-. link:grid-network-subnets-storagegrid.html["Especifique sub-redes de rede de grade"]
-. link:approve-grid-nodes-storagegrid.html["Aprovar nós de grade pendentes"]
-. link:ntp-server-storagegrid.html["Especifique as informações do servidor NTP"]
-. link:dns-server-storagegrid.html["Especifique as informações do servidor do sistema de nomes de domínio"]
-. link:system-passwords-storagegrid.html["Especifique as senhas do sistema StorageGRID"]
-. link:review-config-complete-storagegrid-install.html["Revise sua configuração e conclua a instalação"]
+. link:bare-metal-storagegrid-license.html["Especifique as informações da licença do StorageGRID"]
+. link:bare-metal-add-sites-storagegrid.html["Adicione sites ao StorageGRID"]
+. link:bare-metal-grid-network-subnets-storagegrid.html["Especifique sub-redes de rede de grade"]
+. link:bare-metal-approve-grid-nodes-storagegrid.html["Aprovar nós de grade pendentes"]
+. link:bare-metal-ntp-server-storagegrid.html["Especifique as informações do servidor NTP"]
+. link:bare-metal-dns-server-storagegrid.html["Especifique as informações do servidor do sistema de nomes de domínio"]
+. link:bare-metal-system-passwords-storagegrid.html["Especifique as senhas do sistema StorageGRID"]
+. link:bare-metal-review-config-complete-storagegrid-install.html["Revise sua configuração e conclua a instalação"]
 
 
 
 
+[[navigate-to-grid-manager]]
 == Navegue até Grid Manager
 
 Use o Gerenciador de Grade para definir todas as informações necessárias para configurar seu sistema StorageGRID.

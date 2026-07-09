@@ -24,18 +24,21 @@ O ransomware é uma das maiores ameaças à segurança de hoje. A equipe da NetA
 
 
 
+[[storagegrid-best-practices]]
 == Práticas recomendadas da StorageGRID
 
 Para o StorageGRID, as práticas recomendadas de segurança devem incluir o uso de HTTPS com certificados assinados para gerenciamento e acesso a objetos. Crie contas de usuário dedicadas para aplicativos e indivíduos e não use as contas raiz do locatário para acesso a aplicativos ou acesso a dados do usuário. Em outras palavras, siga o princípio de menor privilégio. Use grupos de segurança com políticas definidas de gerenciamento de identidade e acesso (IAM) para governar os direitos de usuário e acessar contas específicas para os aplicativos e usuários. Com essas medidas em vigor, você ainda precisa garantir que seus dados estejam protegidos. No caso do Simple Storage Service (S3), quando os objetos são modificados para criptografá-los, ele é realizado por uma substituição do objeto original.
 
 
 
+[[methods-of-defense]]
 == Métodos de defesa
 
 O principal mecanismo de proteção contra ransomware na API S3 é implementar o bloqueio de objetos. Nem todos os aplicativos são compatíveis com o bloqueio de objetos, portanto, há duas outras opções para proteger os objetos descritos neste relatório: Replicação para outro bucket com o controle de versão ativado e o controle de versão com políticas do IAM.
 
 
 
+[[where-to-find-additional-information]]
 == Onde encontrar informações adicionais
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:

@@ -21,6 +21,7 @@ O seguinte é apresentado como orientação geral para a configuração de balan
 
 
 
+[[create-a-resource-group-of-storage-nodes]]
 == Crie um grupo de recursos de nós de storage
 
 Agrupe os nós de storage do StorageGRID em um pool de recursos ou grupo de serviços (a terminologia pode ser diferente com balanceadores de carga específicos). Os nós de storage do StorageGRID apresentam a API S3 nas seguintes portas:
@@ -36,6 +37,7 @@ NOTE: Cada local do StorageGRID requer um padrão de três nós de storage, dois
 
 
 
+[[health-check]]
 == Verificação de integridade
 
 Balanceadores de carga de terceiros exigem um método para determinar a integridade de cada nó e sua qualificação para receber tráfego. O NetApp recomenda o método HTTP `OPTIONS` para executar a verificação de integridade. O balanceador de carga emite solicitações HTTP `OPTIONS` para cada nó de armazenamento individual e espera uma `200` resposta de status.
@@ -48,6 +50,7 @@ O intervalo de polling recomendado é uma vez por segundo, marcando o nó off-li
 
 
 
+[[s3-health-check-example]]
 === S3 exemplo de verificação de integridade
 
 No exemplo a seguir, nós enviamos `OPTIONS` e verificamos para `200 OK`. Usamos `OPTIONS` porque o Amazon S3) não oferece suporte a solicitações não autorizadas.
@@ -76,6 +79,7 @@ No exemplo a seguir, nós enviamos `OPTIONS` e verificamos para `200 OK`. Usamos
 ----
 
 
+[[file-or-content-based-health-checks]]
 === Verificações de integridade baseadas em arquivo ou conteúdo
 
 Em geral, o NetApp não recomenda verificações de integridade baseadas em arquivos. Normalmente, um pequeno arquivo —`healthcheck.htm`, por exemplo, é criado em um bucket com uma política somente leitura. Esse arquivo é então buscado e avaliado pelo balanceador de carga. Esta abordagem tem várias desvantagens:
@@ -90,12 +94,14 @@ Se for necessária uma verificação de integridade baseada em conteúdo, use um
 
 
 
+[[session-persistence]]
 === Persistência da sessão
 
 Persistência da sessão, ou stickiness, refere-se ao tempo que uma determinada sessão HTTP é permitida para persistir. Por padrão, as sessões são descartadas pelos nós de storage após 10 minutos. Persistência mais longa pode levar a uma melhor performance porque as aplicações não precisam restabelecer as sessões para cada ação. No entanto, manter essas sessões abertas consome recursos. Se você determinar que seu workload se beneficiará, poderá reduzir a persistência da sessão em um balanceador de carga de terceiros.
 
 
 
+[[virtual-hosted-style-addressing]]
 == Endereçamento virtual em estilo hospedado
 
 O estilo hospedado virtual agora é o método padrão para o AWS S3 e, embora o StorageGRID e muitos aplicativos ainda ofereçam suporte ao estilo de caminho, é prática recomendada implementar suporte virtual ao estilo hospedado. As solicitações virtuais de estilo hospedado têm o intervalo como parte do nome do host.
@@ -108,6 +114,7 @@ Para oferecer suporte ao estilo virtual hospedado, faça o seguinte:
 
 
 
+[[ssl-termination]]
 == Terminação SSL
 
 Há benefícios de segurança para o encerramento SSL em balanceadores de carga de terceiros. Se o balanceador de carga estiver comprometido, a grade será compartimentada.
@@ -121,12 +128,14 @@ Existem três configurações compatíveis:
 
 
 
+[[pass-through-configuration]]
 == Passe pela configuração
 
 Se preferir configurar o balanceador de carga para passagem, instale o certificado no StorageGRID. Aceda ao menu:Configuração[certificados de servidor > Object Storage API Service Endpoints Server Certificate].
 
 
 
+[[source-client-ip-visibility]]
 == Visibilidade IP do cliente de origem
 
 O StorageGRID 11,4 introduziu o conceito de um balanceador de carga confiável de terceiros. Para encaminhar o IP do aplicativo cliente para o StorageGRID, você deve configurar esse recurso. Para obter mais informações, consulte https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_configure_StorageGRID_to_work_with_third-party_Layer_7_load_balancers["Como configurar o StorageGRID para funcionar com balanceadores de carga de camada 7 de terceiros."^]
@@ -140,6 +149,7 @@ Para permitir que o cabeçalho XFF seja usado para exibir o IP do aplicativo cli
 
 
 
+[[load-balancing-strategies]]
 === Estratégias de balanceamento de carga
 
 A maioria das soluções de balanceamento de carga oferece várias estratégias para balanceamento de carga. As seguintes estratégias são comuns:
@@ -152,6 +162,7 @@ A escolha do algoritmo se torna menos importante com um número cada vez maior d
 
 
 
+[[data-path]]
 === Caminho de dados
 
 Todos os dados fluem através de balanceadores de carga do gerenciador de tráfego local. O StorageGRID não suporta roteamento direto de servidor (DSR).

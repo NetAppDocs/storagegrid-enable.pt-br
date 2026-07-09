@@ -19,6 +19,7 @@ Este guia de configuração é baseado no StorageGRID 11,5 e no Enterprise Vault
 
 
 
+[[prerequisites-to-configure-storagegrid-and-veritas-enterprise-vault]]
 == Pré-requisitos para configurar o StorageGRID e o veritas Enterprise Vault
 
 * Antes de configurar o StorageGRID com o veritas Enterprise Vault, verifique os seguintes pré-requisitos:
@@ -42,6 +43,7 @@ NOTE: Para storage WORM (Object Lock), é necessário o Enterprise Vault versão
 
 
 
+[[configure-storagegrid-with-veritas-enterprise-vault]]
 == Configure o StorageGRID com o veritas Enterprise Vault
 
 Para configurar o StorageGRID com o veritas Enterprise Vault, execute as seguintes etapas:

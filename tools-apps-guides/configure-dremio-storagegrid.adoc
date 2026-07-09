@@ -18,10 +18,12 @@ O Dremio dá suporte a uma variedade de fontes de dados, incluindo armazenamento
 
 
 
+[[configure-dremio-data-source]]
 == Configurar a fonte de dados do Dremio
 
 
 
+[[prerequisites]]
 === Pré-requisitos
 
 * Um URL de endpoint do StorageGRID S3, um ID de chave de acesso do locatário S3 e chave de acesso secreta.
@@ -30,12 +32,14 @@ O Dremio dá suporte a uma variedade de fontes de dados, incluindo armazenamento
 
 
 
+[[dremio-guide]]
 === Guia de Dremio
 
 https://docs.dremio.com/current/sonar/data-sources/object/s3/["Conetando ao Amazon S3 - Configurando o armazenamento compatível com S3"^].
 
 
 
+[[instruction]]
 == Instrução
 
 . Na página Datasets do Dremio, clique em assinar para adicionar uma fonte, selecione 'Amazon S3'.

@@ -18,6 +18,7 @@ A solução testada combina as soluções CommVault e NetApp para criar uma solu
 
 
 
+[[solution-setup]]
 == Configuração da solução
 
 Na configuração do laboratório, o ambiente StorageGRID consistia em quatro dispositivos NetApp StorageGRID SG5712, um nó de administração principal virtual e um nó de gateway virtual. O dispositivo SG5712 é a opção de nível de entrada, uma configuração de linha de base. A escolha de opções de dispositivos de maior performance, como o NetApp StorageGRID SG5760 ou o SG6060, pode fornecer benefícios significativos de performance. Consulte o arquiteto de soluções da NetApp StorageGRID para obter assistência sobre o dimensionamento.
@@ -48,10 +49,9 @@ Commit duplo
 |===
 A regra de cópia ILM 2 é a regra padrão. A regra de codificação de apagamento 2-1 foi aplicada para este teste a qualquer objeto 200KB ou maior. A regra padrão foi aplicada a objetos menores que 200KB. A aplicação das regras desta forma é uma melhor prática do StorageGRID.
 
-Para obter detalhes técnicos sobre esse ambiente de teste, leia a seção Design da solução e práticas recomendadas no https://www.netapp.com/us/media/tr-4831.pdf["Proteção de dados com escalabilidade horizontal do NetApp com o CommVault"] relatório técnico.
 
 
-
+[[storagegrid-hardware-specifications]]
 == Especificações de hardware da StorageGRID
 
 A tabela a seguir descreve o hardware NetApp StorageGRID usado neste teste. O dispositivo StorageGRID SG5712 com rede 10Gbps é a opção de nível de entrada e representa uma configuração de linha de base. Opcionalmente, o SG5712 pode ser configurado para rede 25GbpsG.
@@ -77,6 +77,7 @@ A escolha de opções de dispositivo de alta performance, como os dispositivos N
 
 
 
+[[commvault-and-storagegrid-software-requirements]]
 == Requisitos de software CommVault e StorageGRID
 
 As tabelas a seguir listam os requisitos de software para o software CommVault e NetApp StorageGRID instalados no software VMware para nossos testes. Quatro gerenciadores de transmissão de dados do MediaAgent e um servidor CommServe foram instalados. No teste, a rede 10GbpsG foi implementada para a infraestrutura VMware. A tabela a seguir

@@ -18,6 +18,7 @@ Consulte os especialistas em proteção de dados da NetApp para obter um dimensi
 
 
 
+[[commvault-sizing-inputs]]
 == Entradas de dimensionamento do CommVault
 
 As tarefas a seguir podem ser usadas para realizar a descoberta para o dimensionamento da solução de proteção de dados:
@@ -34,6 +35,7 @@ Quando essas informações estiverem disponíveis, o dimensionamento da infraest
 
 
 
+[[storagegrid-sizing-guidance]]
 == Orientação de dimensionamento do StorageGRID
 
 Antes de executar o dimensionamento do NetApp StorageGRID, considere esses aspectos da sua carga de trabalho:
@@ -115,6 +117,7 @@ Você pode usar a ferramenta de dimensionamento https://fusion.netapp.com["Fusio
 
 
 
+[[scaling]]
 == Dimensionamento
 
 Você pode expandir um sistema NetApp StorageGRID adicionando storage aos nós de storage, adicionando novos nós de grade a um local existente ou adicionando um novo local de data center. Você pode realizar expansões sem interromper a operação do seu sistema atual. O StorageGRID dimensiona a performance usando nós de performance mais alta para nós de storage ou o dispositivo físico que executa o balanceador de carga e os nós de administração ou simplesmente adicionando nós adicionais.

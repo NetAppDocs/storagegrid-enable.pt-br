@@ -13,6 +13,7 @@ summary: Este relatório aborda a análise de big data no StorageGRID.
 
 
 
+[[netapp-storagegrid-use-cases]]
 == Casos de uso do NetApp StorageGRID
 
 A solução de storage de objetos da NetApp StorageGRID oferece escalabilidade, disponibilidade de dados, segurança e alta performance. Organizações de todos os tamanhos e em vários setores usam o StorageGRID S3 para uma ampla variedade de casos de uso. Vamos explorar alguns cenários típicos:
@@ -37,6 +38,7 @@ Entre as opções acima, o Big Data Analytics é um dos principais casos de uso 
 
 
 
+[[why-storagegrid-for-data-lakes]]
 == Por que escolher a StorageGRID para data Lakes?
 
 * Maior colaboração - enorme alocação compartilhada de vários locais e alocação a vários clientes com acesso à API padrão do setor
@@ -52,9 +54,10 @@ image:datalake-analytics/image2.png["StorageGRID datalake exemplo, largura de 61
 
 
 
+[[benchmarking-data-warehouses-and-lakehouses-with-s3-object-storage-a-comparative-study]]
 == Benchmarking Data Warehouses e Lakehouses com armazenamento de objetos S3: Um estudo comparativo
 
-este artigo apresenta uma referência abrangente de vários ecossistemas de armazenamento de dados e lakehouse usando o NetApp StorageGRID. O objetivo é determinar qual sistema tem melhor desempenho com o storage de objetos S3. Consulte isso https://www.dremio.com/wp-content/uploads/2023/02/apache-Iceberg-TDG_ER1.pdf?aliId=eyJpIjoieDRUYjFKN2ZMbXhTRnFRWCIsInQiOiJIUUw0djJsWnlJa21iNUsyQURRalNnPT0ifQ%253D%253D["Apache Iceberg: O Guia definitivo"] para saber mais sobre as arquiteturas datawarehous/lakehouse e o formato de tabela (Parquet e Iceberg).
+Este artigo apresenta um benchmark abrangente de vários ecossistemas de data warehouse e lakehouse utilizando NetApp StorageGRID. O objetivo é determinar qual sistema apresenta o melhor desempenho com S3 object storage. Consulte este https://hello.dremio.com/wp-apache-iceberg-the-definitive-guide-reg.html["Apache Iceberg: O Guia definitivo"] para saber mais sobre arquiteturas de data warehouse/lakehouse e formatos de tabela (Parquet e Iceberg).
 
 * Ferramenta de benchmark - TPC-DS - https://www.tpc.org/tpcds/[]
 * Ecossistemas de Big Data

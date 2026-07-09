@@ -22,6 +22,7 @@ Isso significa que, se você suspeitar que ocorreu um ataque de ransomware, voc�
 
 
 
+[[creating-a-branch-bucket]]
 == Criando um bucket de ramificação
 
 * Navegue até a página de detalhes do bucket base e a guia Branches para criar um bucket de branch.

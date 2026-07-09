@@ -20,6 +20,7 @@ Muitas organizações querem migrar o storage para a nuvem, escalar os sistemas 
 
 
 
+[[about-commvault-and-storagegrid]]
 == Sobre a CommVault e o StorageGRID
 
 O software CommVault Complete Backup and Recovery é uma solução de gerenciamento de informações e dados integrada de nível empresarial, desenvolvida do zero em uma única plataforma e com uma base de código unificada. Todas as suas funções compartilham tecnologias de back-end, trazendo vantagens e benefícios incomparáveis de uma abordagem totalmente integrada para proteger, gerenciar e acessar seus dados. O software contém módulos para proteger, arquivar, analisar, replicar e pesquisar seus dados. Os módulos compartilham um conjunto comum de serviços de back-end e recursos avançados que interagem perfeitamente uns com os outros. A solução aborda todos os aspectos do gerenciamento de dados em sua empresa, ao mesmo tempo em que oferece escalabilidade infinita e controle sem precedentes de dados e informações.
@@ -38,6 +39,7 @@ Reter dados de backup em seu storage primário pode ser caro. Ao usar o NetApp S
 
 
 
+[[key-features]]
 == Principais recursos
 
 Os principais recursos da plataforma de software CommVault incluem:
@@ -58,6 +60,7 @@ Para obter detalhes sobre workloads compatíveis, visite https://www.commvault.c
 
 
 
+[[backup-options]]
 == Opções de backup
 
 Ao implementar o software CommVault Complete Backup and Recovery com storage de nuvem, você tem duas opções de backup:
@@ -103,11 +106,12 @@ Não suportado
 |===
 
 
+[[where-to-find-additional-information]]
 == Onde encontrar informações adicionais
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
 
-* Centro de Documentação do StorageGRID 11,9 https://docs.netapp.com/us-en/storagegrid-119/[]
+* StorageGRID 11.9 Central de Documentação + https://docs.netapp.com/us-en/storagegrid/[]
 * Documentação do produto NetApp https://docs.netapp.com[]
-* Documentação do CommVault https://documentation.commvault.com/2024/essential/index.html[]
+* Documentação do Commvault + https://documentation.commvault.com/2024e/software/index.html[]
 

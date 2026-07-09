@@ -16,6 +16,7 @@ Você pode criar uma configuração de ciclo de vida do S3 para controlar quando
 
 
 
+[[what-is-a-lifecycle-configuration]]
 == O que é uma configuração de ciclo de vida
 
 Uma configuração de ciclo de vida é um conjunto de regras que são aplicadas aos objetos em buckets específicos do S3. Cada regra especifica quais objetos são afetados e quando esses objetos expirarão (em uma data específica ou após algum número de dias).
@@ -41,6 +42,7 @@ O StorageGRID dá suporte ao uso das seguintes operações de bucket para gerenc
 
 
 
+[[structure-of-a-lifecycle-policy]]
 == Estrutura de uma política de ciclo de vida
 
 Como primeira etapa na criação de uma configuração de ciclo de vida, você cria um arquivo JSON que inclui uma ou mais regras. Por exemplo, este arquivo JSON inclui três regras, como segue:
@@ -101,6 +103,7 @@ CAUTION: As regras que especificam um número de dias são relativas a quando o 
 ----
 
 
+[[apply-lifecycle-configuration-to-bucket]]
 == Aplique a configuração do ciclo de vida ao bucket
 
 Depois de criar o arquivo de configuração do ciclo de vida, você o aplica a um bucket emitindo uma solicitação PutBucketLifecycleConfiguration.
@@ -121,10 +124,12 @@ aws s3api --endpoint-url <StorageGRID endpoint> get-bucket-lifecycle-configurati
 ----
 
 
+[[example-lifecycle-policies-for-standard-non-versioned-buckets]]
 == Exemplo de políticas de ciclo de vida para buckets padrão (sem versão)
 
 
 
+[[delete-objects-after-90-days]]
 === Excluir objetos após 90 dias
 
 Caso de uso: Esta política é ideal para gerenciar dados relevantes apenas por um tempo limitado, como arquivos temporários, logs ou dados de processamento intermediário. Benefício: Reduz os custos de armazenamento e garante que o bucket esteja organizado.
@@ -146,10 +151,12 @@ Caso de uso: Esta política é ideal para gerenciar dados relevantes apenas por 
 ----
 
 
+[[example-lifecycle-policies-for-versioned-buckets]]
 == Exemplo de políticas de ciclo de vida para buckets versionados
 
 
 
+[[delete-noncurrent-versions-after-10-days]]
 === Excluir versões não atuais após 10 dias
 
 Caso de uso: Esta política ajuda a gerenciar o armazenamento de objetos de versão desatualizada, que podem se acumular ao longo do tempo e consumir espaço significativo. Benefício: Otimize o uso do armazenamento mantendo apenas a versão mais recente.
@@ -171,6 +178,7 @@ Caso de uso: Esta política ajuda a gerenciar o armazenamento de objetos de vers
 ----
 
 
+[[keep-5-noncurrent-versions-and-delete-after-90-days]]
 === Mantenha 5 versões não atuais e exclua após 90 dias
 
 Caso de uso: Útil quando você deseja manter um número limitado de versões anteriores para fins de recuperação ou auditoria. Benefício: Manter versões não atuais suficientes para garantir histórico e pontos de recuperação suficientes.
@@ -196,6 +204,7 @@ NOTE: Você deve usar *NoncurrentDays* com *NewerNoncurrentVersions*.
 
 
 
+[[remove-delete-markers-when-no-other-versions-exist]]
 === Remover marcadores de exclusão quando não houver outras versões
 
 Caso de uso: Esta política ajuda a gerenciar os marcadores de exclusão restantes após a remoção de todas as versões não atuais, que podem se acumular ao longo do tempo. Benefício: Reduz a desordem desnecessária.
@@ -217,6 +226,7 @@ Caso de uso: Esta política ajuda a gerenciar os marcadores de exclusão restant
 ----
 
 
+[[delete-current-versions-after-30-days-delete-non-current-versions-after-60-days-and-remove-the-delete-markers-created-by-the-current-version-delete-once-no-other-versions-exist]]
 === Exclua as versões atuais após 30 dias, exclua as versões não atuais após 60 dias e remova os marcadores de exclusão criados pela exclusão da versão atual quando não houver mais outras versões.
 
 Caso de uso: Fornecer um ciclo de vida completo para versões atuais e não atuais, incluindo os marcadores de exclusão. Benefício: Reduzir os custos de armazenamento e garantir que o bucket esteja organizado, mantendo pontos de recuperação e histórico suficientes.
@@ -254,6 +264,7 @@ Caso de uso: Fornecer um ciclo de vida completo para versões atuais e não atua
 ----
 
 
+[[remove-delete-markers-that-have-no-other-versions-retain-4-non-current-versions-and-at-least-30-days-worth-of-history-for-objects-with-the-accounts-prefix-and-keep-2-versions-and-at-least-10-days-worth-of-history-for-all-other-object-versions]]
 === remova marcadores de exclusão que não tenham outras versões, mantenha 4 versões não atuais e pelo menos 30 dias de histórico para objetos com o prefixo "accounts_" e mantenha 2 versões e pelo menos 10 dias de histórico para todas as outras versões de objetos.
 
 Caso de uso: Forneça regras exclusivas para objetos específicos, juntamente com outros objetos, para gerenciar o ciclo de vida completo das versões atuais e não atuais, incluindo os marcadores de exclusão. Benefício: Reduza os custos de armazenamento e garanta que o bucket esteja organizado, mantendo pontos de recuperação e histórico suficientes para atender a uma variedade de requisitos do cliente.
@@ -293,6 +304,7 @@ Caso de uso: Forneça regras exclusivas para objetos específicos, juntamente co
 ----
 
 
+[[conclusion]]
 == Conclusão
 
 * Revise e atualize regularmente as políticas de ciclo de vida e alinhe-as com as metas de ILM e gerenciamento de dados.

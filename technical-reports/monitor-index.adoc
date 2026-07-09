@@ -24,6 +24,7 @@ O objetivo deste documento é complementar a documentação do produto e discuti
 
 
 
+[[data-sources]]
 == Fontes de dados
 
 Para monitorar com sucesso o NetApp StorageGRID, é importante saber onde coletar dados sobre a integridade e as operações do seu sistema StorageGRID.
@@ -35,6 +36,7 @@ Para monitorar com sucesso o NetApp StorageGRID, é importante saber onde coleta
 
 
 
+[[where-to-find-additional-information]]
 == Onde encontrar informações adicionais
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:

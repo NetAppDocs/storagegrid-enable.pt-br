@@ -18,6 +18,7 @@ Se você precisar alterar a rede de Grade inteira, link:https://docs.netapp.com/
 
 
 
+[[considerations-before-site-relocation]]
 == Considerações antes da realocação do local
 
 * A movimentação do local deve ser concluída e todos os nós on-line em até 15 dias para evitar a reconstrução do banco de dados Cassandra. link:https://docs.netapp.com/us-en/storagegrid-118/maintain/recovering-storage-node-that-has-been-down-more-than-15-days.html["Recupere o nó de storage abaixo mais de 15 dias"^]
@@ -32,10 +33,11 @@ image:site-relocation/s3-completed-request.png["S3 Visão geral amostra de gráf
 
 
 
+[[procedure-to-change-grid-ip-address-before-site-relocation]]
 === Procedimento para alterar o endereço IP da grade antes da realocação do local
 
 .Passos
-. Se a nova sub-rede da rede Grid for usada no novo local, link:https://docs.netapp.com/us-en/storagegrid-118/expand/updating-subnets-for-grid-network.htmll["Adicione a sub-rede à lista de sub-rede da rede Grid"^]
+. Caso uma nova sub-rede de rede Grid seja utilizada na nova localização, link:https://docs.netapp.com/us-en/storagegrid/expand/updating-subnets-for-grid-network.html["Adicione a sub-rede à lista de sub-rede da rede Grid"^]
 . Faça login no nó de administração principal, use o Change-ip para fazer a alteração de IP de grade, deve *stage* a alteração antes de desligar o nó para realocação.
 +
 .. Selecione 2 e, em seguida, 1 para a alteração de IP de Grade
@@ -72,6 +74,7 @@ image:site-relocation/ip-change-6.png["Continue"]
 
 
 
+[[appliance-vlan-change]]
 === Alteração da VLAN do dispositivo
 
 O procedimento abaixo assume que você tem acesso remoto ao administrador ou à rede cliente do StorageGRID Appliance para executar a alteração remotamente.

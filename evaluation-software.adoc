@@ -16,6 +16,7 @@ Esta instrução destina-se a vendas, parceiros e clientes potenciais da NetApp 
 
 
 
+[[register-for-an-account]]
 == Registre-se para uma conta
 
 . Registe-se para obter uma conta no https://mysupport.netapp.com/site/user/registration["Site de suporte da NetApp"] utilizando o e-mail da sua empresa.
@@ -35,6 +36,7 @@ Esta instrução destina-se a vendas, parceiros e clientes potenciais da NetApp 
 
 
 
+[[download-storagegrid]]
 == Baixar StorageGRID
 
 . Depois que seu caso de suporte for revisado e aprovado, o suporte da NetApp notificará você por e-mail de que sua conta recebeu acesso a clientes potenciais.

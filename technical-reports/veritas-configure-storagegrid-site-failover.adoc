@@ -18,6 +18,7 @@ Saiba como configurar o failover de site do StorageGRID em um cenário de recupe
 
 
 
+[[prerequisites-to-configure-storagegrid-with-veritas-enterprise-vault]]
 == Pré-requisitos para configurar o StorageGRID com o veritas Enterprise Vault
 
 Antes de configurar o failover de site do StorageGRID, verifique os seguintes pré-requisitos:
@@ -29,6 +30,7 @@ Antes de configurar o failover de site do StorageGRID, verifique os seguintes pr
 
 
 
+[[configure-storagegrid-site-failover]]
 == Configurar failover de site do StorageGRID
 
 Para configurar o failover do site do StorageGRID, execute as seguintes etapas:
@@ -36,11 +38,11 @@ Para configurar o failover do site do StorageGRID, execute as seguintes etapas:
 .Passos
 . Para garantir a conetividade com o StorageGRID durante falhas no local, configure um grupo de alta disponibilidade (HA). Na interface do Gerenciador de Grade do StorageGRID (GMI), clique em Configuração, grupos de alta disponibilidade e criar.
 +
-image:vertias/veritas-create-high-availability-group.png["perguntas/veritas-create-high-availability-group"]
+image:veritas/veritas-create-high-availability-group.png["veritas/veritas-create-high-availability-group"]
 
 . Introduza as informações necessárias. Clique em Selecionar interfaces e inclua as interfaces de rede DO site1 e DO site2 em que O site1 (o site principal) é o mestre preferido. Atribua um endereço IP virtual dentro da mesma sub-rede. Clique em Guardar.
 +
-image:veritas/veritas-edit-high-availability-group.png["perguntas/veritas-edit-high-availability-group"]
+image:veritas/veritas-edit-high-availability-group.png["veritas/veritas-edit-high-availability-group"]
 
 . Esse endereço IP virtual (VIP) deve ser associado ao nome de host S3 usado durante a configuração de partição do veritas Enterprise Vault. O endereço VIP resolve o tráfego para O site1 e, durante A falha DO site1, o endereço VIP redireciona o tráfego para O site2 de forma transparente.
 . Certifique-se de que os dados sejam replicados para site1 e site2. Dessa forma, se O site1 falhar, os dados do objeto ainda estarão disponíveis em site2. Isso é feito configurando primeiro os pools de armazenamento.
@@ -51,14 +53,14 @@ No StorageGRID GMI, clique em ILM, pools de armazenamento e, em seguida, crie. S
 Os pools de storage são agrupamentos lógicos de nós usados para definir o posicionamento do objeto
 
 +
-image:veritas/veritas-storage-pool-details-site-1.png["versões/veritas-storage-pool-details-site-1"]
+image:veritas/veritas-storage-pool-details-site-1.png["veritas/veritas-storage-pool-details-site-1"]
 
 +
-image:veritas/veritas-storage-pool-details-site-2.png["versões/veritas-storage-pool-details-site-2"]
+image:veritas/veritas-storage-pool-details-site-2.png["veritas/veritas-storage-pool-details-site-2"]
 
 . No StorageGRID GMI, clique em ILM, regras e, em seguida, criar. Siga o assistente para criar uma regra ILM especificando uma cópia a ser armazenada por local com um comportamento de ingestão de balanceado.
 +
-image:veritas/veritas-storage-pool-details-site-3.png["versões/veritas-storage-pool-details-site-3"]
+image:veritas/veritas-storage-pool-details-site-3.png["veritas/veritas-storage-pool-details-site-3"]
 
 . Adicione a regra ILM a uma política ILM e ative a política.
 

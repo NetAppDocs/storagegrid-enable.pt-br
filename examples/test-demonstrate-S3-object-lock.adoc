@@ -20,6 +20,7 @@ Este guia demonstrará a API S3D Object Lock.
 
 
 
+[[legal-hold]]
 == Guarda legal
 
 * Bloqueio de objeto retenção legal é um simples status de ligar/desligar aplicado a um objeto.
@@ -68,6 +69,7 @@ aws s3api get-object-legal-hold --bucket <bucket> --key <file> --endpoint-url ht
 
 
 
+[[compliance-mode]]
 == Modo de conformidade
 
 * A retenção de objeto é feita com um carimbo de data/hora retent until.
@@ -97,6 +99,7 @@ aws s3api get-object-retention --bucket <bucket> --key <file> --endpoint-url htt
 
 
 
+[[default-retention]]
 == Retenção padrão
 
 * Defina o período de retenção em dias e anos versículos a data de retenção até definida com a api per object.
@@ -152,6 +155,7 @@ aws s3api get-object-retention --bucket <bucket> --key <file> --endpoint-url htt
 
 
 
+[[test-deleting-an-object-with-a-defined-retention]]
 == Teste a exclusão de um objeto com uma retenção definida
 
 O bloqueio de objetos é construído sobre o controle de versão. A retenção é definida em uma versão do objeto. Se uma tentativa for feita para excluir um objeto com uma retenção definida e nenhuma versão for especificada, um marcador de exclusão será criado como a versão atual do objeto.

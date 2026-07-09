@@ -16,6 +16,7 @@ Este guia fornece instruções detalhadas para configurar o serviço de integra�
 
 
 
+[[introduction]]
 == Introdução
 
 O StorageGRID é compatível com três tipos de serviços de plataforma.
@@ -33,6 +34,7 @@ Os públicos-alvo devem estar familiarizados com o Gerenciador de Grade, o Geren
 
 
 
+[[create-tenant-and-enable-platform-services]]
 == Crie inquilino e habilite serviços de plataforma
 
 . Crie um locatário S3 usando o Gerenciador de Grade, insira um nome de exibição e selecione o protocolo S3.
@@ -50,10 +52,12 @@ Isso o leva à página do Gerenciador de Locações.
 
 
 
+[[search-integration-services-with-amazon-opensearch]]
 == PESQUISE serviços de integração com o Amazon OpenSearch
 
 
 
+[[amazon-opensearch-formerly-elasticsearch-service-setup]]
 === Configuração do serviço Amazon OpenSearch (anteriormente Elasticsearch)
 
 Use este procedimento para uma configuração rápida e simples do serviço OpenSearch apenas para fins de teste/demonstração. Se você estiver usando o Elasticsearch no local para serviços de integração de pesquisa, consulte a xref:search-integration-services-with-on-premises-elasticsearch[PESQUISE serviços de integração com o Elasticsearch no local]seção .
@@ -126,6 +130,7 @@ image:storagegrid-search-integration-service/sg-sis-verifying-the-index.png["Ver
 
 
 
+[[platform-services-endpoint-configuration]]
 == Configuração de endpoint de serviços de plataforma
 
 Para configurar os endpoints de serviços da plataforma, siga estas etapas:
@@ -156,10 +161,12 @@ image:storagegrid-search-integration-service/sg-sis-platform-service-endpoints.p
 
 
 
+[[search-integration-services-with-on-premises-elasticsearch]]
 == PESQUISE serviços de integração com o Elasticsearch no local
 
 
 
+[[on-premises-elasticsearch-setup]]
 === Configuração do Elasticsearch no local
 
 Este procedimento é para uma configuração rápida do Elasticsearch no local e do Kibana usando o docker apenas para fins de teste. Se o servidor Elasticsearch e Kibana já existir, vá para a Etapa 5.
@@ -211,6 +218,7 @@ image:storagegrid-search-integration-service/sg-sis-execute-put-command.png["Exe
 
 
 
+[[platform-services-endpoint-configuration]]
 == Configuração de endpoint de serviços de plataforma
 
 Para configurar endpoints para serviços de plataforma, siga estas etapas:
@@ -238,6 +246,7 @@ image:storagegrid-search-integration-service/sg-sis-successfully-verified-endpoi
 
 
 
+[[bucket-search-integration-service-configuration]]
 == Configuração do serviço de integração de pesquisa de bucket
 
 Depois que o endpoint do serviço da plataforma é criado, a próxima etapa é configurar esse serviço no nível do bucket para enviar metadados de objeto para o endpoint definido sempre que um objeto é criado, excluído ou seus metadados ou tags são atualizados.
@@ -318,6 +327,7 @@ image:storagegrid-search-integration-service/sg-sis-query-two-sample.png["Consul
 
 
 
+[[where-to-find-additional-information]]
 == Onde encontrar informações adicionais
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:

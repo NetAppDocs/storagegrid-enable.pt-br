@@ -20,6 +20,7 @@ Os exemplos a seguir ilustram as configurações implementadas pelos clientes da
 
 
 
+[[f5-big-ip-local-traffic-manager-health-check-monitor-for-s3-bucket]]
 == F5 monitor de verificação de integridade do gestor de tráfego local de GRANDE IP para o bucket S3
 
 Para configurar o monitor de verificação de integridade do gerenciador de tráfego local F5 BIG-IP, siga estas etapas:
@@ -48,6 +49,7 @@ image:load-balancer/load-balancer-monitor-configuration-page.png["Página de con
 
 
 
+[[citrix-netscaler]]
 == Citrix NetScaler
 
 O Citrix NetScaler cria um servidor virtual para o endpoint de armazenamento e se refere aos nós de armazenamento do StorageGRID como servidores de aplicativos, que são agrupados em Serviços.
@@ -62,18 +64,21 @@ image:load-balancer/load-balancer-configure-monitor.png["Configure-monitor.png"]
 
 
 
+[[loadbalancer-org]]
 == Loadbalancer.org
 
 O Loadbalancer.org realizou seus próprios testes de integração com o StorageGRID e tem um extenso guia de configuração: https://pdfs.loadbalancer.org/NetApp_StorageGRID_Deployment_Guide.pdf[].
 
 
 
+[[kemp]]
 == Kemp
 
 A Kemp realizou seus próprios testes de integração com o StorageGRID e tem um extenso guia de configuração: https://kemptechnologies.com/solutions/netapp/[].
 
 
 
+[[haproxy]]
 == HAProxy
 
 Configure o HAProxy para usar a solicitação DE OPÇÕES e verifique se há uma resposta de status 200 para a verificação de integridade no hproxy.cfg. Você pode alterar a porta de ligação no front-end para uma porta diferente, como 443.

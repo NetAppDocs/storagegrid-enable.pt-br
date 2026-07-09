@@ -18,6 +18,7 @@ Este guia de configuração fornece as etapas para configurar o NetApp StorageGR
 
 
 
+[[reference-architecture]]
 == Arquitetura de referência
 
 O StorageGRID fornece um destino de backup em nuvem compatível com S3 no local para o veritas Enterprise Vault. A figura a seguir ilustra a arquitetura do veritas Enterprise Vault e do StorageGRID.
@@ -26,6 +27,7 @@ image:veritas/veritas-enterprise-vault-and-storagegrid-architecture.png["arquite
 
 
 
+[[where-to-find-additional-information]]
 == Onde encontrar informações adicionais
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:

@@ -16,6 +16,7 @@ Aqui estão exemplos de políticas e permissões no StorageGRID S3.
 
 
 
+[[the-structure-of-a-policy]]
 == A estrutura de uma política
 
 No StorageGRID, as políticas de grupo são as mesmas que as políticas de serviço do AWS user (IAM) S3.
@@ -116,6 +117,7 @@ O formato da política JSON será assim:
 ----
 
 
+[[using-the-aws-policy-generator]]
 == Usando o gerador de políticas da AWS
 
 O gerador de políticas da AWS é uma ótima ferramenta para ajudar a obter o código json com o formato correto e as informações que você está tentando implementar.
@@ -245,10 +247,12 @@ Por exemplo:
 ----
 
 
+[[group-policies-iam]]
 == Políticas de grupo (IAM)
 
 
 
+[[home-directory-style-bucket-access]]
 === Acesso ao bucket do estilo do Home Directory
 
 Essa política de grupo só permitirá que os usuários acessem objetos no intervalo chamado nome de usuário do usuário.
@@ -280,6 +284,7 @@ Essa política de grupo só permitirá que os usuários acessem objetos no inter
 ----
 
 
+[[deny-object-lock-bucket-creation]]
 === Negar criação de bucket de bloqueio de objetos
 
 Esta política de grupo restringirá os usuários a criar um bucket com o bloqueio de objetos ativado no bucket.
@@ -311,6 +316,7 @@ Esta política não é aplicada na IU do StorageGRID, ela só é aplicada pela A
 ----
 
 
+[[object-lock-retention-limit]]
 === Limite de retenção de bloqueio de objetos
 
 Esta política de bucket restringirá a duração de retenção de bloqueio de objetos a 10 dias ou menos
@@ -340,6 +346,7 @@ Esta política de bucket restringirá a duração de retenção de bloqueio de o
 ----
 
 
+[[restrict-users-from-deleting-objects-by-versionid]]
 === Restrinja os usuários de excluir objetos por versionID
 
 Esta política de grupo irá restringir os usuários de excluir objetos versionados por versionID
@@ -365,6 +372,7 @@ Esta política de grupo irá restringir os usuários de excluir objetos versiona
 ----
 
 
+[[restrict-a-group-to-single-subdirectory-prefix-with-read-only-access]]
 === Restrinja um grupo a um subdiretório único (prefixo) com acesso somente leitura
 
 Essa diretiva permite que os membros do grupo tenham acesso somente leitura a um subdiretório (prefixo) dentro de um intervalo. O nome do intervalo é "estudo" e o subdiretório é "study01".
@@ -436,10 +444,12 @@ Essa diretiva permite que os membros do grupo tenham acesso somente leitura a um
 ----
 
 
+[[bucket-policies]]
 == Políticas do bucket
 
 
 
+[[restrict-bucket-to-single-user-with-read-only-access]]
 === Restrinja o bucket a um único usuário com acesso somente leitura
 
 Essa política permite que um único usuário tenha acesso somente leitura a um bucket e explicitamente o acesso da denys a todos os outros usuários. Agrupar as declarações deny no topo da política é uma boa prática para uma avaliação mais rápida.
@@ -482,6 +492,7 @@ Essa política permite que um único usuário tenha acesso somente leitura a um 
 ----
 
 
+[[restrict-a-bucket-to-a-few-users-with-read-only-access]]
 === restrinja um intervalo a alguns usuários com acesso somente leitura.
 
 [source, json]
@@ -531,6 +542,7 @@ Essa política permite que um único usuário tenha acesso somente leitura a um 
 ----
 
 
+[[restrict-user-deletes-of-versioned-objects-in-a-bucket]]
 === Restrinja as exclusões do usuário de objetos versionados em um bucket
 
 Esta política de bucket irá restringir um usuário(identificado pelo UserId "56622399308951294926") de excluir objetos versionados por versionID

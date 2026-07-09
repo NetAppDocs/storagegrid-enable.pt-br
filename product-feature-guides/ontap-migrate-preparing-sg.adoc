@@ -16,6 +16,7 @@ Habilitação de nível empresarial S3 com a migração otimizada de storage bas
 
 
 
+[[preparing-storagegrid]]
 == Preparando o StorageGRID
 
 Continuando a configuração para esta demonstração, criaremos um locatário, usuário, grupo de segurança, política de grupo e bucket.

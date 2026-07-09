@@ -16,6 +16,7 @@ Este relatório técnico fornece um guia completo para a implementação de estr
 
 
 
+[[storagegrid-overview]]
 == Visão geral do StorageGRID
 
 O NetApp StorageGRID é um sistema de storage baseado em objeto que dá suporte à API Amazon Simple Storage Service (Amazon S3) padrão do setor.
@@ -26,6 +27,7 @@ O StorageGRID permite durabilidade e disponibilidade configuráveis de seus dado
 
 
 
+[[storagegrid-scale]]
 === StorageGRID Scale
 
 Uma implementação mínima do StorageGRID consiste em um nó de administração e 3 nós de armazenamento em um único local. Uma única grade pode crescer até 220 nós. O StorageGRID pode ser implementado em um único local ou expandido para até 16 locais.
@@ -49,6 +51,7 @@ O StorageGRID consiste em uma coleção de nós colocados em uma topologia de si
 
 
 
+[[storagegrid-and-failure-domains]]
 === Domínios de StorageGRID e falha
 
 O StorageGRID contém várias camadas de domínios de falha a serem considerados para decidir como arquitetar sua solução, como armazenar seus dados e onde eles devem ser armazenados para reduzir os riscos de falhas.
@@ -61,6 +64,7 @@ O StorageGRID contém várias camadas de domínios de falha a serem considerados
 
 
 
+[[object-data-and-metadata]]
 === Dados e metadados de objetos
 
 Com o armazenamento de objetos, a unidade de armazenamento é um objeto, em vez de um arquivo ou um bloco. Ao contrário da hierarquia semelhante a uma árvore de um sistema de arquivos ou armazenamento em bloco, o armazenamento de objetos organiza os dados em um layout plano e não estruturado. O armazenamento de objetos separa a localização física dos dados do método usado para armazenar e recuperar esses dados.
@@ -88,6 +92,7 @@ O sistema de gerenciamento do ciclo de vida das informações (ILM) da StorageGR
 
 
 
+[[erasure-coding]]
 === Codificação de apagamento
 
 O StorageGRID oferece a capacidade de apagar dados de código no nível do nó e no nível da unidade.  Com os dispositivos StorageGRID , apagamos o código dos dados armazenados em cada nó em todas as unidades dentro do nó, fornecendo proteção local contra falhas de múltiplos discos que causam perda de dados ou interrupções.  Reconstruções a partir de falhas de unidade são locais no nó e não exigem dados replicados pela rede.
@@ -100,6 +105,7 @@ image:zero-rpo/ec-schemes.png["Esquemas de codificação de apagamento disponív
 
 
 
+[[metadata-consistency]]
 === Consistência de metadados
 
 No StorageGRID, os metadados geralmente são armazenados com três réplicas por local para garantir consistência e disponibilidade. Essa redundância ajuda a manter a integridade e a acessibilidade dos dados mesmo em caso de falha.
@@ -132,6 +138,7 @@ As opções de consistência de bucket disponíveis no StorageGRID são:
 
 
 
+[[object-data-consistency]]
 === Consistência de dados do objeto
 
 Embora os metadados sejam replicados automaticamente dentro e entre locais, cabe a você decidir sobre a disposição do storage de objetos. Os dados de objetos podem ser armazenados em réplicas dentro e entre sites, codificados para apagamento dentro ou entre sites, ou uma combinação ou réplicas e esquemas de armazenamento codificados para apagamento. As regras de ILM podem se aplicar a todos os objetos ou ser filtradas para se aplicar apenas a determinados objetos, buckets ou locatários. As regras do ILM definem como os objetos são armazenados, réplicas e/ou codificados para apagamento, quanto tempo os objetos são armazenados nesses locais, se o número de réplicas ou esquema de codificação de apagamento deve mudar ou os locais devem mudar com o tempo.
@@ -146,6 +153,7 @@ A opção estrita avalia o objeto em relação à política ILM imediatamente e 
 
 
 
+[[load-balancing]]
 === Balanceamento de carga
 
 StorageGRID pode ser implantado com acesso de cliente através de nós de gateway integrado, um balanceador de carga externo de 3 a de terceiros, round robin DNS ou diretamente para um nó de storage. Vários nós de gateway podem ser implantados em um local e configurados em grupos de alta disponibilidade, fornecendo failover automatizado e failback no caso de uma interrupção do nó de gateway. Você pode combinar métodos de balanceamento de carga em uma solução para fornecer um único ponto de acesso para todos os sites em uma solução.
@@ -156,6 +164,7 @@ Garantir um RTO (tempo de resposta) igual a zero pode ser alcançado com uma com
 
 
 
+[[requirements-for-zero-rpo-with-storagegrid]]
 == Requisitos para RPO Zero com StorageGRID
 
 Para alcançar o objetivo do ponto de restauração (RPO) zero em um sistema de storage de objetos, é crucial que, no momento da falha:
@@ -174,6 +183,7 @@ Os objetos no sistema de armazenamento são armazenados com base em regras de Ge
 
 
 
+[[synchronous-deployments-across-multiple-sites]]
 == Implantações síncronas em vários locais
 
 *Soluções multisite:* O StorageGRID permite que você replique objetos em vários sites dentro da grade de forma síncrona.  Ao configurar regras de Gerenciamento do Ciclo de Vida da Informação (ILM) com comportamento equilibrado ou rigoroso, os objetos são colocados imediatamente nos locais especificados.  Configurar o nível de consistência do bucket para Quorum Strong Global também garantirá a replicação síncrona de metadados.  O StorageGRID usa um único namespace global, armazenando locais de posicionamento de objetos como metadados, para que cada nó saiba onde todas as cópias ou partes codificadas para eliminação estão localizadas.  Se um objeto não puder ser recuperado do site onde a solicitação foi feita, ele será recuperado automaticamente de um site remoto sem a necessidade de procedimentos de failover.
@@ -190,6 +200,7 @@ Uma vez que a falha é resolvida, não são necessários esforços de failback m
 
 
 
+[[a-single-grid-multi-site-deployment]]
 == Uma implantação de Multi-site de Grade única
 
 Nos cenários a seguir, as soluções StorageGRID são configuradas com um balanceador de carga externo opcional, que gerencia as solicitações para os grupos de alta disponibilidade do balanceador de carga integrado. Isso resultará em um RTO de zero, além de um RPO de zero. O ILM está configurado com proteção de ingestão balanceada para posicionamento síncrono. Cada bucket é configurado com a versão Quorum do modelo de consistência global forte para grids de 3 ou mais sites e com a versão Legacy do modelo de consistência global forte para 2 sites.
@@ -269,6 +280,7 @@ Operações interrompidas e risco de perda de dados se:
 |===
 
 
+[[a-multi-site-multi-grid-deployment]]
 == Uma implantação multi-grade em vários locais
 
 Para adicionar uma camada extra de redundância, este cenário empregará dois clusters StorageGRID e usará replicação entre grades para mantê-los sincronizados.  Para esta solução, cada cluster StorageGRID terá três sites.  Dois sites serão usados ​​para armazenamento de objetos e metadados, enquanto o terceiro site será usado exclusivamente para metadados.  Ambos os sistemas serão configurados com uma regra ILM balanceada para armazenar sincronizadamente os objetos usando codificação de eliminação em cada um dos dois sites de dados.  Os buckets serão configurados com o modelo de consistência Quorum Strong Global.  Cada grade será configurada com replicação bidirecional entre grades em cada bucket.  Isso fornece replicação assíncrona entre as regiões.  Opcionalmente, um balanceador de carga global pode ser implementado para gerenciar solicitações aos grupos de alta disponibilidade do balanceador de carga integrado de ambos os sistemas StorageGRID para atingir um RPO zero.
@@ -354,6 +366,7 @@ Sem interrupção das operações nos locais restantes ou perda de dados.
 |===
 
 
+[[conclusion]]
 == Conclusão
 
 Alcançar o objetivo de ponto de restauração (RPO) zero com o StorageGRID é uma meta essencial de garantir a durabilidade e a disponibilidade dos dados em caso de falhas no local. Ao aproveitar as estratégias robustas de replicação do StorageGRID, incluindo replicação síncrona em vários locais e replicação assíncrona em várias grades, as organizações podem manter operações ininterruptas dos clientes e garantir a consistência dos dados em vários locais. A implementação de políticas de Gerenciamento do ciclo de vida das informações (ILM) e o uso de nós somente metadados aumentam ainda mais a resiliência e o desempenho do sistema. Com o StorageGRID, as empresas podem gerenciar seus dados com confiança, sabendo que eles permanecem acessíveis e consistentes mesmo diante de cenários complexos de falhas. Essa abordagem abrangente para gerenciamento e replicação de dados ressalta a importância do Planejamento e execução meticulosos para alcançar RPO zero e proteger informações valiosas.

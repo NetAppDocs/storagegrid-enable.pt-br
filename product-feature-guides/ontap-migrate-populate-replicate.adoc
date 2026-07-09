@@ -16,6 +16,7 @@ Habilitação de nível empresarial S3 com a migração otimizada de storage bas
 
 
 
+[[populate-the-source-bucket]]
 == Preencha o repositório de origem
 
 Vamos colocar alguns objetos no bucket do ONTAP de origem. Vamos usar o S3Browser para esta demonstração, mas você pode usar qualquer ferramenta com a qual você está confortável.
@@ -48,6 +49,7 @@ image:ontap-migrate/ontap-s3browser-versions.png["Ver versões"]
 
 
 
+[[establish-the-replication-relationship]]
 === Estabeleça a relação de replicação
 
 Vamos começar a enviar dados do ONTAP para o StorageGRID.
@@ -93,6 +95,7 @@ image:ontap-migrate/ontap-snapmirror-status.png["Verifique a relação do SnapMi
 
 
 
+[[the-replication-details]]
 === Os detalhes da replicação
 
 Agora temos um bucket replicando com sucesso do ONTAP para o StorageGRID. Mas o que está realmente replicando? Nossa origem e destino são ambos buckets versionados. As versões anteriores também replicam para o destino? Se olharmos para o nosso bucket do StorageGRID com S3Browser, veremos que as versões existentes não replicaram e nosso objeto excluído não existe, nem um marcador de exclusão para esse objeto. Nosso objeto duplicado tem apenas a versão 1 no bucket do StorageGRID.

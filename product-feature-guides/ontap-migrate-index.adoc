@@ -16,6 +16,7 @@ Habilitação de nível empresarial S3 com a migração otimizada de storage bas
 
 
 
+[[migration-demo]]
 == Demonstração de migração
 
 Esta é uma demonstração sobre a migração de usuários e buckets do ONTAP S3 para o StorageGRID.
