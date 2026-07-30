@@ -29,23 +29,19 @@ Todas as políticas definirão o efeito, a(s) ação(ões) e o(s) recurso(s). As
 
 O *efeito* será permitir ou negar o pedido.
 
-O *principal*
+O *Diretor*:
 
-* Aplica-se apenas a políticas de bucket.
-* O principal é a(s) conta(s)/usuário(s) que está sendo concedido(s) ou negado(s) as permissões.
+* Aplica-se somente a políticas de bucket
+* O principal é a(s) conta(s)/usuário(s) que está recebendo ou sendo negada as permissões
 * Pode ser definido como:
 +
 ** Um curinga
 +
-[listing]
-----
-"Principal":"*"
-----
+`"Principal": "*"`Corresponde a todos, incluindo solicitações anônimas (não assinadas)
+
 +
-[listing]
-----
-"Principal":{"AWS":"*"}
-----
+`"Principal": { "AWS": "*" }`Corresponde a qualquer identidade ou usuário autenticado (não corresponde a solicitações anônimas)
+
 ** Um ID de locatário para todos os usuários em um locatário (equivalente à conta da AWS)
 +
 [listing]

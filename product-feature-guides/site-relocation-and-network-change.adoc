@@ -83,7 +83,7 @@ O procedimento abaixo assume que você tem acesso remoto ao administrador ou à 
 . Antes de desligar o aparelho, link:https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/placing-appliance-into-maintenance-mode.html["coloque o aparelho no modo de manutenção"].
 . Usando um navegador para acessar a GUI do instalador do StorageGRID Appliance usando https://<admin-or-client-network-ip>:8443[]o . Não é possível usar o Grid IP como o novo Grid IP já no lugar quando o aparelho for inicializado no modo de manutenção.
 . Altere a VLAN da rede Grid. Se você estiver acessando o dispositivo pela rede cliente, não poderá alterar a VLAN do cliente neste momento, poderá alterá-la após a movimentação.
-. ssh para o dispositivo e desligue o nó usando 'shutdoown -h now'
+. Acesse o appliance via SSH e desligue o nó usando "shutdown -h now"
 . Depois que os dispositivos estiverem prontos em um novo site, acesse a GUI do instalador do StorageGRID Appliance usando https://<grid-network-ip>:8443[]o . Confirme se o armazenamento está em ótimo estado e conetividade de rede com outros nós de Grade usando ferramentas de ping/nmap na GUI.
 . Se pretende alterar o IP da rede do cliente, pode alterar a VLAN do cliente nesta fase. A rede do cliente não estará pronta até atualizar o ip da rede do cliente usando a ferramenta Change-ip na etapa posterior.
 . Sair do modo de manutenção. No Instalador de dispositivos StorageGRID, selecione *Avançado* > *Reiniciar controlador* e, em seguida, selecione *Reiniciar no StorageGRID*.

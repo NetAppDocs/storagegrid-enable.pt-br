@@ -492,7 +492,6 @@
   <block id="5b8e4de8e50ebe10173b2539d1612010" category="list-text">Antes de desligar o aparelho, <block ref="1d36a7361466de3adde00ce864c41474" category="inline-link-macro-rx"></block>.</block>
   <block id="24377316ae141b63c8170119bbfe4239" category="list-text">Usando um navegador para acessar a GUI do instalador do StorageGRID Appliance usando<block ref="41c0f2506f64eaa17788753cf29de6aa" category="inline-link-rx"></block>o . Não é possível usar o Grid IP como o novo Grid IP já no lugar quando o aparelho for inicializado no modo de manutenção.</block>
   <block id="fe21d31242c56f4eee91182bd1268a5a" category="list-text">Altere a VLAN da rede Grid. Se você estiver acessando o dispositivo pela rede cliente, não poderá alterar a VLAN do cliente neste momento, poderá alterá-la após a movimentação.</block>
-  <block id="293c5807e9e9ab4b268fd617e8e5a56d" category="list-text">ssh para o dispositivo e desligue o nó usando 'shutdoown -h now'</block>
   <block id="1c33a8d84128bb59ae10a50b662e3a98" category="list-text">Depois que os dispositivos estiverem prontos em um novo site, acesse a GUI do instalador do StorageGRID Appliance usando<block ref="fba5b5bfbff166288edb187e140418b2" category="inline-link-rx"></block>o . Confirme se o armazenamento está em ótimo estado e conetividade de rede com outros nós de Grade usando ferramentas de ping/nmap na GUI.</block>
   <block id="786f3a0a71ff6ad9513f86143e55c1ce" category="list-text">Se pretende alterar o IP da rede do cliente, pode alterar a VLAN do cliente nesta fase. A rede do cliente não estará pronta até atualizar o ip da rede do cliente usando a ferramenta Change-ip na etapa posterior.</block>
   <block id="fff8d22924e491405ba3026b24555fa6" category="list-text">Sair do modo de manutenção. No Instalador de dispositivos StorageGRID, selecione *Avançado* &gt; *Reiniciar controlador* e, em seguida, selecione *Reiniciar no StorageGRID*.</block>
@@ -3065,9 +3064,6 @@
   <block id="6286b2654fd9f607da0c9a689ef54e7c" category="list-text">Insira as informações do bucket - ARN:aws:S3:::example_bucket,arn:aws:S3:::example_bucket/*</block>
   <block id="8e42358c3df8a569be04cad92e8b7479" category="paragraph"><block ref="8e42358c3df8a569be04cad92e8b7479" category="inline-image-macro-rx" type="image"></block></block>
   <block id="e73b44d49494e2ac6f4ce555878eacec" category="paragraph">O *efeito* será permitir ou negar o pedido.</block>
-  <block id="e3d361dfeb32442ba3887fb26cadd759" category="paragraph">O *principal*</block>
-  <block id="7c8bff59dd5d9771fc52f17ce6414420" category="list-text">Aplica-se apenas a políticas de bucket.</block>
-  <block id="4a47dee52461b2ce5adaefbba5fc57b0" category="list-text">O principal é a(s) conta(s)/usuário(s) que está sendo concedido(s) ou negado(s) as permissões.</block>
   <block id="7b0fef71a6a5b6046a79dcb31b7991ec" category="list-text">Pode ser definido como:</block>
   <block id="cdecd059c81b66125ab436ad5ba1f0db" category="list-text">Um curinga</block>
   <block id="171a87df01e0c7aab0969853c4d63f99" category="list-text">Um ID de locatário para todos os usuários em um locatário (equivalente à conta da AWS)</block>
@@ -3434,4 +3430,14 @@
   <block id="752f1428ccb77ac410289e9262b0f4bf" category="inline-link">Padrões Grok</block>
   <block id="dfa155e02e6c42536eddd788adeb1c4b" category="list-text"><block ref="dfa155e02e6c42536eddd788adeb1c4b" category="inline-link-rx"></block></block>
   <block id="84a0efed1747839817563f400c91817f" category="list-text">Verifique a <block ref="fcf7e9838328c10505637416c290aabd" category="inline-link-rx"></block>para a versão do JDK compatível.</block>
+  <block id="21dbdbd408dc522ecd721e90c94e9967" category="paragraph">O *Diretor*:</block>
+  <block id="9acd284dbac66e7a5cc77ba3fa4c2c0e" category="list-text">Aplica-se somente a políticas de bucket</block>
+  <block id="061ca9ee2cc478226335cb4781f7e748" category="list-text">O principal é a(s) conta(s)/usuário(s) que está recebendo ou sendo negada as permissões</block>
+  <block id="c29108426bf99e785055bc2e1d798efd" category="paragraph"><block ref="6c9750b480cd2664d899f8d80fda410e" prefix="" category="inline-code"></block>Corresponde a todos, incluindo solicitações anônimas (não assinadas)</block>
+  <block id="a45bf7d8bfe94f3161df646dd349474b" category="paragraph"><block ref="2397070036b52932d72a0d05561ff357" prefix="" category="inline-code"></block>Corresponde a qualquer identidade ou usuário autenticado (não corresponde a solicitações anônimas)</block>
+  <block id="162795027699751a53c17a76654ff03a" category="list-text">Acesse o appliance via SSH e desligue o nó usando "shutdown -h now"</block>
+  <block id="524b3666d2b57a265288b4605c4f63dd" category="summary">Soluções de terceiro validadas para StorageGRID 12.1</block>
+  <block id="0abd84cfb134f23ccdf2dace5cdafdf0" category="paragraph">As seguintes soluções de terceiros foram validadas para uso com StorageGRID 12.1. + Se a solução que você procura não estiver listada, entre em contato com seu representante de contas NetApp.</block>
+  <block id="f480816d606925917374f2fbcc635e8f" category="list-text">Hashicorp Vault 1.21.1</block>
+  <block id="8f58f72ce7022a4fdfe329ca00a2e451" category="list-text">Thales CipherTrust Manager 2.21</block>
 </blocks>
