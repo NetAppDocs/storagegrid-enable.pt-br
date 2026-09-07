@@ -80,7 +80,7 @@ Estas soluções foram testadas em colaboração com os respetivos parceiros.
 * Vertica 10.x
 * Vidisine
 * Virtalica StorageFabric
-* WEKA v3,10 ou posterior
+* WEKA v3.10 ou posterior
 
 
 
